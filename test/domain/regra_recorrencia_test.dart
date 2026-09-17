@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('RegraRecorrencia', () {
-    final dBase = CivilDate(2026, 9, 16);
+    const dBase = CivilDate(2026, 9, 16);
 
     test('valida intervalo', () {
       expect(
@@ -44,7 +44,6 @@ void main() {
         () => RegraRecorrencia(
           frequencia: Frequencia.mensal,
           dataInicial: dBase,
-          terminoTipo: TerminoTipo.nunca,
           terminoQuantidade: 5,
         ),
         throwsArgumentError,
@@ -74,7 +73,7 @@ void main() {
     test('diaEfetivoNoMes', () {
       final regra31 = RegraRecorrencia(
         frequencia: Frequencia.mensal,
-        dataInicial: CivilDate(2026, 1, 31),
+        dataInicial: const CivilDate(2026, 1, 31),
       );
 
       // 2026 não é bissexto
@@ -85,13 +84,13 @@ void main() {
       // 2024 é bissexto
       expect(regra31.diaEfetivoNoMes(2024, 2), 29);
     });
-    
+
     test('diaEfetivoNoMes anual 29/02', () {
       final regra29Feb = RegraRecorrencia(
         frequencia: Frequencia.anual,
-        dataInicial: CivilDate(2024, 2, 29),
+        dataInicial: const CivilDate(2024, 2, 29),
       );
-      
+
       expect(regra29Feb.diaEfetivoNoMes(2025, 2), 28);
       expect(regra29Feb.diaEfetivoNoMes(2028, 2), 29);
     });

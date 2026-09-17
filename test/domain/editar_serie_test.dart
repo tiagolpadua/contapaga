@@ -12,39 +12,42 @@ void main() {
       descricao: 'Assinatura',
       tipo: TipoLancamento.despesa,
       debitoAutomatico: false,
-      valorBase: Money(5000), // 50.00
+      valorBase: const Money(5000), // 50.00
       regra: RegraRecorrencia(
         frequencia: Frequencia.mensal,
-        dataInicial: CivilDate(2026, 1, 10),
+        dataInicial: const CivilDate(2026, 1, 10),
       ),
     );
 
     test('adicionarRevisao', () {
       final serieRevisada = adicionarRevisao(
         serieInicial,
-        dataEfeito: CivilDate(2026, 6, 10),
-        novoValorBase: Money(6000), // aumentou pra 60
+        dataEfeito: const CivilDate(2026, 6, 10),
+        novoValorBase: const Money(6000), // aumentou pra 60
         novaRegra: RegraRecorrencia(
           frequencia: Frequencia.mensal,
-          dataInicial: CivilDate(2026, 6, 15), // mudou data base também
+          dataInicial: const CivilDate(2026, 6, 15), // mudou data base também
         ),
       );
 
       expect(serieRevisada.revisoes.length, 1);
       final rev = serieRevisada.revisoes.first;
-      expect(rev.dataEfeito, equals(CivilDate(2026, 6, 10)));
-      expect(rev.valorBase, equals(Money(6000)));
+      expect(rev.dataEfeito, equals(const CivilDate(2026, 6, 10)));
+      expect(rev.valorBase, equals(const Money(6000)));
       expect(rev.regra.frequencia, Frequencia.mensal);
-      expect(rev.regra.dataInicial, equals(CivilDate(2026, 6, 15)));
+      expect(rev.regra.dataInicial, equals(const CivilDate(2026, 6, 15)));
     });
 
     test('bloqueia data de efeito anterior à data inicial', () {
       expect(
         () => adicionarRevisao(
           serieInicial,
-          dataEfeito: CivilDate(2025, 1, 1),
-          novoValorBase: Money(6000),
-          novaRegra: RegraRecorrencia(frequencia: Frequencia.mensal, dataInicial: CivilDate(2025, 1, 1)),
+          dataEfeito: const CivilDate(2025, 1, 1),
+          novoValorBase: const Money(6000),
+          novaRegra: RegraRecorrencia(
+            frequencia: Frequencia.mensal,
+            dataInicial: const CivilDate(2025, 1, 1),
+          ),
         ),
         throwsArgumentError,
       );
@@ -53,17 +56,23 @@ void main() {
     test('bloqueia data de efeito anterior à ultima revisão', () {
       final s1 = adicionarRevisao(
         serieInicial,
-        dataEfeito: CivilDate(2026, 6, 10),
-        novoValorBase: Money(6000),
-        novaRegra: RegraRecorrencia(frequencia: Frequencia.mensal, dataInicial: CivilDate(2026, 6, 15)),
+        dataEfeito: const CivilDate(2026, 6, 10),
+        novoValorBase: const Money(6000),
+        novaRegra: RegraRecorrencia(
+          frequencia: Frequencia.mensal,
+          dataInicial: const CivilDate(2026, 6, 15),
+        ),
       );
 
       expect(
         () => adicionarRevisao(
           s1,
-          dataEfeito: CivilDate(2026, 5, 1),
-          novoValorBase: Money(7000),
-          novaRegra: RegraRecorrencia(frequencia: Frequencia.mensal, dataInicial: CivilDate(2026, 5, 1)),
+          dataEfeito: const CivilDate(2026, 5, 1),
+          novoValorBase: const Money(7000),
+          novaRegra: RegraRecorrencia(
+            frequencia: Frequencia.mensal,
+            dataInicial: const CivilDate(2026, 5, 1),
+          ),
         ),
         throwsArgumentError,
       );

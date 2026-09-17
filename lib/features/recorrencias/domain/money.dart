@@ -1,7 +1,7 @@
 class Money implements Comparable<Money> {
-  final int cents;
 
-  const Money(this.cents);
+  const new(this.cents);
+  final int cents;
 
   bool get isNegative => cents < 0;
   bool get isZero => cents == 0;
@@ -30,12 +30,12 @@ class Money implements Comparable<Money> {
     if (values.isEmpty) {
       throw ArgumentError('A lista de valores não pode estar vazia.');
     }
-    
-    final int sum = values.fold(0, (prev, m) => prev + m.cents);
-    final int count = values.length;
-    
-    final int res = (sum * 2 + count) ~/ (count * 2);
-    
+
+    final sum = values.fold(0, (prev, m) => prev + m.cents);
+    final count = values.length;
+
+    final res = (sum * 2 + count) ~/ (count * 2);
+
     return Money(res);
   }
 

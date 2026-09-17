@@ -1,15 +1,15 @@
 import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
 
 class Competencia implements Comparable<Competencia> {
-  final int ano;
-  final int mes;
 
-  const Competencia(this.ano, this.mes)
-      : assert(mes >= 1 && mes <= 12, 'Mês deve ser entre 1 e 12');
+  const new(this.ano, this.mes)
+    : assert(mes >= 1 && mes <= 12, 'Mês deve ser entre 1 e 12');
 
-  factory Competencia.fromDate(CivilDate date) {
+  factory fromDate(CivilDate date) {
     return Competencia(date.year, date.month);
   }
+  final int ano;
+  final int mes;
 
   Competencia previous() {
     if (mes == 1) {

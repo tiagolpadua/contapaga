@@ -14,7 +14,7 @@ Ocorrencia darBaixa(
     throw StateError('A ocorrência já possui uma baixa.');
   }
 
-  if (valorPago <= Money(0)) {
+  if (valorPago <= const Money(0)) {
     throw ArgumentError('O valor pago deve ser maior que zero.');
   }
 

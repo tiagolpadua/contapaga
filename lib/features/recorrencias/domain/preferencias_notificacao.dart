@@ -1,10 +1,6 @@
 class PreferenciasNotificacao {
-  final int hora;
-  final int minuto;
-  final bool ativo;
-  final int antecedenciaDias;
 
-  PreferenciasNotificacao({
+  new({
     required this.hora,
     required this.minuto,
     this.ativo = true,
@@ -20,4 +16,8 @@ class PreferenciasNotificacao {
       throw ArgumentError('Antecedência deve ser entre 1 e 10 dias.');
     }
   }
+  final int hora;
+  final int minuto;
+  final bool ativo;
+  final int antecedenciaDias;
 }

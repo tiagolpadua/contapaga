@@ -5,32 +5,35 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('MoneyParser', () {
     test('formato com milhar e centavos', () {
-      expect(MoneyParser.tryParsePtBr('1.234,56'), equals(Money(123456)));
-      expect(MoneyParser.tryParsePtBr('1.234.567,89'), equals(Money(123456789)));
+      expect(MoneyParser.tryParsePtBr('1.234,56'), equals(const Money(123456)));
+      expect(
+        MoneyParser.tryParsePtBr('1.234.567,89'),
+        equals(const Money(123456789)),
+      );
     });
 
     test('sem ponto de milhar', () {
-      expect(MoneyParser.tryParsePtBr('1234,56'), equals(Money(123456)));
-      expect(MoneyParser.tryParsePtBr('0,50'), equals(Money(50)));
+      expect(MoneyParser.tryParsePtBr('1234,56'), equals(const Money(123456)));
+      expect(MoneyParser.tryParsePtBr('0,50'), equals(const Money(50)));
     });
 
     test('sem decimais', () {
-      expect(MoneyParser.tryParsePtBr('1.234'), equals(Money(123400)));
-      expect(MoneyParser.tryParsePtBr('1234'), equals(Money(123400)));
+      expect(MoneyParser.tryParsePtBr('1.234'), equals(const Money(123400)));
+      expect(MoneyParser.tryParsePtBr('1234'), equals(const Money(123400)));
     });
 
     test('um decimal', () {
-      expect(MoneyParser.tryParsePtBr('10,5'), equals(Money(1050)));
+      expect(MoneyParser.tryParsePtBr('10,5'), equals(const Money(1050)));
     });
 
-    test('com R\$ e espaços', () {
-      expect(MoneyParser.tryParsePtBr('R\$ 1.234,56'), equals(Money(123456)));
-      expect(MoneyParser.tryParsePtBr('  10,00  '), equals(Money(1000)));
+    test(r'com R$ e espaços', () {
+      expect(MoneyParser.tryParsePtBr(r'R$ 1.234,56'), equals(const Money(123456)));
+      expect(MoneyParser.tryParsePtBr('  10,00  '), equals(const Money(1000)));
     });
 
     test('negativos', () {
-      expect(MoneyParser.tryParsePtBr('-1.234,56'), equals(Money(-123456)));
-      expect(MoneyParser.tryParsePtBr('-0,50'), equals(Money(-50)));
+      expect(MoneyParser.tryParsePtBr('-1.234,56'), equals(const Money(-123456)));
+      expect(MoneyParser.tryParsePtBr('-0,50'), equals(const Money(-50)));
     });
 
     test('inválidos retornam null', () {

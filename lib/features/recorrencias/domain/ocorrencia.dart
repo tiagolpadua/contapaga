@@ -1,21 +1,14 @@
+import 'package:contapaga/core/time/clock.dart';
 import 'package:contapaga/features/recorrencias/domain/baixa.dart';
 import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
 import 'package:contapaga/features/recorrencias/domain/competencia.dart';
 import 'package:contapaga/features/recorrencias/domain/money.dart';
-import 'package:contapaga/core/time/clock.dart';
 
 enum StatusOcorrencia { aberta, baixada, atrasada, pendenteAutomatico }
 
 class Ocorrencia {
-  final String serieId;
-  final String id;
-  final CivilDate dataVencimento;
-  final Money valorPrevisto;
-  final int sequencia; // 1-based index na série
-  final Baixa? baixa;
-  final bool debitoAutomatico;
 
-  Ocorrencia({
+  new({
     required this.serieId,
     required this.id,
     required this.dataVencimento,
@@ -24,6 +17,13 @@ class Ocorrencia {
     this.baixa,
     this.debitoAutomatico = false,
   });
+  final String serieId;
+  final String id;
+  final CivilDate dataVencimento;
+  final Money valorPrevisto;
+  final int sequencia; // 1-based index na série
+  final Baixa? baixa;
+  final bool debitoAutomatico;
 
   Competencia get competencia => Competencia.fromDate(dataVencimento);
 
@@ -31,12 +31,14 @@ class Ocorrencia {
     if (baixa != null) {
       return StatusOcorrencia.baixada;
     }
-    
+
     final hoje = CivilDate.hoje(clock);
     if (dataVencimento.isBefore(hoje)) {
-      return debitoAutomatico ? StatusOcorrencia.pendenteAutomatico : StatusOcorrencia.atrasada;
+      return debitoAutomatico
+          ? StatusOcorrencia.pendenteAutomatico
+          : StatusOcorrencia.atrasada;
     }
-    
+
     return StatusOcorrencia.aberta;
   }
 

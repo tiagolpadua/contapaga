@@ -7,12 +7,15 @@ Money preverValorOcorrencia(
   List<Ocorrencia> ocorrenciasPassadas, {
   int ultimasN = 3,
 }) {
-  final baixadas = ocorrenciasPassadas
-      .where((o) => o.baixa != null)
-      .toList()
-      ..sort((a, b) => b.dataVencimento.compareTo(a.dataVencimento)); // Mais recentes primeiro
+  final baixadas = ocorrenciasPassadas.where((o) => o.baixa != null).toList()
+    ..sort(
+      (a, b) => b.dataVencimento.compareTo(a.dataVencimento),
+    ); // Mais recentes primeiro
 
-  final selecionadas = baixadas.take(ultimasN).map((o) => o.baixa!.valorPago).toList();
+  final selecionadas = baixadas
+      .take(ultimasN)
+      .map((o) => o.baixa!.valorPago)
+      .toList();
 
   if (selecionadas.isEmpty) {
     return serie.valorBase;

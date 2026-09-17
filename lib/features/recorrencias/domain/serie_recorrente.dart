@@ -6,6 +6,15 @@ import 'package:contapaga/features/recorrencias/domain/revisao_serie.dart';
 enum TipoLancamento { receita, despesa }
 
 class SerieRecorrente {
+
+  const new({
+    required this.id,
+    required this.descricao,
+    required this.tipo,
+    required this.debitoAutomatico, required this.valorBase, required this.regra, this.contraparte,
+    this.revisoes = const [],
+    this.dataEncerramento,
+  });
   final String id;
   final String descricao;
   final TipoLancamento tipo;
@@ -15,18 +24,6 @@ class SerieRecorrente {
   final RegraRecorrencia regra;
   final List<RevisaoSerie> revisoes;
   final CivilDate? dataEncerramento;
-
-  const SerieRecorrente({
-    required this.id,
-    required this.descricao,
-    required this.tipo,
-    this.contraparte,
-    required this.debitoAutomatico,
-    required this.valorBase,
-    required this.regra,
-    this.revisoes = const [],
-    this.dataEncerramento,
-  });
 
   SerieRecorrente copyWithInternal({
     String? descricao,
@@ -60,9 +57,9 @@ class SerieRecorrente {
         valorBase: valorBase,
       );
     }
-    
+
     // Assume que as revisões estão ordenadas por dataEfeito crescente.
-    for (int i = revisoes.length - 1; i >= 0; i--) {
+    for (var i = revisoes.length - 1; i >= 0; i--) {
       final r = revisoes[i];
       if (r.dataEfeito.isSameOrBefore(data)) {
         return r;

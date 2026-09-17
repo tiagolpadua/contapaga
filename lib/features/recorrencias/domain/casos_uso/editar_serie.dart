@@ -17,11 +17,15 @@ SerieRecorrente adicionarRevisao(
   if (serie.revisoes.isNotEmpty) {
     final ultimaEfeito = serie.revisoes.last.dataEfeito;
     if (dataEfeito.isBefore(ultimaEfeito)) {
-      throw ArgumentError('A nova revisão não pode ter data de efeito anterior à última revisão.');
+      throw ArgumentError(
+        'A nova revisão não pode ter data de efeito anterior à última revisão.',
+      );
     }
   } else {
     if (dataEfeito.isBefore(serie.regra.dataInicial)) {
-      throw ArgumentError('A nova revisão não pode ter data de efeito anterior à data inicial da série.');
+      throw ArgumentError(
+        'A nova revisão não pode ter data de efeito anterior à data inicial da série.',
+      );
     }
   }
 
