@@ -1,8 +1,8 @@
-import '../../../core/storage/key_value_store.dart';
-import '../domain/month_repository.dart';
+import 'package:contapaga/core/storage/key_value_store.dart';
+import 'package:contapaga/features/mes/domain/month_repository.dart';
 
 final class LocalMonthRepository implements MonthRepository {
-  const LocalMonthRepository(this.store);
+  const new(this.store);
   final KeyValueStore store;
   static const _key = 'selected_month';
 

@@ -2,7 +2,7 @@ import 'package:contapaga/core/storage/key_value_store.dart';
 import 'package:contapaga/core/time/clock.dart';
 
 class FixedClock implements Clock {
-  FixedClock(this.value);
+  new(this.value);
   final DateTime value;
   @override
   DateTime now() => value;

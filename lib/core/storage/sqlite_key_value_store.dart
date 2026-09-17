@@ -1,10 +1,9 @@
+import 'package:contapaga/core/storage/key_value_store.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
-import 'key_value_store.dart';
-
 final class SqliteKeyValueStore implements KeyValueStore {
-  SqliteKeyValueStore._(this._database);
+  new _(this._database);
   final Database _database;
 
   static Future<SqliteKeyValueStore> open(String fileName) async {
@@ -26,7 +25,7 @@ final class SqliteKeyValueStore implements KeyValueStore {
       where: 'key = ?',
       whereArgs: [key],
     );
-    return rows.isEmpty ? null : rows.single['value'] as String;
+    return rows.isEmpty ? null : rows.single['value']! as String;
   }
 
   @override

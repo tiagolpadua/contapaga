@@ -1,12 +1,11 @@
+import 'package:contapaga/app/app_environment.dart';
+import 'package:contapaga/app/conta_paga_app.dart';
+import 'package:contapaga/core/storage/sqlite_key_value_store.dart';
+import 'package:contapaga/core/time/clock.dart';
+import 'package:contapaga/features/mes/data/local_month_repository.dart';
+import 'package:contapaga/features/mes/presentation/month_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
-import '../core/storage/sqlite_key_value_store.dart';
-import '../core/time/clock.dart';
-import '../features/mes/data/local_month_repository.dart';
-import '../features/mes/presentation/month_controller.dart';
-import 'app_environment.dart';
-import 'conta_paga_app.dart';
 
 Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,16 +27,16 @@ Future<void> bootstrap() async {
     controller?.dispose();
     await store?.close();
     runApp(
-      MaterialApp(
+      const MaterialApp(
         home: Scaffold(
           body: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Não foi possível abrir seus dados.'),
+                Text('Não foi possível abrir seus dados.'),
                 FilledButton(
                   onPressed: bootstrap,
-                  child: const Text('Tentar novamente'),
+                  child: Text('Tentar novamente'),
                 ),
               ],
             ),

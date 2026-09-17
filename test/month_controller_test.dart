@@ -15,7 +15,7 @@ void main() {
     await controller.move(1);
     final restored = MonthController(repository: repository, clock: clock);
     await restored.restore();
-    expect(restored.selectedMonth, DateTime(2027, 1));
+    expect(restored.selectedMonth, DateTime(2027));
     controller.dispose();
     restored.dispose();
   });

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+echo "Running pre-commit hooks..."
+dart format --output=none --set-exit-if-changed .
+flutter analyze

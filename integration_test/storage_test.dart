@@ -14,13 +14,13 @@ void main() {
     final location = path.join(await getDatabasesPath(), file);
     await deleteDatabase(location);
     final first = await SqliteKeyValueStore.open(file);
-    await LocalMonthRepository(first).saveSelectedMonth(DateTime(2027, 1));
+    await LocalMonthRepository(first).saveSelectedMonth(DateTime(2027));
     await first.close();
     final second = await SqliteKeyValueStore.open(file);
     try {
       expect(
         await LocalMonthRepository(second).loadSelectedMonth(),
-        DateTime(2027, 1),
+        DateTime(2027),
       );
     } finally {
       await second.close();

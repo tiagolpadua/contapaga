@@ -1,10 +1,9 @@
+import 'package:contapaga/core/time/clock.dart';
+import 'package:contapaga/features/mes/domain/month_repository.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../core/time/clock.dart';
-import '../domain/month_repository.dart';
-
 final class MonthController extends ChangeNotifier {
-  MonthController({required this.repository, required Clock clock})
+  new({required this.repository, required Clock clock})
     : _selectedMonth = _monthOf(clock.now());
 
   static DateTime _monthOf(DateTime date) => DateTime(date.year, date.month);

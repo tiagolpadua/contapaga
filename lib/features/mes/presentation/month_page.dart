@@ -1,11 +1,10 @@
+import 'package:contapaga/features/ajustes/presentation/settings_page.dart';
+import 'package:contapaga/features/mes/presentation/month_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../ajustes/presentation/settings_page.dart';
-import 'month_controller.dart';
-
 class MonthPage extends StatelessWidget {
-  const MonthPage({super.key, required this.controller});
+  const new({required this.controller, super.key});
   final MonthController controller;
 
   @override

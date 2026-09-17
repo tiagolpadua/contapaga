@@ -61,3 +61,7 @@ Antes de gerar uma versão de distribuição, concluir contratos/registro da fas
 - [Handoff funcional](handoff/README.md)
 
 HTML, CSS e runtime do handoff são documentação e não constam dos assets Flutter.
+
+## Contribuindo
+
+Consulte o [CONTRIBUTING.md](CONTRIBUTING.md) para saber como configurar o pre-commit hook e seguir nossos padrões de commit e PR.

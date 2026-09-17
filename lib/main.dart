@@ -1,3 +1,3 @@
-import 'app/bootstrap.dart';
+import 'package:contapaga/app/bootstrap.dart';
 
 Future<void> main() => bootstrap();

@@ -10,6 +10,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -22,5 +24,31 @@ jobs:
       - run: flutter pub get --enforce-lockfile
       - run: dart format --output=none --set-exit-if-changed lib test integration_test tool
       - run: flutter analyze
-      - run: flutter test
+      - run: flutter test --coverage
+      - name: Check Overall Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3
+        with:
+          path: coverage/lcov.info
+          min_coverage: 80
+      - name: Extract domain coverage
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y lcov
+          lcov --extract coverage/lcov.info "lib/features/*/domain/*" --ignore-errors empty,unused -o coverage/domain_lcov.info || true
+          if grep -q "^SF:" coverage/domain_lcov.info 2>/dev/null; then
+            echo "DOMAIN_COVERAGE_FOUND=true" >> "$GITHUB_ENV"
+          else
+            echo "No instrumented lines under lib/features/*/domain yet; skipping domain coverage gate."
+            echo "DOMAIN_COVERAGE_FOUND=false" >> "$GITHUB_ENV"
+          fi
+      - name: Check Domain Coverage
+        if: env.DOMAIN_COVERAGE_FOUND == 'true'
+        uses: VeryGoodOpenSource/very_good_coverage@v3
+        with:
+          path: coverage/domain_lcov.info
+          min_coverage: 90
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
       - run: flutter build apk --debug --dart-define=APP_ENV=development

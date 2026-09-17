@@ -3,7 +3,7 @@ abstract interface class Clock {
 }
 
 final class SystemClock implements Clock {
-  const SystemClock();
+  const new();
   @override
   DateTime now() => DateTime.now();
 }

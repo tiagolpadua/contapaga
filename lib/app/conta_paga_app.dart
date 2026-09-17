@@ -1,11 +1,10 @@
+import 'package:contapaga/features/mes/presentation/month_controller.dart';
+import 'package:contapaga/features/mes/presentation/month_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../features/mes/presentation/month_controller.dart';
-import '../features/mes/presentation/month_page.dart';
-
 class ContaPagaApp extends StatelessWidget {
-  const ContaPagaApp({super.key, required this.controller});
+  const new({required this.controller, super.key});
   final MonthController controller;
 
   @override

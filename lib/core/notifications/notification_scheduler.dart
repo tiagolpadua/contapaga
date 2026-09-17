@@ -1,5 +1,5 @@
 class ScheduledReminder {
-  const ScheduledReminder({
+  const new({
     required this.id,
     required this.at,
     required this.title,

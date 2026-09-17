@@ -1,11 +1,10 @@
+import 'package:contapaga/core/notifications/notification_scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as zones;
 import 'package:timezone/timezone.dart' as tz;
 
-import 'notification_scheduler.dart';
-
 final class AndroidNotificationScheduler implements NotificationScheduler {
-  AndroidNotificationScheduler(this.plugin);
+  new(this.plugin);
   final FlutterLocalNotificationsPlugin plugin;
 
   Future<void> initialize() async {
