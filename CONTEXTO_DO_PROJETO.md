@@ -8,6 +8,14 @@ Consolidar as definições do handoff e o estado do projeto para orientar sua im
 
 A análise foi feita pela leitura do README do handoff, do HTML, da lógica JavaScript, do CSS e dos arquivos principais do projeto Flutter. Não houve validação visual no navegador nem execução do app ou de testes nesta revisão documental.
 
+## Decisões vigentes da fase 0
+
+As respostas do titular aprovaram a v1 individual, local/offline, gratuita, sem login, para celulares Android e iPhone, no Brasil, em pt-BR e BRL; backup manual por substituição e backup do sistema quando disponível; edição, encerramento e ajustes/ajuda/privacidade. Preparar a arquitetura para Pro com login Google e backup em nuvem.
+
+O escopo foi ampliado para recorrências diárias, semanais, mensais e anuais, com quantidade fixa de ocorrências, e notificações no celular. O modelo exclusivamente mensal e a ausência de notificações descritos no protótipo não limitam mais a v1. Intervalos N, dias semanais, término por data/quantidade, valores por ocorrência e resumo local diário às 9h ajustável estão aprovados. Mínimos definidos: Android API 24 e iOS 15; integração de dependências e builds serão verificados na fase 2.
+
+Decisões, pendências e exemplos: [registro da fase 0](docs/decisoes/FASE_0_PRODUTO.md). Arquitetura: [ADR 001](docs/decisoes/ADR_001_BASE_LOCAL_E_EVOLUCAO_PRO.md). As seções de experiência e código abaixo descrevem a demonstração; lacunas históricas resolvidas devem ser interpretadas conforme esse registro vigente.
+
 ## 2. Visão do produto
 
 O handoff apresenta **Conta Paga**, uma interface móvel para acompanhar contas recorrentes a pagar e a receber, organizada por mês. O projeto e o pacote Dart se chamam `contapaga`; o cabeçalho do protótipo usa “CONTA PAGA”.
@@ -118,11 +126,11 @@ Isso descreve apenas a exportação. **A base de implementação existente é Fl
 
 `lib/main.dart` ainda contém o contador padrão (`Flutter Demo`), com `MaterialApp`, tema roxo e estado local via `setState`. `test/widget_test.dart` testa esse contador; o README da raiz também é o padrão do Flutter. Nenhuma tela financeira do handoff foi implementada. Não há fontes Barlow ou pacote Lucide declarados no `pubspec.yaml`.
 
-Roteamento do produto, gerenciamento de estado, persistência, autenticação, backend e distribuição permanecem em aberto. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (baixa e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
+Roteamento, gerenciamento de estado e biblioteca de persistência ainda dependem de seleção técnica. Armazenamento local sem autenticação/backend na v1 já está aprovado; a evolução Pro segue o ADR 001. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (baixa e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
 
 ### Diretrizes explícitas para a aplicação
 
-Além da aparência, o handoff determina usar a data real, permitir qualquer mês, validar valores inválidos com erro no campo e calcular previsões variáveis pela média dos últimos meses pagos. Esses comportamentos **ainda não existem na base Flutter** e diferem das simplificações do protótipo. A janela da média e o comportamento sem histórico precisam de definição; o gráfico demonstrado cobre seis meses.
+Além da aparência, o handoff determina usar a data real, permitir qualquer mês, validar valores inválidos com erro no campo e calcular previsões variáveis pela média dos últimos meses pagos. Esses comportamentos **ainda não existem na base Flutter** e diferem das simplificações do protótipo. A regra mensal aprovada usa as seis competências imediatamente anteriores e o valor base quando não há baixas; a média é por ocorrência baixada dessa série na janela, e o histórico agrega totais mensais com detalhamento. O gráfico demonstrado cobre seis meses.
 
 ## 9. Avaliação e lacunas
 
@@ -147,32 +155,22 @@ Esta separação é uma recomendação para a futura implementação, não uma e
 
 | Entidade | Responsabilidade e dados principais |
 | --- | --- |
-| Conta recorrente | Nome, contraparte, direção financeira, dia padrão, valor base, modo fixo/variável, indicação de débito automático, início e eventual fim. |
-| Ocorrência mensal | Referência à recorrência, competência com ano e mês, vencimento completo e valor previsto daquele período. |
+| Conta recorrente | Nome, contraparte, direção financeira, valor base, modo fixo/variável, débito automático, início, frequência e término; detalhes conforme decisões da fase 0. |
+| Ocorrência | ID estável, referência à série/revisão, vencimento completo, competência derivada e valor previsto; várias ocorrências por série no mesmo mês são permitidas. |
 | Baixa | Referência à ocorrência, data completa e valor efetivo do pagamento ou recebimento. |
 | Preferência de aviso | Antecedência e, se houver notificações externas, canal escolhido. |
 
 Separar a recorrência de suas ocorrências permite preservar o histórico quando o cadastro muda. Valores monetários devem usar representação exata, como centavos inteiros ou decimal apropriado. Status e totais devem derivar das mesmas regras de domínio para evitar divergência entre lista, avisos e resumo.
 
-## 11. Recorte sugerido para uma primeira versão
+## 11. Recorte aprovado e pendências da primeira versão
 
-O handoff já define cadastro mensal de receitas e despesas fixas ou variáveis, consulta mensal, baixa, reversão com confirmação, detalhe com histórico e avisos dentro da aplicação. Para uma primeira versão utilizável, recomenda-se complementar esse escopo com persistência e resolução das lacunas de datas, totais e status. A estratégia de persistência ainda depende de decisão.
+O recorte vigente está no [registro da fase 0](docs/decisoes/FASE_0_PRODUTO.md). Inclui persistência local, backup, edição/encerramento, novas frequências e notificações locais no celular. Integração bancária, execução de pagamentos, boletos, compartilhamento familiar, outras moedas, push remoto e reprogramação individual permanecem fora.
 
-Não há evidência suficiente para incluir automaticamente integração bancária, execução de pagamentos, emissão de boletos, leitura de código de barras, conciliação, notificações por e-mail/push/WhatsApp, compartilhamento familiar, múltiplas moedas ou recorrências não mensais. Esses recursos exigem decisão de escopo própria.
-
-Decisões prioritárias de produto:
-
-- Compartilhamento doméstico ou uso individual: nome Conta Paga e público pessoal/doméstico já estão definidos no handoff.
-- Plataforma inicial e necessidade de acesso em vários dispositivos ou offline.
-- Persistência local ou serviço com contas de usuário.
-- Significado do saldo e parâmetros da média dos meses pagos para estimar valores variáveis.
-- Tratamento do débito automático sem confirmação e dos vencimentos em dias inexistentes.
-- Política de alteração, encerramento e reprogramação de recorrências.
-- Alcance dos avisos e eventual mudança das variantes padrão; a lista agrupada já foi escolhida.
+A fase 0 está concluída documentalmente. As fases seguintes devem implementar e validar as decisões, incluindo notificações em dispositivos reais e dependências compatíveis com Android API 24/iOS 15. A versão Pro futura não altera a operação offline e sem login da v1.
 
 ## 12. Critérios sugeridos para validar a evolução
 
-- Cadastro de uma recorrência respeita sua vigência e gera uma única ocorrência por competência.
+- Cadastro de uma recorrência respeita sua vigência e gera cada ocorrência prevista uma única vez, permitindo várias da mesma série na mesma competência.
 - Baixa preserva valor e data completos; reversão exige confirmação, reabre a ocorrência e atualiza totais e avisos. Cancelar o modal mantém a baixa intacta.
 - Virada de ano, fevereiro e baixa após o mês de vencimento produzem status corretos.
 - Contas automáticas pendentes permanecem visíveis com um estado coerente.

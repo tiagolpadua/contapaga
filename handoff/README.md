@@ -5,6 +5,10 @@ App mobile para uma pessoa física / casa controlar contas recorrentes (água, l
 
 Fluxo central: **escolher mês → ler a lista agrupada por status → tocar no quadradinho da conta → confirmar valor e data na modal → conta passa a "Paga" (ou "Paga com atraso")**.
 
+## Ampliação funcional aprovada na fase 0
+
+A v1 incluirá recorrências diárias, semanais, mensais e anuais, término por quantidade de ocorrências, notificações locais no celular, edição/encerramento, backup e ajustes/ajuda/privacidade. O cadastro e o histórico mensais descritos no HTML são referências parciais para esse novo escopo. Consultar [decisões e critérios de aceite da fase 0](../docs/decisoes/FASE_0_PRODUTO.md) antes de implementar. As decisões aprovadas nesse registro prevalecem sobre as simplificações do protótipo.
+
 ## About the Design Files
 Os arquivos deste pacote são **protótipos HTML de referência funcional**, não código de produção. A aplicação será implementada em Flutter/Dart. Preservar os fluxos, campos, textos, agrupamentos e comportamentos, observando as decisões e pendências do [plano de implementação e publicação](../PLANO_IMPLEMENTACAO_E_PUBLICACAO.md).
 
@@ -20,7 +24,7 @@ Os arquivos deste pacote são **protótipos HTML de referência funcional**, nã
 
 **Como ler as especificações abaixo:** medidas em pixels, classes CSS, cores literais, fontes Barlow, ícones Lucide, cantos retos e molduras blueprint descrevem apenas o protótipo antigo. Não são requisitos de fidelidade visual nem critérios de aceite do app. Os HTML/CSS serão mantidos como referência funcional, sem redesenho nesta etapa.
 
-As simplificações funcionais do protótipo também não definem o domínio final: chaves sem ano, comparação apenas de dias, valores sintéticos e limitações de navegação devem ser substituídas conforme o plano. Regras ainda propostas na fase 0, incluindo saldo, datas, débito automático vencido e previsão, continuam pendentes de decisão; esta atualização registra somente a decisão visual já tomada.
+As simplificações funcionais do protótipo também não definem o domínio final: chaves sem ano, comparação apenas de dias, valores sintéticos e limitações de navegação devem ser substituídas conforme o plano. As regras de saldo, datas, débito automático vencido, previsão e novas recorrências foram fechadas no registro da fase 0 e prevalecem sobre as descrições históricas abaixo.
 
 ---
 
@@ -52,7 +56,7 @@ O protótipo tem **três telas** dentro de um container de 394px de largura (mob
      - Ação: 34×34px. Em aberto — `.btn.btn-secondary` com um quadrado vazio 14×14px de borda hairline. Pago — botão preenchido **#3f6b48** (verde) com check Lucide branco stroke 1.8, que abre a modal de cancelamento.
 7. **FAB "nova conta recorrente"** — botão flutuante 56×56px, `position: fixed`, canto inferior direito da coluna (`right: max(18px, calc(50vw - 179px))`, `bottom: 26px`), fundo `--color-accent`, cantos retos + as quatro marcas de registro, ícone "+" Lucide 22px stroke 1.5, `--shadow-lg`, `aria-label="Nova conta recorrente"`. Um espaçador de 56px no fim da lista evita que ele cubra a última linha.
 
-**Mapa de status → tag → meta do protótipo** (cores ilustrativas; regras finais sujeitas às decisões da fase 0 do plano):
+**Mapa de status → tag → meta do protótipo** (cores ilustrativas; regras finais definidas no registro da fase 0):
 
 | Situação | Status exibido | Tom da tag (fundo / tinta / borda) | Meta |
 |---|---|---|---|

@@ -1,6 +1,6 @@
 # Conta Paga — plano de implementação e publicação
 
-Data: 16/09/2026. Estado: planejamento; nenhuma fase concluída por este documento.
+Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fases 1–12 pendentes de implementação e validação.
 
 ## 1. Objetivo e fontes
 
@@ -10,7 +10,7 @@ Fontes locais: [contexto do projeto](CONTEXTO_DO_PROJETO.md), [handoff](handoff/
 
 O handoff orienta os fluxos, conteúdos e regras funcionais. Por decisão do produto, a interface usará os widgets padrão do Flutter Material Design em sua forma original, aplicando somente um tema de cores. Essa decisão substitui a reprodução visual do Industry prevista originalmente no handoff e no contexto. Preservar tipografia, formas, espaçamentos internos, elevações e estados padrão dos componentes Material. Criar widgets personalizados somente quando uma necessidade real não puder ser atendida adequadamente pelos componentes existentes, mantendo a base Material Design.
 
-As simplificações de datas, memória e valores sintéticos do protótipo não são regras adequadas à aplicação final. Propostas novas deste plano precisam ser decididas na fase 0 e registradas no contexto; a diretriz visual Material acima já está definida.
+As simplificações de datas, memória e valores sintéticos do protótipo não são regras adequadas à aplicação final. As decisões da fase 0 estão registradas em [decisões de produto](docs/decisoes/FASE_0_PRODUTO.md) e no [ADR 001](docs/decisoes/ADR_001_BASE_LOCAL_E_EVOLUCAO_PRO.md); a diretriz visual Material acima já está definida.
 
 ## 2. Diagnóstico do ponto de partida
 
@@ -29,12 +29,12 @@ As simplificações de datas, memória e valores sintéticos do protótipo não 
 
 A presença de diretórios web e desktop não os inclui no lançamento. O caminho deste plano é Android e iOS. O deployment target iOS é distinto da versão do SDK exigida para compilar e enviar o app.
 
-## 3. Recorte proposto para a versão 1.0
+## 3. Recorte aprovado para a versão 1.0
 
 ### Escopo funcional do handoff e diretriz visual atual
 
-- Cadastro de receitas e despesas recorrentes mensais, fixas ou variáveis, com contraparte e indicação de débito automático.
-- Navegação por mês, lista agrupada, resumo e avisos dentro do app.
+- Cadastro de receitas e despesas com recorrência diária, semanal, mensal ou anual, intervalo N e término nunca/por data/por quantidade, com valor por ocorrência fixo ou variável, com contraparte e indicação de débito automático.
+- Navegação por mês, lista agrupada, resumo e painel mensal; notificações locais com resumo diário global às 9h, horário ajustável e opção de desativar.
 - Baixa manual com valor e data editáveis, sem toast ou confirmação extra após salvar.
 - Cancelamento de baixa com confirmação e apresentação dos dados registrados.
 - Histórico com seis meses, gráfico e distinção entre previsão e realização.
@@ -43,13 +43,13 @@ A presença de diretórios web e desktop não os inclui no lançamento. O caminh
 - Composição das telas conforme os fluxos do produto, com layout responsivo e dimensões padrão dos componentes; os 394 px e demais medidas do HTML não são requisitos de fidelidade visual.
 - Validação de entradas, foco visível, nomes acessíveis e preservação dos alvos de toque acessíveis padrão do Material, sem compactá-los para reproduzir o protótipo.
 
-### Proposta de caminho inicial, a decidir na fase 0
+### Caminho aprovado na fase 0
 
-Aplicativo individual, em português do Brasil, moeda BRL, uso offline, armazenamento local, sem login, sem anúncios e sem assinatura na primeira versão. Distribuição inicial no Brasil. Essa opção reduz dependências externas, mas exige uma decisão explícita sobre backup e recuperação; não implica sincronização entre dispositivos.
+Aplicativo individual, pt-BR, BRL, offline, local, sem login, gratuito, sem anúncios ou assinatura, distribuído inicialmente no Brasil para celulares Android e iPhone. Piso técnico Android API 24 e iOS 15; selecionar dependências compatíveis e validar na fase 2. Tablets/iPad não são alvos desta versão.
 
-Acrescentar ao lançamento edição controlada de recorrências, encerramento, exportação/importação de backup e uma tela simples de ajustes/ajuda/privacidade. Esses itens ampliam o handoff para evitar que o usuário fique preso a um cadastro errado ou perca o histórico sem alternativa de recuperação. Se forem adiados, documentar o fluxo substituto e as limitações comunicadas ao usuário antes de fechar o escopo.
+Incluídos: edição prospectiva por data, encerramento, exportação/importação de backup por substituição confirmada, backup do sistema quando disponível e ajustes/ajuda/privacidade. Arquitetura preparada para futura Pro com login Google e backup em nuvem, conforme ADR 001; sem implementar esses serviços na v1 ou presumir sincronização.
 
-Ficam fora da proposta inicial: transações bancárias, emissão/leitura de boletos, Open Finance, compartilhamento familiar, outras moedas, recorrências não mensais, notificações externas, publicidade e cobrança por recursos. Uma decisão de incluir qualquer um desses itens exige replanejar suas integrações, testes e declarações das lojas.
+Ficam fora: transações bancárias, emissão/leitura de boletos, Open Finance, compartilhamento familiar, outras moedas, reprogramação individual, push remoto/e-mail/WhatsApp, publicidade e cobrança por recursos. Recorrências não mensais e notificações locais foram incorporadas ao lançamento e exigem as tarefas adicionais abaixo.
 
 ## 4. Sequência, dependências e responsabilidades
 
@@ -75,36 +75,20 @@ Papéis podem ser exercidos pela mesma pessoa. O titular responde por contas, co
 
 ## Fase 0 — fechar produto e regras de negócio
 
-**Objetivo:** tornar o escopo executável sem transportar os erros da demonstração.
+**Concluída documentalmente em 16/09/2026.** Responsáveis: titular (decisões aprovadas em conversa) e desenvolvimento (consolidação e diretrizes técnicas). Evidências: [decisões e exemplos](docs/decisoes/FASE_0_PRODUTO.md), [ADR 001](docs/decisoes/ADR_001_BASE_LOCAL_E_EVOLUCAO_PRO.md), [contexto](CONTEXTO_DO_PROJETO.md) e [handoff](handoff/README.md).
 
-- [ ] Registrar a decisão local versus nuvem, login, dispositivos suportados, países, idiomas e modelo comercial.
-- [ ] Escolher Android mínimo e iOS mínimo com base na versão Flutter e plugins selecionados; confirmar iPhone apenas ou também iPad e comportamento em tablets Android.
-- [ ] Manter lista agrupada, formulário de baixa `1d`, confirmação de cancelamento `1j` e navegação mensal por setas `1g` como referências funcionais, usando componentes Material padrão. Fita/ano inteiro ficam fora salvo decisão expressa.
-- [x] Registrar no contexto a decisão visual já tomada: Flutter Material padrão com tema de cores, substituindo as exigências de reprodução do Industry. Evidência (16/09/2026): seção 7 e critérios de validação de `CONTEXTO_DO_PROJETO.md`, alinhados à diretriz vigente em `handoff/README.md`; revisão documental concluída, validação das telas Flutter pendente.
-- [ ] Aprovar as regras abaixo com exemplos de entrada e resultado esperado.
+- [x] Registrar armazenamento local/offline, sem login na v1, Brasil, pt-BR, BRL e gratuidade; arquitetura preparada para futura Pro.
+- [x] Definir celulares Android/iPhone e pisos Android API 24/iOS 15 com base no Flutter local 3.47.4; seleção e builds dos plugins compatíveis são tarefas da fase 2.
+- [x] Manter lista agrupada, baixa 1d, cancelamento 1j e mês por setas 1g.
+- [x] Registrar Material padrão com tema de cores no contexto e handoff.
+- [x] Aprovar regras de competência, vigência, dias inexistentes, baixa, atraso, automático, saldo, previsão, histórico, edição, encerramento e exclusão.
+- [x] Incorporar recorrências diária/semanal/mensal/anual, intervalo N, dias semanais e término por data/quantidade, com valor por ocorrência.
+- [x] Aprovar painel mensal com antecedência três dias configurável de um a dez e resumo local global diário às 9h ajustável/desativável.
+- [x] Aprovar edição, encerramento, backup manual por substituição e backup do sistema quando disponível.
+- [x] Produzir exemplos numéricos de resumo, reversão, média e novas recorrências para orientar testes futuros.
+- [x] Atualizar contexto, handoff e decisões de arquitetura.
 
-| Tema | Proposta para decisão | Critério a documentar |
-| --- | --- | --- |
-| Competência | Ano e mês; vencimento como data civil completa | Janeiro de anos diferentes não se mistura |
-| Vigência | Início explícito, padrão no mês do cadastro; fim opcional | Nenhuma ocorrência anterior ao início |
-| Dias 29–31 | Permitir com ajuste para último dia do mês, ou limitar explicitamente a 28 | Nunca alterar o dia digitado silenciosamente |
-| Baixa | Uma baixa integral por ocorrência, valor positivo em centavos e data válida | Bloquear duplicidade; definir tratamento de data futura |
-| Atraso | Comparar a data completa da baixa com o vencimento | Baixa no mês seguinte continua atrasada |
-| Automático | Agendamento é intenção; após vencer sem baixa, sinalizar pendência | Nunca considerar pago automaticamente |
-| Saldo | Receitas menos despesas do mês, usando efetivos nas concluídas e previstos nas abertas | Rótulo distingue projeção de saldo bancário |
-| Previsão variável | Média de até seis competências anteriores com baixa; fallback no valor base | Arredondamento, poucos dados e exclusão do mês corrente explícitos |
-| Histórico | Seis competências terminando no mês selecionado | Média realizada exclui valores em aberto; previsões identificadas |
-| Edição | Alteração prospectiva, preservando valores/datas de ocorrências históricas | Definir mês de vigência e efeito nas abertas já existentes |
-| Encerramento/exclusão | Encerrar geração futura; preservar baixas existentes | Excluir sem histórico somente com confirmação |
-| Avisos | Vinculados ao mês selecionado na v1, com referência clara | Comparação de datas reais, inclusive na virada do mês |
-| Reprogramação | Remover “ou reprograme” na v1, salvo inclusão de fluxo próprio | Nenhuma ação prometida sem implementação |
-
-- [ ] Definir antecedência padrão e se o usuário pode configurá-la; não confundir painel interno com notificações do sistema.
-- [ ] Aprovar regras de edição, encerramento e backup como escopo adicional ou registrar seu adiamento.
-- [ ] Produzir exemplos numéricos do resumo, de reversão e de média; usar os mesmos exemplos nos testes.
-- [ ] Atualizar `CONTEXTO_DO_PROJETO.md` com decisões e registrar as escolhas técnicas relevantes em documentos curtos de arquitetura.
-
-**Entrega:** escopo 1.0, tabela de regras e critérios de aceite acordados. **Saída:** armazenamento, vigência, datas, saldo e previsão sem ambiguidades bloqueantes.
+**Saída:** regras e escopo aprovados, sem perguntas de produto pendentes. Implementação, testes, validação do agendamento local e builds não foram realizados nesta fase. Convenções e critérios detalhados constam no registro de decisões.
 
 ## Fase 1 — titularidade, contas e identidade do app
 
@@ -131,6 +115,8 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recorrencias`, `lib/features/mes`, `lib/features/historico` e `lib/features/ajustes`.
 - [ ] Escolher uma abordagem única de gerenciamento de estado e navegação, evitando dependências sem necessidade demonstrada.
 - [ ] Definir interfaces para repositórios, relógio/data atual e armazenamento; permitir testes sem relógio do dispositivo ou banco real quando apropriado.
+- [ ] Fixar piso Android API 24/iOS 15, restringir alvo iOS a iPhone e selecionar/validar dependências compatíveis; registrar versões e builds.
+- [ ] Avaliar plugin de notificações locais e provar agendamento com app fechado, permissão negada e limites de reposição antes de integrar o produto.
 - [ ] Selecionar biblioteca de persistência e formatação com suporte Android/iOS, manutenção e licenças verificadas; versionar lockfile.
 - [ ] Estabelecer análise estática, formatação e testes em CI; builds Android e iOS em agentes compatíveis, sem credenciais em texto no repositório.
 - [ ] Preparar convenção de versão/build, ambientes de teste e produção, fixtures isoladas e mensagens de erro compreensíveis.
@@ -140,13 +126,14 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 ## Fase 3 — implementar e testar o domínio financeiro
 
-- [ ] Implementar entidades de recorrência, ocorrência mensal, baixa e preferências, com IDs estáveis e unicidade por recorrência/competência.
-- [ ] Usar centavos inteiros ou decimal exato; definir arredondamento da média e impedir cálculos monetários dependentes de ponto flutuante impreciso.
+- [ ] Implementar entidades de série/revisão, ocorrência, baixa e preferências com IDs estáveis e geração idempotente; permitir várias ocorrências por série/competência, preservando baixas e identidade ao editar.
+- [ ] Usar centavos inteiros ou decimal exato; aplicar arredondamento da média definido na fase 0 e impedir cálculos monetários dependentes de ponto flutuante impreciso.
 - [ ] Representar datas financeiras como datas civis, sem deslocamentos involuntários por UTC; injetar relógio e recalcular “hoje” ao retomar o app.
 - [ ] Gerar ocorrências respeitando vigência, mês/ano, dias inexistentes e política de edição; tornar geração repetida idempotente.
 - [ ] Implementar baixa e reversão, garantindo transação única e prevenção de toques duplicados.
 - [ ] Implementar classificação e ordenação compartilhadas entre lista, resumo, avisos e histórico.
-- [ ] Implementar previsões sem função sintética, média realizada e resumos conforme decisões da fase 0.
+- [ ] Implementar previsões por ocorrência nas seis competências anteriores, fallback, arredondamento e histórico agregado/detalhado conforme fase 0.
+- [ ] Implementar recorrência por intervalo, dias semanais, fim inclusivo e limite total de ocorrências; testar fronteiras de mês/ano, 29/02 e preservação de baixas após revisão da série.
 - [ ] Validar nome, valor, dia, competência e data de baixa; tratar parsing pt-BR sem transformar erro em zero.
 - [ ] Escrever testes unitários orientados a regras: dezembro/janeiro, fevereiro bissexto, dias 29–31, baixa antecipada/tardia, receita atrasada, automático vencido, reversão e valores pequenos/grandes.
 
@@ -154,14 +141,14 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 ## Fase 4 — persistência, integridade e recuperação
 
-**Caminho base proposto: armazenamento local transacional.**
+**Caminho aprovado: armazenamento local transacional, preparado para adaptadores futuros conforme ADR 001.**
 
 - [ ] Criar esquema versionado e migrações para recorrências, ocorrências, baixas e preferências; definir índices e restrições de integridade.
 - [ ] Implementar repositórios, transações e falhas de gravação; só apresentar confirmação após sucesso da persistência.
 - [ ] Persistir as alterações conforme a política aprovada, preservando histórico e evitando que uma edição recalcule baixas antigas.
 - [ ] Garantir uso offline, restauração após reinício e comportamento seguro diante de pouco espaço ou erro de leitura.
 - [ ] Definir proteção dos arquivos, política de backup automático do sistema e conteúdo que pode sair do dispositivo. Não confundir backup do SO com sincronização entre Android e iOS.
-- [ ] Se aprovada a proposta de backup manual: criar formato versionado, exportação/importação via seletor do sistema, validação, prévia de restauração e regra de substituição/mesclagem; avisar sobre sensibilidade do arquivo.
+- [ ] Implementar backup manual aprovado: formato versionado, exportação/importação via seletor do sistema, validação, prévia e substituição transacional confirmada, sem mesclagem; avisar sobre sensibilidade do arquivo.
 - [ ] Implementar exclusão dos dados locais com confirmação; distinguir limpar dados de encerrar uma recorrência.
 - [ ] Testar migração com dados anteriores, importação inválida, restauração, interrupção de gravação e tentativa duplicada de baixa.
 - [ ] Garantir primeira instalação vazia; dados fictícios existem apenas em testes/demonstração explícita.
@@ -177,7 +164,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Priorizar componentes existentes: `Scaffold`, `AppBar`, `ListTile`, `Card`, `TextFormField`, botões Material, `IconButton`, `FloatingActionButton`, `AlertDialog` e seletores Material de data, conforme a necessidade de cada fluxo.
 - [ ] Compor lista, resumo, formulários e diálogos com esses componentes, preservando suas formas, espaçamentos internos, elevações, estados de interação e comportamento acessível originais. Formatação monetária e validação são lógica do formulário, sem exigir um campo visual próprio.
 - [ ] Criar widgets personalizados apenas quando realmente necessários, justificando a lacuna e preferindo composição de widgets Material existentes. Extrações para organizar telas podem reutilizar essa composição sem criar um novo sistema visual. Para o gráfico de histórico, avaliar a solução mínima necessária e alinhá-la às cores e à tipografia do tema.
-- [ ] Montar navegação lista → detalhe/cadastro → retorno, além de ajustes/ajuda se aprovados; preservar mês selecionado.
+- [ ] Montar navegação lista → detalhe/cadastro → retorno, além de ajustes/ajuda aprovados; preservar mês selecionado.
 - [ ] Adaptar o layout ao espaço disponível, teclado, safe areas, orientação e texto ampliado, mantendo legibilidade em telas maiores. Não fixar largura e padding para imitar o HTML.
 - [ ] Preservar foco, semântica e alvos de toque padrão dos componentes; validar contraste do tema de cores e apresentar status também por texto/ícone.
 - [ ] Especificar fechamento/retorno dos modais, foco inicial e proteção de dados de formulário não salvos usando os mecanismos dos componentes padrão.
@@ -189,11 +176,12 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 - [ ] Lista mensal: navegação sem intervalo artificial, títulos com ano, resumo, grupos na ordem definida, totais, sinais e indicação de previsão.
 - [ ] Avisos: painel, contagem, vazio, antecedência e critérios de data; atualizar ao mudar mês, dar baixa, reverter e retomar o app.
-- [ ] Cadastro: todos os campos do handoff, vigência, validação e mensagens claras; salvar uma única vez e retornar à lista correta.
+- [ ] Cadastro: campos funcionais do handoff mais data inicial, frequência, intervalo N, dias semanais, término e valor por ocorrência; prévia da agenda, validação e mensagens claras; salvar uma única vez e retornar à lista correta.
 - [ ] Baixa: valor previsto e hoje pré-preenchidos, ajuste pt-BR, confirmação de pagamento/recebimento, tratamento de falha e fechamento após sucesso.
+- [ ] Notificações locais: resumo global diário às 9h ajustável, sem aviso vazio, autorização, desativação, abertura de avisos globais e conciliação após alterações; validar janela e reposição com app fechado conforme ADR 001.
 - [ ] Reversão: mostrar conta, valor e data; manter baixa ao cancelar; reclassificar ocorrência após confirmação.
 - [ ] Histórico: seis competências do período definido, barras previstas/realizadas, tabela e média com explicação do critério.
-- [ ] Edição e encerramento, se aprovados: apresentar impacto temporal, preservar histórico e confirmar ações destrutivas.
+- [ ] Edição e encerramento aprovados: apresentar impacto temporal, preservar histórico e confirmar ações destrutivas.
 - [ ] Ajustes/ajuda: privacidade, suporte, versão, avisos e controles de dados previstos na fase 0.
 - [ ] Implementar estados de primeira utilização, lista vazia, carregamento, erro e tentativa de recuperação; não mostrar exemplos como dados reais.
 - [ ] Revisar textos de entrada/saída: “Recebida com atraso”, “Manter como recebida” e demais variações.
@@ -209,6 +197,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Validar TalkBack/VoiceOver, ordem de foco, leitura de valores/status, fonte ampliada, contraste e telas pequenas; testar tablets/iPad se declarados suportados.
 - [ ] Medir em profile/release inicialização, rolagem e histórico com volume representativo — por exemplo, centenas de recorrências e anos de dados — e corrigir travamentos.
 - [ ] Inspecionar logs e SDKs para impedir exposição de nomes, valores, backups ou credenciais; revisar permissões e dependências.
+- [ ] Testar notificações: app fechado, permissões negadas/revogadas, baixa antes do aviso, fuso, reinício, restauração e limites de agendamento; testar séries diárias volumosas e finitas sem duplicações.
 - [ ] Testar instalação limpa, atualização preservando dados, falha de migração e recuperação definida; não considerar reinstalação equivalente a atualização.
 - [ ] Manter evidências por build/dispositivo e classificar defeitos por impacto. Bloquear release com perda de dados, cálculo incorreto, crash de fluxo central ou impedimento de uso acessível.
 
@@ -327,7 +316,7 @@ Estimativa inicial de esforço, não compromisso de calendário, para uma pessoa
 | Materiais e builds (8–9) | 4–8 dias úteis |
 | Beta, ajustes e submissão (10–11) | 4–8 dias úteis de trabalho, além de espera externa |
 
-Total indicativo: 35–63 dias úteis de esforço. Reestimar após fases 0 e 2. Prazo de calendário inclui verificação de contas, eventual teste fechado obrigatório de 14 dias e revisões das lojas, cujas durações não são garantidas. Nuvem/login, monetização ou notificações externas exigem orçamento próprio; não cabem implicitamente nessa faixa.
+Estimativa histórica do escopo mensal sem notificações: 35–63 dias úteis. Essa faixa não representa compromisso para o escopo ampliado. Reestimar na fase 2 após provar o agendador local e o motor de recorrências. Prazo de calendário inclui verificação de contas, eventual teste fechado obrigatório de 14 dias e revisões das lojas, cujas durações não são garantidas. As recorrências ampliadas e notificações locais já estão no escopo aprovado, mas ainda precisam de estimativa adicional. Pro com nuvem/login e monetização exige planejamento próprio.
 
 Caminho crítico: regras decididas → domínio → persistência → fluxos completos → QA → build assinado → beta/requisitos de produção → revisão → liberação pública. Contas, documentação e materiais avançam em paralelo ao desenvolvimento quando seus pré-requisitos estiverem disponíveis.
 
@@ -348,7 +337,7 @@ Caminho crítico: regras decididas → domínio → persistência → fluxos com
 
 ## 7. Checklist de conclusão do projeto de lançamento
 
-- [ ] Escopo e regras registrados no contexto, sem decisões bloqueantes pendentes.
+- [x] Escopo e regras registrados no contexto e no registro da fase 0, sem decisões de produto bloqueantes pendentes; validações técnicas seguem nas fases posteriores.
 - [ ] Funcionalidades da versão 1.0 implementadas em Flutter e persistidas.
 - [ ] Interface usa widgets Material em sua forma original com tema de cores; widgets personalizados se limitam a necessidades justificadas e preservam a base Material Design.
 - [ ] Sem cálculo incorreto, perda de dados ou crash conhecido nos fluxos críticos.
