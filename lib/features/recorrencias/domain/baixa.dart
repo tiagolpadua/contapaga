@@ -2,7 +2,6 @@ import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
 import 'package:contapaga/features/recorrencias/domain/money.dart';
 
 class Baixa {
-
   new({
     required this.valorPago,
     required this.dataPagamento,

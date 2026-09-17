@@ -73,8 +73,7 @@ void main() {
       expect(c1.isBefore(c3), isTrue);
       expect(c3.isAfter(c1), isTrue);
 
-      final list = [c3, c1, c2];
-      list.sort();
+      final list = [c3, c1, c2]..sort();
       expect(list, equals([c1, c2, c3]));
     });
   });

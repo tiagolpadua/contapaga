@@ -2,7 +2,8 @@ import 'package:contapaga/core/time/clock.dart';
 import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
 import 'package:contapaga/features/recorrencias/domain/ocorrencia.dart';
 
-class PainelResumo { // ex: próximos 7 dias (exclusive hoje)
+class PainelResumo {
+  // ex: próximos 7 dias (exclusive hoje)
 
   new({
     required this.atrasadas,
@@ -11,8 +12,7 @@ class PainelResumo { // ex: próximos 7 dias (exclusive hoje)
   });
   final List<Ocorrencia> atrasadas;
   final List<Ocorrencia> vencendoHoje;
-  final List<Ocorrencia>
-  vencendoEmBreve;
+  final List<Ocorrencia> vencendoEmBreve;
 }
 
 PainelResumo calcularPainel(

@@ -3,7 +3,6 @@ import 'package:contapaga/features/recorrencias/domain/money.dart';
 import 'package:contapaga/features/recorrencias/domain/regra_recorrencia.dart';
 
 class RevisaoSerie {
-
   const new({
     required this.dataEfeito,
     required this.regra,

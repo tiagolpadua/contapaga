@@ -217,16 +217,28 @@ As interfaces de repositório entram nesta fase (contrato), mas **sem implementa
 
 Cada item só avança para o próximo quando `flutter test test/domain/<arquivo>_test.dart` está verde — não acumular dívida de teste entre os passos, dado que o item 5 é o de maior risco de regressão silenciosa.
 
+## 7.1 Avaliação da implementação (16/09/2026)
+
+Revisão do código implementado contra este plano encontrou e corrigiu dois bugs de regra de negócio antes do merge, além de problemas de formatação/lint:
+
+- **`preverValorOcorrencia` não respeitava a janela de 6 competências** (seção 4.1): a versão original usava "últimas N ocorrências baixadas por data" (`ultimasN = 3`), ignorando a competência-alvo e misturando baixas de qualquer época — contrariava o exemplo de aceite da fase 0 e podia produzir previsões erradas quando havia baixas antigas fora da janela. Corrigido para filtrar por `Competencia.precedentes(6)` usando a competência de vencimento da ocorrência baixada, com testes cobrindo o exemplo exato da fase 0 e o caso de baixas fora da janela.
+- **`adicionarRevisao`/`editar_serie` não bloqueava eliminação de histórico** (seção 4.2, DoD item 4): a versão original só validava datas, sem checar se a nova regra eliminaria uma ocorrência já baixada ou reduziria `terminoQuantidade` abaixo do preservado — o risco de perda de dados que o plano (seção 9) e o CLAUDE.md tratam como crítico. Corrigido: a função agora recebe `ocorrenciasExistentes`, gera a agenda da série revisada e lança `EdicaoBloqueadaException` nos dois casos, com testes cobrindo ambos os bloqueios e o caso de edição permitida.
+- **`calcularResumoMensal.saldoPrevisto` ignorava o valor efetivamente pago** (seção 4.5): a versão original calculava `receitasPrevistas - despesasPrevistas`, somando sempre `valorPrevisto` mesmo em ocorrências já baixadas. A fase 0 exige "valores efetivos nas baixadas e previstos nas abertas" — com previsão variável, `valorPrevisto` pode diferir do que foi de fato pago, produzindo saldo incorreto. Corrigido para usar `baixa.valorPago` quando a ocorrência está baixada; `saldoPrevisto` agora é campo calculado no próprio `calcularResumoMensal`, testado com o exemplo textual exato da fase 0 (receita 3000 + despesa aberta 200 + despesa baixada 110 → saldo 2690) e com o ciclo baixa→reversão.
+- `dart format`/`flutter analyze` não estavam limpos (16 arquivos desformatados, 11 avisos de lint) — corrigido; suíte final com 74 testes verdes e cobertura de `domain/` em 93,2% (acima do piso de 90% do gate de CI).
+- Cobertura complementada para os dois trechos de maior risco que estavam sem teste: `SerieRecorrente.revisaoVigenteEm` (decide qual regra/valor vale em cada data) e `dataEncerramento` em `gerarOcorrencias` (preserva histórico ao encerrar uma série).
+
+`calcular_painel` não separa `pendenteAutomatico` de `atrasada` como categoria própria (a entidade `Ocorrencia.status()` já implementa a regra corretamente; falta só compô-la no painel) — registrado como pendência para a fase 6, não bloqueante para o DoD desta fase.
+
 ## 8. Definição de pronto (Definition of Done) desta fase
 
-- [ ] Todas as entidades/regras da seção 2 implementadas em Dart puro, sem import de `package:flutter/*` nem `package:sqflite/*` em `lib/features/recorrencias/domain/`.
-- [ ] `gerarOcorrencias` cobre todos os cenários da tabela 3.3, incluindo o teste explícito de idempotência.
-- [ ] Todos os exemplos numéricos da seção "Exemplos de aceite já definidos" de [FASE_0_PRODUTO.md](docs/decisoes/FASE_0_PRODUTO.md) viraram testes automatizados e passam.
-- [ ] `editar_serie` bloqueia os dois casos de eliminação de histórico descritos na fase 0 (ocorrência baixada e redução de quantidade abaixo do preservado), com teste que comprova o bloqueio (exceção lançada, nada mutado).
-- [ ] `dar_baixa`/`reverter_baixa` cobrem: baixa dupla bloqueada, data futura bloqueada, reversão preserva `id`, reversão após confirmação recalcula status corretamente quando combinada com `calcular_resumo_mensal`.
-- [ ] Parsing pt-BR nunca retorna zero silencioso em entrada inválida — testado com entradas malformadas.
-- [ ] `dart format`, `flutter analyze` e `flutter test` (incluindo o novo `test/domain/`) passam limpos, mantendo o gate de cobertura de `domain/` do CI (ver [PLANO_MELHORIA_QUALIDADE.md](PLANO_MELHORIA_QUALIDADE.md)) — esta fase é o primeiro código real que populará esse gate de 90%.
-- [ ] Nenhuma dependência nova adicionada ao `pubspec.yaml` sem necessidade demonstrada (o modelo acima não exige pacote externo além de, opcionalmente, `uuid` para geração de IDs — avaliar se `Object.hash`/timestamp+contador bastam antes de adicionar dependência).
+- [x] Todas as entidades/regras da seção 2 implementadas em Dart puro, sem import de `package:flutter/*` nem `package:sqflite/*` em `lib/features/recorrencias/domain/`. (16/09/2026 — confirmado via grep, nenhum import encontrado)
+- [x] `gerarOcorrencias` cobre todos os cenários da tabela 3.3, incluindo o teste explícito de idempotência. (16/09/2026 — `test/domain/geracao_ocorrencias_test.dart`, 11 casos incluindo `dataEncerramento`)
+- [x] Todos os exemplos numéricos da seção "Exemplos de aceite já definidos" de [FASE_0_PRODUTO.md](docs/decisoes/FASE_0_PRODUTO.md) viraram testes automatizados e passam. (16/09/2026)
+- [x] `editar_serie` bloqueia os dois casos de eliminação de histórico descritos na fase 0 (ocorrência baixada e redução de quantidade abaixo do preservado), com teste que comprova o bloqueio (exceção lançada, nada mutado). (16/09/2026 — corrigido nesta avaliação, ver 7.1)
+- [x] `dar_baixa`/`reverter_baixa` cobrem: baixa dupla bloqueada, data futura bloqueada, reversão preserva `id`, reversão após confirmação recalcula status corretamente quando combinada com `calcular_resumo_mensal`. (16/09/2026 — teste de integração adicionado em `test/domain/dar_baixa_test.dart`)
+- [x] Parsing pt-BR nunca retorna zero silencioso em entrada inválida — testado com entradas malformadas. (16/09/2026 — `test/domain/money_parser_test.dart`, retorna `null`)
+- [x] `dart format`, `flutter analyze` e `flutter test` (incluindo o novo `test/domain/`) passam limpos, mantendo o gate de cobertura de `domain/` do CI (ver [PLANO_MELHORIA_QUALIDADE.md](PLANO_MELHORIA_QUALIDADE.md)) — esta fase é o primeiro código real que populará esse gate de 90%. (16/09/2026 — 74 testes verdes, 0 issues de analyze, cobertura de domain em 93,2%)
+- [x] Nenhuma dependência nova adicionada ao `pubspec.yaml` sem necessidade demonstrada. (16/09/2026 — confirmado; nenhuma dependência nova, IDs usam string interpolation, sem `uuid`)
 
 ## 9. Riscos específicos desta fase
 

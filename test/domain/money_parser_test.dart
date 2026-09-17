@@ -27,12 +27,18 @@ void main() {
     });
 
     test(r'com R$ e espaços', () {
-      expect(MoneyParser.tryParsePtBr(r'R$ 1.234,56'), equals(const Money(123456)));
+      expect(
+        MoneyParser.tryParsePtBr(r'R$ 1.234,56'),
+        equals(const Money(123456)),
+      );
       expect(MoneyParser.tryParsePtBr('  10,00  '), equals(const Money(1000)));
     });
 
     test('negativos', () {
-      expect(MoneyParser.tryParsePtBr('-1.234,56'), equals(const Money(-123456)));
+      expect(
+        MoneyParser.tryParsePtBr('-1.234,56'),
+        equals(const Money(-123456)),
+      );
       expect(MoneyParser.tryParsePtBr('-0,50'), equals(const Money(-50)));
     });
 

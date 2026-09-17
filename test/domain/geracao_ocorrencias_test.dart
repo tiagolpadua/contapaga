@@ -253,5 +253,38 @@ void main() {
       expect(ocs[2].sequencia, 3);
       expect(ocs[3].sequencia, 4);
     });
+
+    test('dataEncerramento interrompe a geracao, preservando ocorrencias '
+        'anteriores dentro do intervalo pedido', () {
+      final s = baseSerie.copyWithInternal(
+        dataEncerramento: const CivilDate(2026, 11, 10),
+      );
+
+      final ocs = gerarOcorrencias(
+        s,
+        desde: const CivilDate(2026, 9, 1),
+        ate: const CivilDate(2027, 1, 1),
+      );
+
+      // Mensal dia 10: set, out, nov (encerra em 10/11 inclusive); sem dez/jan
+      expect(ocs.length, 3);
+      expect(ocs[0].dataVencimento, equals(const CivilDate(2026, 9, 10)));
+      expect(ocs[1].dataVencimento, equals(const CivilDate(2026, 10, 10)));
+      expect(ocs[2].dataVencimento, equals(const CivilDate(2026, 11, 10)));
+    });
+
+    test('dataEncerramento anterior ao intervalo pedido gera lista vazia', () {
+      final s = baseSerie.copyWithInternal(
+        dataEncerramento: const CivilDate(2026, 9, 10),
+      );
+
+      final ocs = gerarOcorrencias(
+        s,
+        desde: const CivilDate(2026, 10, 1),
+        ate: const CivilDate(2026, 12, 1),
+      );
+
+      expect(ocs, isEmpty);
+    });
   });
 }

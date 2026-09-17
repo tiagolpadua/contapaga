@@ -11,6 +11,8 @@ List<Ocorrencia> gerarOcorrencias(
 }) {
   if (desde.isAfter(ate)) return [];
 
+  // Ordenar chunks pela data de efeito apenas para garantir,
+  // embora o domínio diga que já vêm ordenados.
   final chunks = <_SerieChunk>[
     _SerieChunk(
       dataEfeito: serie.regra.dataInicial,
@@ -24,11 +26,7 @@ List<Ocorrencia> gerarOcorrencias(
         valorBase: r.valorBase,
       ),
     ),
-  ];
-
-  // Ordenar chunks pela data de efeito apenas para garantir,
-  // embora o domínio diga que já vêm ordenados.
-  chunks.sort((a, b) => a.dataEfeito.compareTo(b.dataEfeito));
+  ]..sort((a, b) => a.dataEfeito.compareTo(b.dataEfeito));
 
   var sequencia = 1;
   final ocorrencias = <Ocorrencia>[];
@@ -106,12 +104,7 @@ List<Ocorrencia> gerarOcorrencias(
 }
 
 class _SerieChunk {
-
-  new({
-    required this.dataEfeito,
-    required this.regra,
-    required this.valorBase,
-  });
+  new({required this.dataEfeito, required this.regra, required this.valorBase});
   final CivilDate dataEfeito;
   final RegraRecorrencia regra;
   final Money valorBase;

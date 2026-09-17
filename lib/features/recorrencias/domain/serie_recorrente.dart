@@ -6,12 +6,14 @@ import 'package:contapaga/features/recorrencias/domain/revisao_serie.dart';
 enum TipoLancamento { receita, despesa }
 
 class SerieRecorrente {
-
   const new({
     required this.id,
     required this.descricao,
     required this.tipo,
-    required this.debitoAutomatico, required this.valorBase, required this.regra, this.contraparte,
+    required this.debitoAutomatico,
+    required this.valorBase,
+    required this.regra,
+    this.contraparte,
     this.revisoes = const [],
     this.dataEncerramento,
   });

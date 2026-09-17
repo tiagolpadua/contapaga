@@ -7,7 +7,6 @@ import 'package:contapaga/features/recorrencias/domain/money.dart';
 enum StatusOcorrencia { aberta, baixada, atrasada, pendenteAutomatico }
 
 class Ocorrencia {
-
   new({
     required this.serieId,
     required this.id,

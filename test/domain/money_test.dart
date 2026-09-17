@@ -48,8 +48,7 @@ void main() {
       expect(m1 <= m3, isTrue);
       expect(m1 >= m3, isTrue);
 
-      final list = [m2, m1];
-      list.sort();
+      final list = [m2, m1]..sort();
       expect(list.first, equals(m1));
     });
 
@@ -65,14 +64,23 @@ void main() {
       expect(Money.averageRoundedHalfUp([m1, m3]).cents, 101);
 
       // Valores maiores
-      expect(Money.averageRoundedHalfUp([const Money(105), const Money(100)]).cents, 103);
+      expect(
+        Money.averageRoundedHalfUp([const Money(105), const Money(100)]).cents,
+        103,
+      );
 
       // Zero
-      expect(Money.averageRoundedHalfUp([const Money(0), const Money(0)]).cents, 0);
+      expect(
+        Money.averageRoundedHalfUp([const Money(0), const Money(0)]).cents,
+        0,
+      );
 
       // Negativos
       // -3 / 2 = -1.5 -> arredonda half up -> -1
-      expect(Money.averageRoundedHalfUp([const Money(-1), const Money(-2)]).cents, -1);
+      expect(
+        Money.averageRoundedHalfUp([const Money(-1), const Money(-2)]).cents,
+        -1,
+      );
     });
 
     test('averageRoundedHalfUp rejeita lista vazia', () {

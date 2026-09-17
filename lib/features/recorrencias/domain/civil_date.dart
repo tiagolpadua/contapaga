@@ -1,7 +1,10 @@
 import 'package:contapaga/core/time/clock.dart';
 
-class CivilDate implements Comparable<CivilDate> {
+// Classe de valor imutável (todos os campos final, sem setters); não
+// depende diretamente de package:meta apenas para a anotação @immutable.
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 
+class CivilDate implements Comparable<CivilDate> {
   const new(this.year, this.month, this.day)
     : assert(month >= 1 && month <= 12, 'Mês deve ser entre 1 e 12'),
       assert(day >= 1 && day <= 31, 'Dia deve ser entre 1 e 31');
@@ -34,7 +37,8 @@ class CivilDate implements Comparable<CivilDate> {
   /// Retorna o último dia do mês para um dado ano e mês
   static int _daysInMonth(int year, int month) {
     if (month == 2) {
-      final isLeap = (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
+      final isLeap =
+          (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
       return isLeap ? 29 : 28;
     }
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

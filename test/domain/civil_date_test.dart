@@ -85,8 +85,7 @@ void main() {
       expect(d2.isAfter(d1), isTrue);
       expect(d1.isSameOrBefore(d1), isTrue);
 
-      final list = [d3, d1, d2];
-      list.sort();
+      final list = [d3, d1, d2]..sort();
       expect(list, equals([d1, d2, d3]));
     });
 

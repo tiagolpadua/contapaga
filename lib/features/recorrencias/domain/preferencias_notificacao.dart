@@ -1,5 +1,4 @@
 class PreferenciasNotificacao {
-
   new({
     required this.hora,
     required this.minuto,

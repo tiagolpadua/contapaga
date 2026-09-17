@@ -20,9 +20,7 @@ class FakeClock implements Clock {
 
 void main() {
   group('Casos de Uso de Leitura (Painel e Resumo)', () {
-    final relogio = FakeClock(
-      DateTime(2026, 9, 16, 12),
-    ); // Hoje é 16/09/2026
+    final relogio = FakeClock(DateTime(2026, 9, 16, 12)); // Hoje é 16/09/2026
 
     final serieRec = SerieRecorrente(
       id: 's1',
@@ -85,6 +83,53 @@ void main() {
       expect(resumo.saldoPrevisto, equals(const Money(350000)));
       expect(resumo.saldoRealizado, equals(const Money(500000)));
     });
+
+    test(
+      'exemplo exato da fase 0: receita aberta 3000, despesa aberta 200, '
+      'despesa baixada por 110 -> a receber 3000, a pagar 200, saldo 2690',
+      () {
+        final receitaAberta = Ocorrencia(
+          serieId: 's1',
+          id: 'receita-aberta',
+          dataVencimento: const CivilDate(2026, 9, 5),
+          valorPrevisto: const Money(300000),
+          sequencia: 1,
+        );
+        final despesaAberta = Ocorrencia(
+          serieId: 's2',
+          id: 'despesa-aberta',
+          dataVencimento: const CivilDate(2026, 9, 15),
+          valorPrevisto: const Money(20000),
+          sequencia: 1,
+        );
+        // Valor previsto (base) difere do valor pago para deixar explícito
+        // que o saldo usa o valor efetivo, não o previsto, quando baixada.
+        final despesaBaixada = Ocorrencia(
+          serieId: 's2',
+          id: 'despesa-baixada',
+          dataVencimento: const CivilDate(2026, 9, 20),
+          valorPrevisto: const Money(9999),
+          sequencia: 2,
+          baixa: Baixa(
+            valorPago: const Money(11000),
+            dataPagamento: const CivilDate(2026, 9, 20),
+            registradoEm: relogio.now(),
+          ),
+        );
+
+        final resumo = calcularResumoMensal(const Competencia(2026, 9), [
+          receitaAberta,
+          despesaAberta,
+          despesaBaixada,
+        ], mapSeries);
+
+        expect(resumo.receitasPrevistas, equals(const Money(300000)));
+        expect(resumo.despesasPagas, equals(const Money(11000)));
+        // saldo = receita prevista (300000) - [despesa aberta prevista
+        // (20000) + despesa baixada paga (11000)] = 269000 (fase 0).
+        expect(resumo.saldoPrevisto, equals(const Money(269000)));
+      },
+    );
 
     test('calcularPainel', () {
       final oAtrasada = Ocorrencia(

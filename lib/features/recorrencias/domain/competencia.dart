@@ -1,7 +1,10 @@
 import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
 
-class Competencia implements Comparable<Competencia> {
+// Classe de valor imutável (todos os campos final, sem setters); não
+// depende diretamente de package:meta apenas para a anotação @immutable.
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 
+class Competencia implements Comparable<Competencia> {
   const new(this.ano, this.mes)
     : assert(mes >= 1 && mes <= 12, 'Mês deve ser entre 1 e 12');
 

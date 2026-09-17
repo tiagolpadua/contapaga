@@ -5,10 +5,10 @@ enum Frequencia { diaria, semanal, mensal, anual }
 enum TerminoTipo { nunca, data, quantidade }
 
 class RegraRecorrencia {
-
   new({
     required this.frequencia,
-    required this.dataInicial, this.intervalo = 1,
+    required this.dataInicial,
+    this.intervalo = 1,
     this.diasSemana = const {},
     this.terminoTipo = TerminoTipo.nunca,
     this.terminoData,
@@ -77,7 +77,8 @@ class RegraRecorrencia {
 
   static int _daysInMonth(int year, int month) {
     if (month == 2) {
-      final isLeap = (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
+      final isLeap =
+          (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
       return isLeap ? 29 : 28;
     }
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
