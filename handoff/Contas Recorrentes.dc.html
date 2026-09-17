@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-873cda80-4c77-4324-a744-775e806bc163/styles.css">
+<script src="_ds/industry-873cda80-4c77-4324-a744-775e806bc163/_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--color-bg)}a{color:var(--color-accent)}a:hover{color:var(--color-accent-700)}input,button{font-family:var(--font-body)}</style>
+</helmet>
+<div style="min-height:100vh;display:flex;justify-content:center;padding:28px 16px 56px">
+<div class="blueprint" style="width:394px;max-width:100%;background:var(--color-bg);padding:18px 18px 22px">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:19px;letter-spacing:.03em">CONTA PAGA</div>
+<button class="btn btn-secondary" style="width:38px;height:38px;padding:0;position:relative" onClick="{{ toggleAlerts }}" aria-label="Avisos">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8a6 6 0 10-12 0c0 6-2 7-2 7h16s-2-1-2-7"></path><path d="M10.3 20a2 2 0 003.4 0"></path></svg>
+<sc-if value="{{ hasAlerts }}" hint-placeholder-val="{{ true }}">
+<span style="position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;background:var(--color-accent-900);color:var(--color-bg);font-size:10px;font-weight:700;display:grid;place-items:center">{{ alertCount }}</span>
+</sc-if>
+</button>
+</div>
+
+<sc-if value="{{ alertsOpen }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px solid var(--color-divider);padding:12px;margin-bottom:14px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700);margin-bottom:8px">Avisos de vencimento</div>
+<sc-for list="{{ alerts }}" as="a" hint-placeholder-count="2">
+<div style="display:flex;gap:9px;align-items:flex-start;padding:6px 0;border-top:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)">
+<div style="width:6px;height:6px;margin-top:7px;flex:none;background:var(--color-accent-800)"></div>
+<div style="flex:1;font-size:12.5px;line-height:1.35">{{ a.text }}</div>
+</div>
+</sc-for>
+<div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin-top:8px">Você é avisado {{ alertDaysLabel }} antes de cada vencimento.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+<div style="margin-bottom:14px">
+<sc-if value="{{ pickerArrows }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:8px 0">
+<button class="btn btn-secondary" style="width:34px;height:34px;padding:0" onClick="{{ prevMonth }}" aria-label="Mês anterior">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6l-6 6 6 6"></path></svg>
+</button>
+<div style="text-align:center">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:23px;letter-spacing:.06em;text-transform:uppercase;line-height:1">{{ monthName }}</div>
+<div style="font-size:11px;letter-spacing:.18em;color:color-mix(in srgb,var(--color-text) 50%,transparent)">2026</div>
+</div>
+<button class="btn btn-secondary" style="width:34px;height:34px;padding:0" onClick="{{ nextMonth }}" aria-label="Próximo mês">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</div>
+</sc-if>
+<sc-if value="{{ pickerStrip }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">
+<sc-for list="{{ strip }}" as="s" hint-placeholder-count="5">
+<button class="btn" style="border:0;border-radius:0;flex-direction:column;gap:2px;padding:9px 0;background:{{ s.bg }};color:{{ s.fg }}" onClick="{{ s.onPick }}">
+<span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase">{{ s.label }}</span>
+<span style="font-size:9.5px;letter-spacing:.06em;opacity:.75;font-family:var(--font-body)">{{ s.note }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--color-divider);margin-bottom:13px">
+<div style="padding:9px 10px 10px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:2px">A pagar</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums">{{ sumPay }}</div>
+</div>
+<div style="padding:9px 10px 10px;border-left:1px solid var(--color-divider)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:2px">A receber</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums;color:var(--color-accent-700)">{{ sumRec }}</div>
+</div>
+<div style="padding:9px 10px 10px;border-left:1px solid var(--color-divider)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin-bottom:2px">Saldo</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums">{{ sumBalance }}</div>
+</div>
+</div>
+
+<sc-if value="{{ hasLate }}" hint-placeholder-val="{{ true }}">
+<div style="background:#8f3d3d;color:var(--color-bg);padding:11px 13px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<div style="font-size:13px;line-height:1.3">{{ lateWarning }}</div>
+</div>
+</sc-if>
+
+<sc-for list="{{ groups }}" as="group" hint-placeholder-count="3">
+<div style="margin-top:16px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1px">
+<h6 style="margin:0;color:color-mix(in srgb,var(--color-text) 60%,transparent)">{{ group.title }}</h6>
+<span style="font-size:11px;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--color-text) 45%,transparent)">{{ group.total }}</span>
+</div>
+<sc-for list="{{ group.items }}" as="item" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--color-divider)">
+<sc-if value="{{ item.late }}" hint-placeholder-val="{{ false }}">
+<div style="width:3px;align-self:stretch;background:#8f3d3d;margin:-10px 0 -10px -6px"></div>
+</sc-if>
+<button class="btn" style="width:38px;height:38px;padding:0;flex:none;border-color:var(--color-divider);font-family:var(--font-heading);font-weight:600;font-size:12px;letter-spacing:.06em" onClick="{{ item.onOpen }}">{{ item.code }}</button>
+<div style="flex:1;min-width:0;cursor:pointer" onClick="{{ item.onOpen }}">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;line-height:1.15">{{ item.name }}</div>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<sc-if value="{{ item.hasTone }}" hint-placeholder-val="{{ true }}"><span class="tag" style="{{ item.tagStyle }}">{{ item.status }}</span></sc-if>
+<sc-if value="{{ item.plainTone }}" hint-placeholder-val="{{ false }}"><span class="tag tag-neutral">{{ item.status }}</span></sc-if>
+<span style="font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ item.meta }}</span>
+</div>
+</div>
+<div style="text-align:right;flex:none">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums;line-height:1.2;color:{{ item.amountColor }}">{{ item.amountLabel }}</div>
+<sc-if value="{{ item.estimated }}" hint-placeholder-val="{{ false }}">
+<div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 45%,transparent)">previsto</div>
+</sc-if>
+</div>
+<sc-if value="{{ item.done }}" hint-placeholder-val="{{ false }}">
+<button class="btn" style="width:34px;height:34px;padding:0;border-color:#3f6b48;background:#3f6b48;color:var(--color-bg);flex:none" onClick="{{ item.onUndo }}" aria-label="Desfazer baixa">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+</button>
+</sc-if>
+<sc-if value="{{ item.open }}" hint-placeholder-val="{{ true }}">
+<button class="btn btn-secondary" style="width:34px;height:34px;padding:0;flex:none" onClick="{{ item.onPay }}" aria-label="Dar baixa">
+<span style="width:14px;height:14px;border:1px solid color-mix(in srgb,var(--color-text) 45%,transparent);display:block"></span>
+</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-for>
+
+<div style="height:56px"></div>
+<button class="btn btn-primary blueprint" style="position:fixed;right:max(18px, calc(50vw - 179px));bottom:26px;width:56px;height:56px;padding:0;z-index:40;box-shadow:var(--shadow-lg)" onClick="{{ openNew }}" aria-label="Nova conta recorrente">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+</button>
+</sc-if>
+
+<sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+<button class="btn btn-ghost" style="padding-left:0;margin-bottom:10px" onClick="{{ backToList }}">← Voltar ao mês</button>
+<div style="border:1px solid var(--color-divider);padding:13px;margin-bottom:14px">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+<div>
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">{{ d_kicker }}</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:25px;line-height:1.1">{{ d_name }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ d_org }}</div>
+</div>
+<div style="width:44px;height:44px;flex:none;border:1px solid var(--color-divider);display:grid;place-items:center;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.06em">{{ d_code }}</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--color-divider);margin-top:13px">
+<div style="background:var(--color-bg);padding:8px 10px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Média 6 meses</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums">{{ d_avg }}</div>
+</div>
+<div style="background:var(--color-bg);padding:8px 10px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Vencimento</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:16px">dia {{ d_due }}</div>
+</div>
+</div>
+</div>
+<h6 style="color:color-mix(in srgb,var(--color-text) 60%,transparent)">Histórico</h6>
+<div style="display:flex;align-items:flex-end;gap:7px;height:96px;border-bottom:1px solid var(--color-divider);margin-bottom:6px">
+<sc-for list="{{ d_history }}" as="h" hint-placeholder-count="6">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;justify-content:flex-end;height:100%">
+<span style="font-size:9.5px;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ h.short }}</span>
+<div style="width:100%;background:{{ h.fill }};height:{{ h.h }}"></div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:7px;margin-bottom:14px">
+<sc-for list="{{ d_history }}" as="h" hint-placeholder-count="6">
+<div style="flex:1;text-align:center;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent)">{{ h.month }}</div>
+</sc-for>
+</div>
+<table class="table">
+<thead><tr><th>Mês</th><th>Valor</th><th style="text-align:right">Baixa</th></tr></thead>
+<tbody>
+<sc-for list="{{ d_rows }}" as="r" hint-placeholder-count="6">
+<tr><td>{{ r.month }}</td><td style="font-variant-numeric:tabular-nums">{{ r.value }}</td><td style="text-align:right;font-size:12px;color:color-mix(in srgb,var(--color-text) 60%,transparent)">{{ r.when }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</sc-if>
+
+<sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+<button class="btn btn-ghost" style="padding-left:0;margin-bottom:10px" onClick="{{ backToList }}">← Cancelar</button>
+<h3 style="margin:0 0 3px">Nova conta recorrente</h3>
+<p style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin-bottom:14px">Ela aparece todos os meses na lista, com o valor previsto.</p>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="field"><label>Nome</label><input class="input" value="{{ nf_name }}" onChange="{{ set_name }}" placeholder="Ex.: Condomínio"></div>
+<div class="field"><label>Quem cobra / paga</label><input class="input" value="{{ nf_org }}" onChange="{{ set_org }}" placeholder="Ex.: Síndico"></div>
+<div class="field"><label>Tipo</label>
+<div class="seg" style="width:100%">
+<label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="tipo" checked="{{ nf_isPay }}" onChange="{{ set_pay }}">Conta a pagar</label>
+<label class="seg-opt" style="flex:1;justify-content:center"><input type="radio" name="tipo" checked="{{ nf_isRec }}" onChange="{{ set_rec }}">A receber</label>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 100px;gap:10px">
+<div class="field"><label>Valor previsto (R$)</label><input class="input" inputMode="decimal" value="{{ nf_value }}" onChange="{{ set_value }}" placeholder="0,00"></div>
+<div class="field"><label>Dia</label><input class="input" inputMode="numeric" value="{{ nf_due }}" onChange="{{ set_due }}"></div>
+</div>
+<div class="field"><label>O valor muda todo mês?</label>
+<div style="display:flex;gap:16px;padding-top:2px">
+<label class="radio"><input type="radio" name="var" checked="{{ nf_isEst }}" onChange="{{ set_est }}"><span class="dot"></span>Sim, é variável</label>
+<label class="radio"><input type="radio" name="var" checked="{{ nf_isFixed }}" onChange="{{ set_fixed }}"><span class="dot"></span>É fixo</label>
+</div>
+</div>
+<div class="field"><label>Débito automático</label>
+<div style="display:flex;gap:16px;padding-top:2px">
+<label class="radio"><input type="radio" name="auto" checked="{{ nf_isAuto }}" onChange="{{ set_auto }}"><span class="dot"></span>Sim — entra como agendada</label>
+<label class="radio"><input type="radio" name="auto" checked="{{ nf_isManual }}" onChange="{{ set_manual }}"><span class="dot"></span>Pago à mão</label>
+</div>
+</div>
+<button class="btn btn-primary btn-block blueprint" onClick="{{ saveNew }}">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+Salvar conta recorrente
+</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+<sc-if value="{{ undoOpen }}" hint-placeholder-val="{{ false }}">
+<div class="dialog-backdrop">
+<div class="dialog blueprint" style="background:var(--color-bg);width:min(330px,100%);gap:var(--space-2)">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:19px;line-height:1.15">{{ undoTitle }}</div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:10px 0;margin-top:4px">
+<div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:28px;font-variant-numeric:tabular-nums">{{ undoValue }}</div>
+<div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ undoValueLabel }}</div>
+</div>
+<div style="text-align:right">
+<div style="font-family:var(--font-heading);font-weight:600;font-size:17px">{{ undoDate }}</div>
+<div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">data da baixa</div>
+</div>
+</div>
+<div style="font-size:12px;line-height:1.35;color:color-mix(in srgb,var(--color-text) 60%,transparent)">{{ undoNote }}</div>
+<button class="btn btn-primary btn-block" style="height:44px" onClick="{{ confirmUndo }}">{{ undoCta }}</button>
+<button class="btn btn-secondary btn-block" onClick="{{ closeUndo }}">Manter como paga</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+<div class="dialog-backdrop">
+<div class="dialog blueprint" style="background:var(--color-bg);width:min(342px,100%)">
+<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+<div>
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700)">{{ modalKicker }}</div>
+<div class="dialog-title">{{ modalName }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 55%,transparent)">{{ modalOrg }} · vence em {{ modalDue }}</div>
+</div>
+<div class="field">
+<label>Valor {{ modalValueLabel }}</label>
+<div style="display:flex;align-items:stretch">
+<span style="display:grid;place-items:center;padding:0 10px;border:1px solid var(--color-divider);border-right:0;background:var(--color-surface);font-size:13px">R$</span>
+<input class="input" inputMode="decimal" value="{{ modalValue }}" onChange="{{ onValueChange }}">
+</div>
+<div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin-top:4px">{{ modalHint }}</div>
+</div>
+<div class="field">
+<label>Data</label>
+<input class="input" value="{{ modalDate }}" onChange="{{ onDateChange }}">
+</div>
+<sc-if value="{{ modalLate }}" hint-placeholder-val="{{ false }}">
+<div style="background:var(--color-accent-100);color:var(--color-accent-800);padding:8px 10px;font-size:12px;line-height:1.35">{{ modalLateNote }}</div>
+</sc-if>
+<div class="dialog-actions">
+<button class="btn btn-secondary" onClick="{{ closeModal }}">Cancelar</button>
+<button class="btn btn-primary" onClick="{{ confirmPay }}">{{ modalCta }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:940},&quot;today&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;15/09/2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Dados&quot;},&quot;alertDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:1,&quot;max&quot;:10,&quot;unit&quot;:&quot;dias&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Avisos&quot;},&quot;monthPicker&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;setas&quot;,&quot;fita&quot;],&quot;default&quot;:&quot;setas&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+const MONTHS = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const FULL = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+
+const SEED = [
+  { id:"agu", code:"ÁGU", name:"Água", org:"Sabesp", kind:"pay", due:5, est:true, base:98.4, vary:0.18 },
+  { id:"luz", code:"LUZ", name:"Energia elétrica", org:"Enel · unidade 4471", kind:"pay", due:10, est:true, base:214.7, vary:0.22 },
+  { id:"net", code:"NET", name:"Internet fibra", org:"Vivo · plano 500", kind:"pay", due:15, base:129.9, auto:true },
+  { id:"tel", code:"TEL", name:"Telefone móvel", org:"Claro · controle", kind:"pay", due:20, base:59.9, auto:true },
+  { id:"gas", code:"GÁS", name:"Gás encanado", org:"Comgás", kind:"pay", due:25, est:true, base:74.2, vary:0.15 },
+  { id:"alu", code:"ALU", name:"Aluguel", org:"Imobiliária Trilho", kind:"pay", due:5, base:1850 },
+  { id:"sal", code:"SAL", name:"Salário", org:"Metalúrgica Bastos", kind:"rec", due:5, base:6200 },
+  { id:"gar", code:"GAR", name:"Aluguel da garagem", org:"Contrato mensal", kind:"rec", due:10, base:350 }
+];
+
+class Component extends DCLogic {
+  state = {
+    month: 9, screen: "list", detail: null, alertsOpen: false,
+    bills: SEED.slice(),
+    paid: {
+      "8:agu":{d:"04/08",v:92.1}, "8:luz":{d:"10/08",v:198.3}, "8:net":{d:"15/08",v:129.9},
+      "8:tel":{d:"21/08",v:59.9}, "8:gas":{d:"25/08",v:71.4}, "8:alu":{d:"03/08",v:1850},
+      "8:sal":{d:"05/08",v:6200}, "8:gar":{d:"12/08",v:350},
+      "9:alu":{d:"04/09",v:1850}, "9:sal":{d:"05/09",v:6200}
+    },
+    modal: null, mv: "", md: "", undo: null,
+    nf: { name:"", org:"", kind:"pay", value:"", due:"10", est:true, auto:false }
+  };
+
+  today() {
+    const t = String(this.props.today || "15/09/2026").split("/").map(Number);
+    return { d:t[0]||15, m:t[1]||9, y:t[2]||2026 };
+  }
+  pad(n) { return n < 10 ? "0" + n : "" + n; }
+  money(n) {
+    const s = Math.abs(n).toFixed(2).split(".");
+    return "R$ " + s[0].replace(/\B(?=(\d{3})+$)/g, ".") + "," + s[1];
+  }
+  amountFor(b, m) {
+    if (!b.vary) return b.base;
+    const wobble = Math.sin((m * 7 + b.id.charCodeAt(0)) * 1.7);
+    return Math.round(b.base * (1 + wobble * b.vary) * 100) / 100;
+  }
+
+  items(month) {
+    const T = this.today();
+    return this.state.bills.map(b => {
+      const key = month + ":" + b.id;
+      const paid = this.state.paid[key];
+      const amount = paid ? paid.v : this.amountFor(b, month);
+      const dueLabel = this.pad(b.due) + "/" + this.pad(month);
+      const past = month < T.m || (month === T.m && b.due < T.d);
+      const late = !paid && !b.auto && past;
+      const todayDue = !paid && month === T.m && b.due === T.d;
+      const scheduled = !paid && b.auto && !past;
+      const days = Math.abs((T.d - b.due) + (T.m - month) * 30);
+      const paidLate = paid && Number(paid.d.slice(0, 2)) > b.due;
+      const TONE = {
+        red: "background:#f4e6e6;color:#8f3d3d;border:1px solid color-mix(in srgb,#8f3d3d 35%,transparent)",
+        amber: "background:#f6efdc;color:#7d6220;border:1px solid color-mix(in srgb,#7d6220 35%,transparent)",
+        green: "background:#e7f0e8;color:#3f6b48;border:1px solid color-mix(in srgb,#3f6b48 35%,transparent)",
+        plain: ""
+      };
+      let status = "A vencer", tagClass = "tag-neutral", tone = "plain", meta = "vence em " + dueLabel;
+      if (paid) {
+        status = paidLate ? (b.kind === "pay" ? "Paga com atraso" : "Recebida com atraso") : (b.kind === "pay" ? "Paga" : "Recebida");
+        tagClass = paidLate ? "tag-outline" : "tag-accent";
+        tone = "green";
+        meta = "baixa em " + paid.d;
+      } else if (late) {
+        status = b.kind === "pay" ? "Vencida" : "Em atraso";
+        tagClass = "tag-outline"; tone = "red";
+        meta = "há " + days + (days === 1 ? " dia" : " dias") + " · venc. " + dueLabel;
+      } else if (todayDue) {
+        status = "Vence hoje"; tagClass = "tag-accent-2"; tone = "amber"; meta = dueLabel;
+      } else if (b.auto && past) {
+        status = "Agendada"; tagClass = "tag-neutral"; meta = "débito em " + dueLabel;
+      } else if (scheduled) {
+        status = "Agendada"; tagClass = "tag-neutral"; meta = "débito automático em " + dueLabel;
+      }
+      return {
+        key, id: b.id, code: b.code, name: b.name, org: b.org, kind: b.kind, due: dueLabel, dueDay: b.due,
+        amount, signed: b.kind === "pay" ? -amount : amount,
+        amountLabel: (b.kind === "rec" ? "+" : "−") + this.money(amount).replace("R$ ", ""),
+        amountColor: b.kind === "rec" ? "var(--color-accent-700)" : "var(--color-text)",
+        estimated: !paid && !!b.est,
+        late, todayDue, scheduled, done: !!paid, open: !paid,
+        status, tagClass, tagStyle: TONE[tone], hasTone: tone !== "plain", plainTone: tone === "plain", meta, days,
+        onOpen: () => this.setState({ screen: "detail", detail: b.id }),
+        onPay: () => this.setState({
+          modal: { key, name: b.name, org: b.org, due: dueLabel, kind: b.kind, late, amount },
+          mv: amount.toFixed(2).replace(".", ","),
+          md: this.pad(T.d) + "/" + this.pad(T.m) + "/" + T.y
+        }),
+        onUndo: () => this.setState({ undo: { key, name: b.name, org: b.org, due: dueLabel, kind: b.kind, paidDate: paid ? paid.d : "", value: paid ? paid.v : 0 } })
+      };
+    });
+  }
+
+  renderVals() {
+    const T = this.today();
+    const m = this.state.month;
+    const list = this.items(m);
+    const late = list.filter(i => i.late);
+    const todays = list.filter(i => i.todayDue);
+    const sched = list.filter(i => i.open && !i.late && !i.todayDue && i.scheduled);
+    const soon = list.filter(i => i.open && !i.late && !i.todayDue && !i.scheduled);
+    const done = list.filter(i => i.done);
+    const sum = a => a.reduce((t, i) => t + i.amount, 0);
+    const groups = [];
+    const push = (title, arr) => { if (arr.length) groups.push({ title: title + " · " + arr.length, total: this.money(sum(arr)), items: arr }); };
+    push("Vencidas", late); push("Vence hoje", todays); push("A vencer", soon);
+    push("Agendadas", sched); push("Concluídas", done);
+
+    const openPay = list.filter(i => i.open && i.kind === "pay");
+    const openRec = list.filter(i => i.open && i.kind === "rec");
+    const balance = list.reduce((t, i) => t + i.signed, 0);
+
+    const alertDays = this.props.alertDays == null ? 3 : this.props.alertDays;
+    const alerts = [];
+    late.forEach(i => alerts.push({ text: i.name + " venceu em " + i.due + " — " + this.money(i.amount) + (i.kind === "pay" ? " em aberto" : " a receber") }));
+    todays.forEach(i => alerts.push({ text: i.name + " vence hoje — " + this.money(i.amount) }));
+    soon.filter(i => i.dueDay - T.d <= alertDays && i.dueDay >= T.d).forEach(i => alerts.push({ text: i.name + " vence em " + (i.dueDay - T.d) + " dias (" + i.due + ") — " + this.money(i.amount) }));
+
+    const strip = [7, 8, 9, 10, 11].map(mm => {
+      const active = mm === m;
+      const mine = this.items(mm);
+      const openCount = mine.filter(i => i.open && !i.scheduled).length;
+      return {
+        label: MONTHS[mm - 1], note: mm > T.m ? "previsto" : openCount ? openCount + " aberta" : "fechado",
+        bg: active ? "var(--color-accent)" : "transparent",
+        fg: active ? "var(--color-bg)" : "var(--color-text)",
+        onPick: () => this.setState({ month: mm })
+      };
+    });
+
+    const b = this.state.bills.find(x => x.id === this.state.detail);
+    let d = {};
+    if (b) {
+      const months = [4, 5, 6, 7, 8, 9].map(mm => {
+        const p = this.state.paid[mm + ":" + b.id];
+        const v = p ? p.v : this.amountFor(b, mm);
+        return { m: mm, v, paid: p, projected: !p };
+      });
+      const max = Math.max.apply(null, months.map(x => x.v)) || 1;
+      const avg = months.reduce((t, x) => t + x.v, 0) / months.length;
+      d = {
+        d_kicker: b.kind === "pay" ? "Conta a pagar · mensal" : "A receber · mensal",
+        d_name: b.name, d_org: b.org, d_code: b.code, d_due: b.due, d_avg: this.money(avg),
+        d_history: months.map(x => ({
+          month: MONTHS[x.m - 1], short: Math.round(x.v),
+          h: Math.max(6, Math.round((x.v / max) * 74)) + "px",
+          fill: x.projected ? "color-mix(in srgb, var(--color-accent) 30%, transparent)" : "var(--color-accent)"
+        })),
+        d_rows: months.slice().reverse().map(x => ({
+          month: FULL[x.m - 1], value: this.money(x.v),
+          when: x.paid ? x.paid.d : "em aberto"
+        }))
+      };
+    }
+
+    const un = this.state.undo;
+    const mo = this.state.modal;
+    const nf = this.state.nf;
+    return Object.assign({
+      isList: this.state.screen === "list",
+      isDetail: this.state.screen === "detail" && !!b,
+      isNew: this.state.screen === "new",
+      backToList: () => this.setState({ screen: "list", detail: null }),
+      openNew: () => this.setState({ screen: "new" }),
+      monthName: FULL[m - 1],
+      prevMonth: () => this.setState(s => ({ month: Math.max(7, s.month - 1) })),
+      nextMonth: () => this.setState(s => ({ month: Math.min(11, s.month + 1) })),
+      pickerArrows: (this.props.monthPicker || "setas") === "setas",
+      pickerStrip: (this.props.monthPicker || "setas") === "fita",
+      strip,
+      sumPay: this.money(sum(openPay)), sumRec: "+" + this.money(sum(openRec)).replace("R$ ", ""),
+      sumBalance: (balance < 0 ? "−" : "+") + this.money(balance).replace("R$ ", ""),
+      hasLate: late.length > 0,
+      lateWarning: (late.length === 1 ? "1 conta vencida" : late.length + " contas vencidas") + " — " + this.money(sum(late)) + ". Dê baixa ou reprograme.",
+      groups,
+      alertsOpen: this.state.alertsOpen,
+      toggleAlerts: () => this.setState(s => ({ alertsOpen: !s.alertsOpen })),
+      alerts: alerts.length ? alerts : [{ text: "Nada vencendo nos próximos " + alertDays + " dias." }],
+      alertCount: alerts.length, hasAlerts: alerts.length > 0,
+      alertDaysLabel: alertDays + (alertDays === 1 ? " dia" : " dias"),
+      undoOpen: !!un,
+      undoTitle: un ? (un.kind === "pay" ? "Cancelar o pagamento de " + un.name + "?" : "Cancelar o recebimento de " + un.name + "?") : "",
+      undoValue: un ? this.money(un.value) : "",
+      undoValueLabel: un ? (un.kind === "pay" ? "valor pago" : "valor recebido") : "",
+      undoDate: un ? un.paidDate : "",
+      undoNote: un ? "A conta volta para a lista de " + (un.kind === "pay" ? "a pagar" : "a receber") + ", com vencimento em " + un.due + "." : "",
+      undoCta: un ? (un.kind === "pay" ? "Sim, cancelar o pagamento" : "Sim, cancelar o recebimento") : "",
+      closeUndo: () => this.setState({ undo: null }),
+      confirmUndo: () => this.setState(s => {
+        const p = Object.assign({}, s.paid);
+        delete p[s.undo.key];
+        return { paid: p, undo: null };
+      }),
+      modalOpen: !!mo,
+      modalKicker: mo ? (mo.kind === "pay" ? "Confirmar pagamento" : "Confirmar recebimento") : "",
+      modalName: mo ? mo.name : "", modalOrg: mo ? mo.org : "", modalDue: mo ? mo.due : "",
+      modalValueLabel: mo && mo.kind === "pay" ? "pago" : "recebido",
+      modalHint: mo ? "Previsto: " + this.money(mo.amount) + ". Ajuste se veio diferente." : "",
+      modalCta: mo && mo.kind === "pay" ? "Confirmar pagamento" : "Confirmar recebimento",
+      modalValue: this.state.mv, modalDate: this.state.md,
+      modalLate: !!(mo && mo.late),
+      modalLateNote: mo ? "Vencida em " + mo.due + ". Se pagou juros ou multa, some no valor — a conta fica como “paga com atraso”." : "",
+      onValueChange: e => this.setState({ mv: e.target.value }),
+      onDateChange: e => this.setState({ md: e.target.value }),
+      closeModal: () => this.setState({ modal: null }),
+      confirmPay: () => {
+        const v = parseFloat(String(this.state.mv).replace(/\./g, "").replace(",", ".")) || 0;
+        const dt = String(this.state.md).slice(0, 5);
+        this.setState(s => ({ paid: Object.assign({}, s.paid, { [s.modal.key]: { d: dt, v } }), modal: null }));
+      },
+      nf_name: nf.name, nf_org: nf.org, nf_value: nf.value, nf_due: nf.due,
+      nf_isPay: nf.kind === "pay", nf_isRec: nf.kind === "rec",
+      nf_isEst: nf.est, nf_isFixed: !nf.est, nf_isAuto: nf.auto, nf_isManual: !nf.auto,
+      set_name: e => this.setNf({ name: e.target.value }),
+      set_org: e => this.setNf({ org: e.target.value }),
+      set_value: e => this.setNf({ value: e.target.value }),
+      set_due: e => this.setNf({ due: e.target.value.replace(/\D/g, "").slice(0, 2) }),
+      set_pay: () => this.setNf({ kind: "pay" }), set_rec: () => this.setNf({ kind: "rec" }),
+      set_est: () => this.setNf({ est: true }), set_fixed: () => this.setNf({ est: false }),
+      set_auto: () => this.setNf({ auto: true }), set_manual: () => this.setNf({ auto: false }),
+      saveNew: () => {
+        const n = this.state.nf;
+        if (!n.name.trim()) return;
+        const base = parseFloat(String(n.value).replace(/\./g, "").replace(",", ".")) || 0;
+        const id = "c" + Date.now();
+        const bill = {
+          id, code: n.name.trim().slice(0, 3).toUpperCase(), name: n.name.trim(),
+          org: n.org.trim() || "—", kind: n.kind, due: Math.min(28, Math.max(1, Number(n.due) || 10)),
+          base, est: n.est, vary: n.est ? 0.12 : 0, auto: n.auto
+        };
+        this.setState(s => ({
+          bills: s.bills.concat([bill]), screen: "list",
+          nf: { name:"", org:"", kind:"pay", value:"", due:"10", est:true, auto:false }
+        }));
+      }
+    }, d);
+  }
+
+  setNf(patch) { this.setState(s => ({ nf: Object.assign({}, s.nf, patch) })); }
+}
+
+</script>
+</body>
+</html>
