@@ -46,3 +46,14 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Local SDK and signing secrets
+.fvm/
+*.jks
+*.keystore
+key.properties
+.env
+.env.*
+
+# Kotlin incremental build state
+/android/.kotlin/

@@ -1,4 +1,4 @@
-package com.example.contapaga
+package br.com.mutumsoft.contapaga
 
 import io.flutter.embedding.android.FlutterActivity
 

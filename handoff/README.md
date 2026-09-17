@@ -195,4 +195,4 @@ Nenhuma imagem no protótipo. O HTML usa ícones Lucide; na aplicação Flutter,
 - `support.js` — runtime do protótipo. **Não portar.** Está aqui só para os arquivos HTML abrirem no navegador.
 
 ## Nota sobre o repositório
-A base existente é Flutter/Dart e ainda contém o contador inicial. Mapear as telas e os diálogos para a navegação e o estado definidos na implementação. Consultar o [contexto do projeto](../CONTEXTO_DO_PROJETO.md) para o diagnóstico e o [plano](../PLANO_IMPLEMENTACAO_E_PUBLICACAO.md) para a diretriz vigente e as decisões funcionais pendentes.
+A base Flutter/Dart da fase 2 substituiu o contador por bootstrap, navegação mensal e ajustes; fluxos financeiros permanecem nas fases seguintes. Mapear as telas e os diálogos para a navegação e o estado definidos na implementação. Consultar o [contexto do projeto](../CONTEXTO_DO_PROJETO.md) para o diagnóstico e o [plano](../PLANO_IMPLEMENTACAO_E_PUBLICACAO.md) para a diretriz vigente e as decisões funcionais pendentes.

@@ -20,7 +20,7 @@ Decisões, pendências e exemplos: [registro da fase 0](docs/decisoes/FASE_0_PRO
 
 ## Distribuição — fase 1 em andamento
 
-Inventário e dependências estão no [registro da fase 1](docs/decisoes/FASE_1_DISTRIBUICAO.md). Somente Android neste lançamento. Titular pessoa física, conta Google ativa/verificada e posterior a 13/11/2023, domínio `mutumsoft.com.br` e applicationId `br.com.mutumsoft.contapaga` confirmados pelo usuário. Código ainda usa o ID de exemplo; disponibilidade/registro no Play Console não verificados. Contatos públicos serão providenciados; Android físico e capacidade de reunir testadores confirmados. iOS adiado.
+Inventário e dependências estão no [registro da fase 1](docs/decisoes/FASE_1_DISTRIBUICAO.md). Somente Android neste lançamento. Titular pessoa física, conta Google ativa/verificada e posterior a 13/11/2023, domínio `mutumsoft.com.br` e applicationId `br.com.mutumsoft.contapaga` confirmados pelo usuário. Código Android já usa o ID escolhido; disponibilidade/registro no Play Console não verificados. Contatos públicos serão providenciados; Android físico e capacidade de reunir testadores confirmados. iOS adiado.
 
 ## 2. Visão do produto
 
@@ -42,7 +42,7 @@ O protótipo trata de compromissos financeiros em geral. Não há emissão, leit
 | [handoff/styles.css](handoff/styles.css) | Tokens e componentes Industry do protótipo histórico, sem obrigação de reprodução no app. |
 | [CSS referenciado pelos HTMLs](handoff/_ds/industry-873cda80-4c77-4324-a744-775e806bc163/styles.css) | Cópia idêntica do CSS da raiz do handoff nesta revisão. |
 | [support.js](handoff/support.js) e `_ds/.../_ds_bundle.js` | Runtime e suporte da exportação; não são a arquitetura da aplicação. |
-| [pubspec.yaml](pubspec.yaml), [lib/main.dart](lib/main.dart) e [test/widget_test.dart](test/widget_test.dart) | Base Flutter existente e teste padrão do contador. |
+| [pubspec.yaml](pubspec.yaml), [lib/main.dart](lib/main.dart) e [test/widget_test.dart](test/widget_test.dart) | Bootstrap Conta Paga e testes da navegação/persistência da base. |
 
 O pacote atual não contém `readme.md`, `_ds_manifest.json` ou `_adherence.oxlintrc.json` dentro do design system; referências anteriores a esses arquivos foram removidas. Não foram encontrados backend, banco de dados ou testes do domínio financeiro.
 
@@ -130,9 +130,9 @@ O material utiliza HTML com elementos `x-dc`, `sc-if` e `sc-for`, expressões `{
 
 Isso descreve apenas a exportação. **A base de implementação existente é Flutter/Dart**, com pacote `contapaga`, restrição de SDK Dart `^3.13.3` e dependências declaradas Flutter e `cupertino_icons`. Há diretórios para Android, iOS, web, macOS, Linux e Windows; isso não confirma plataformas de lançamento ou builds validados.
 
-`lib/main.dart` ainda contém o contador padrão (`Flutter Demo`), com `MaterialApp`, tema roxo e estado local via `setState`. `test/widget_test.dart` testa esse contador; o README da raiz também é o padrão do Flutter. Nenhuma tela financeira do handoff foi implementada. Não há fontes Barlow ou pacote Lucide declarados no `pubspec.yaml`.
+`lib/main.dart` inicializa a base Conta Paga da fase 2: Material em pt-BR, navegação mensal, ajustes/sobre e persistência SQLite do mês selecionado. Estado usa ChangeNotifier e navegação usa Navigator; relógio, armazenamento e repositório são injetáveis. Testes cobrem a base e integração SQLite. Domínio financeiro, cadastros, baixas e histórico ainda não foram implementados. Evidências em [fase 2](docs/decisoes/FASE_2_BASE_TECNICA.md).
 
-Roteamento, gerenciamento de estado e biblioteca de persistência ainda dependem de seleção técnica. Armazenamento local sem autenticação/backend na v1 já está aprovado; a evolução Pro segue o ADR 001. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (baixa e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
+Roteamento, estado e persistência da base foram definidos na fase 2; o esquema financeiro será implementado nas fases 3–4. Armazenamento local sem autenticação/backend na v1 já está aprovado; a evolução Pro segue o ADR 001. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (baixa e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
 
 ### Diretrizes explícitas para a aplicação
 

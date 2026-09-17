@@ -1,6 +1,6 @@
 # Conta Paga — plano de implementação e publicação
 
-Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fase 1 em andamento; fases 2–12 pendentes de implementação e validação.
+Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fase 1 em andamento; fase 2 concluída nesta execução (exceto Android físico); fases 3–12 pendentes de implementação e validação.
 
 ## 1. Objetivo e fontes
 
@@ -113,20 +113,22 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 ## Fase 2 — preparar a base Flutter e o processo de desenvolvimento
 
-- [ ] Executar `flutter doctor -v`, registrar Flutter/Dart, Java, Android SDK e Xcode; resolver incompatibilidades com a restrição Dart atual e fixar uma versão Flutter reproduzível.
-- [ ] Executar análise, teste e builds de diagnóstico da base; registrar falhas existentes sem tratá-la como produto funcional.
-- [ ] Substituir descrição, título e estrutura padrão do contador por bootstrap do Conta Paga.
-- [ ] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recorrencias`, `lib/features/mes`, `lib/features/historico` e `lib/features/ajustes`.
-- [ ] Escolher uma abordagem única de gerenciamento de estado e navegação, evitando dependências sem necessidade demonstrada.
-- [ ] Definir interfaces para repositórios, relógio/data atual e armazenamento; permitir testes sem relógio do dispositivo ou banco real quando apropriado.
-- [ ] Fixar piso Android API 24 e selecionar/validar dependências compatíveis; registrar versões e builds.
-- [ ] Avaliar plugin de notificações locais e provar agendamento com app fechado, permissão negada e limites de reposição antes de integrar o produto.
-- [ ] Selecionar biblioteca de persistência e formatação com suporte Android, manutenção e licenças verificadas; versionar lockfile.
-- [ ] Estabelecer análise estática, formatação e testes em CI; builds Android em agentes compatíveis, sem credenciais em texto no repositório.
-- [ ] Preparar convenção de versão/build, ambientes de teste e produção, fixtures isoladas e mensagens de erro compreensíveis.
-- [ ] Atualizar README com instalação, execução, testes, arquitetura e referência ao handoff; excluir o runtime HTML dos assets de distribuição.
+**Concluída nesta execução (16/09/2026), exceto Android físico (aguarda inventário de aparelho da fase 1).** Evidências em [base técnica da fase 2](docs/decisoes/FASE_2_BASE_TECNICA.md).
 
-**Entrega:** app Flutter organizado, inicialização própria e pipeline básico. **Saída:** projeto instala em Android e checks básicos são reproduzíveis por outra máquina.
+- [x] Executar `flutter doctor -v`, registrar Flutter/Dart, Java, Android SDK e Xcode; resolver incompatibilidades com a restrição Dart atual e fixar uma versão Flutter reproduzível.
+- [x] Executar análise, teste e builds de diagnóstico da base; registrar falhas existentes sem tratá-la como produto funcional.
+- [x] Substituir descrição, título e estrutura padrão do contador por bootstrap do Conta Paga.
+- [x] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recorrencias`, `lib/features/mes`, `lib/features/historico` e `lib/features/ajustes`.
+- [x] Escolher uma abordagem única de gerenciamento de estado e navegação, evitando dependências sem necessidade demonstrada.
+- [x] Definir interfaces para repositórios, relógio/data atual e armazenamento; permitir testes sem relógio do dispositivo ou banco real quando apropriado.
+- [x] Fixar piso Android API 24 e selecionar/validar dependências compatíveis; registrar versões e builds.
+- [x] Avaliar plugin de notificações locais e provar agendamento com app fechado, permissão negada e limites de reposição antes de integrar o produto.
+- [x] Selecionar biblioteca de persistência e formatação com suporte Android, manutenção e licenças verificadas; versionar lockfile.
+- [x] Estabelecer análise estática, formatação e testes em CI; builds Android em agentes compatíveis, sem credenciais em texto no repositório.
+- [x] Preparar convenção de versão/build, ambientes de teste e produção, fixtures isoladas e mensagens de erro compreensíveis.
+- [x] Atualizar README com instalação, execução, testes, arquitetura e referência ao handoff; excluir o runtime HTML dos assets de distribuição.
+
+**Entrega:** app Flutter organizado, inicialização própria e pipeline básico. **Saída:** projeto instala em Android e checks básicos são reproduzíveis por outra máquina. Validado localmente (format, analyze, testes unitários, teste de integração e build debug no emulador); execução em Android físico e em CI remota seguem pendentes por dependerem de recursos fora desta execução (aparelho do titular; push ao GitHub).
 
 ## Fase 3 — implementar e testar o domínio financeiro
 

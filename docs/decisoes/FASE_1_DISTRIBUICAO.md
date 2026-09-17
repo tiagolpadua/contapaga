@@ -13,7 +13,7 @@ A classificação comercial de gratuidade está definida. Categoria das lojas e 
 - Publicação como **pessoa física**, sob responsabilidade do usuário.
 - **Somente Android/Google Play neste lançamento.** iOS/App Store adiados; inscrição Apple, equipe, Bundle ID, Xcode e iPhone físico não bloqueiam esta fase.
 - Conta Google Play declarada ativa e verificada, criada **após 13/11/2023**. Acesso administrativo, multifator e pendências contratuais ainda devem ser conferidos no console.
-- Domínio controlado confirmado: **mutumsoft.com.br**. Identificador escolhido: **`br.com.mutumsoft.contapaga`** para Android; mesma identidade aceita para eventual iOS futuro. Disponibilidade/registro nos serviços ainda não verificados, e código ainda usa o identificador de exemplo.
+- Domínio controlado confirmado: **mutumsoft.com.br**. Identificador escolhido: **`br.com.mutumsoft.contapaga`** para Android; mesma identidade aceita para eventual iOS futuro. Disponibilidade/registro nos serviços ainda não verificados, e identificador já aplicado ao código Android na fase 2.
 - E-mail público e URLs de suporte/privacidade serão providenciados pelo titular.
 - Android físico disponível; modelo/versão ainda não informados. Titular consegue reunir os testadores; não significa que já foram recrutados ou inscritos.
 - Teste fechado aplicável: pelo menos 12 participantes inscritos continuamente por 14 dias, seguido de solicitação de acesso à produção, conforme referência oficial abaixo. Responsável pelo recrutamento: titular; execução nas fases 9–10.
@@ -26,10 +26,10 @@ Usar Android físico para fluxos reais, notificações e instalação via Play, 
 
 | Item | Evidência em 16/09/2026 | Próxima ação |
 | --- | --- | --- |
-| Android applicationId/namespace | `com.example.contapaga`, em `android/app/build.gradle.kts` | Escolher identificador sob domínio controlado; verificar nos consoles antes de registrar |
+| Android applicationId/namespace | `br.com.mutumsoft.contapaga`, aplicado na fase 2 | Verificar/registrar no Play Console; código não reserva a identidade |
 | iOS Bundle ID | `com.example.contapaga`, em `ios/Runner.xcodeproj/project.pbxproj` | Adiado: identidade proposta aceita, registro Apple futuro |
 | Equipe Apple configurada | `Z4R232Y5QA` | Adiado: iOS fora do lançamento atual |
-| Nome instalado Android | `contapaga` no manifest | Aplicar Conta Paga na preparação de identidade/build |
+| Nome instalado Android | `Conta Paga`, aplicado na fase 2 | Confirmado no APK de desenvolvimento |
 | Nome instalado iOS | `Contapaga` no Info.plist | Aplicar Conta Paga na preparação de identidade/build |
 | Ambiente Mac | macOS 26.6.2; Xcode 26.6, build 17F113 | Executar diagnóstico completo na fase 2 e build assinado na fase 9 |
 | Xcode selecionado | `/Applications/Xcode.app/Contents/Developer` | Acesso a equipe, certificados e provisioning ainda não verificado |
