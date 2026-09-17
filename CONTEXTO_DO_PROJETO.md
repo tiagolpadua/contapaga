@@ -1,5 +1,7 @@
 # Contexto do projeto — Conta Paga
 
+> Revisão de escopo na fase 1 (16/09/2026): lançamento somente em celulares Android/Google Play. iOS, App Store e respectivos requisitos foram adiados; referências ao lançamento conjunto abaixo representam a decisão inicial superada. Titular pessoa física, domínio `mutumsoft.com.br` e applicationId escolhido `br.com.mutumsoft.contapaga`. Ver [registro de distribuição](docs/decisoes/FASE_1_DISTRIBUICAO.md).
+
 Atualizado em 16/09/2026 a partir do pacote `handoff/`, da base Flutter e da decisão visual registrada no plano de implementação e publicação.
 
 ## 1. Objetivo deste documento
@@ -15,6 +17,10 @@ As respostas do titular aprovaram a v1 individual, local/offline, gratuita, sem 
 O escopo foi ampliado para recorrências diárias, semanais, mensais e anuais, com quantidade fixa de ocorrências, e notificações no celular. O modelo exclusivamente mensal e a ausência de notificações descritos no protótipo não limitam mais a v1. Intervalos N, dias semanais, término por data/quantidade, valores por ocorrência e resumo local diário às 9h ajustável estão aprovados. Mínimos definidos: Android API 24 e iOS 15; integração de dependências e builds serão verificados na fase 2.
 
 Decisões, pendências e exemplos: [registro da fase 0](docs/decisoes/FASE_0_PRODUTO.md). Arquitetura: [ADR 001](docs/decisoes/ADR_001_BASE_LOCAL_E_EVOLUCAO_PRO.md). As seções de experiência e código abaixo descrevem a demonstração; lacunas históricas resolvidas devem ser interpretadas conforme esse registro vigente.
+
+## Distribuição — fase 1 em andamento
+
+Inventário e dependências estão no [registro da fase 1](docs/decisoes/FASE_1_DISTRIBUICAO.md). Somente Android neste lançamento. Titular pessoa física, conta Google ativa/verificada e posterior a 13/11/2023, domínio `mutumsoft.com.br` e applicationId `br.com.mutumsoft.contapaga` confirmados pelo usuário. Código ainda usa o ID de exemplo; disponibilidade/registro no Play Console não verificados. Contatos públicos serão providenciados; Android físico e capacidade de reunir testadores confirmados. iOS adiado.
 
 ## 2. Visão do produto
 

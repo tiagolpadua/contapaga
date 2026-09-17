@@ -1,5 +1,7 @@
 # ADR 001 — base local e evolução para Pro
 
+> Revisão de escopo na fase 1 (16/09/2026): lançamento somente em celulares Android/Google Play. iOS, App Store e respectivos requisitos foram adiados; referências ao lançamento conjunto abaixo representam a decisão inicial superada. Titular pessoa física, domínio `mutumsoft.com.br` e applicationId escolhido `br.com.mutumsoft.contapaga`. Ver [registro de distribuição](FASE_1_DISTRIBUICAO.md).
+
 Data: 16/09/2026. Status: diretriz de arquitetura definida para atender ao escopo aprovado; implementação pendente.
 
 ## Contexto e decisão

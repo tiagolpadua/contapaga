@@ -1,10 +1,10 @@
 # Conta Paga — plano de implementação e publicação
 
-Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fases 1–12 pendentes de implementação e validação.
+Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fase 1 em andamento; fases 2–12 pendentes de implementação e validação.
 
 ## 1. Objetivo e fontes
 
-Sair do projeto Flutter inicial e entregar o Conta Paga funcional, testado e disponível publicamente na Google Play Store e na App Store, com processo de atualização e suporte definido.
+Sair do projeto Flutter inicial e entregar o Conta Paga funcional, testado e disponível publicamente na Google Play Store, com processo de atualização e suporte definido.
 
 Fontes locais: [contexto do projeto](CONTEXTO_DO_PROJETO.md), [handoff](handoff/README.md), [protótipo principal](<handoff/Contas Recorrentes.dc.html>), [variações](handoff/Variacoes.dc.html), [tokens visuais](handoff/styles.css), [pubspec.yaml](pubspec.yaml), [código inicial](lib/main.dart) e configurações Android/iOS. Os requisitos externos citados foram consultados para este planejamento e devem ser reconferidos antes da submissão. Não foram executados builds, testes ou consultas às contas das lojas nesta análise.
 
@@ -27,7 +27,7 @@ As simplificações de datas, memória e valores sintéticos do protótipo não 
 | Qualidade | Sem testes financeiros ou integração do produto | Cobertura dos riscos de negócio e testes em dispositivos |
 | Operação | Sem backend ou processo de release do produto identificado | Decidir armazenamento, suporte, privacidade e distribuição |
 
-A presença de diretórios web e desktop não os inclui no lançamento. O caminho deste plano é Android e iOS. O deployment target iOS é distinto da versão do SDK exigida para compilar e enviar o app.
+A presença de diretórios web e desktop não os inclui no lançamento. Por decisão do titular na fase 1, o lançamento atual é somente Android. iOS/App Store ficam adiados; referências Apple preservadas são planejamento futuro e não bloqueiam este lançamento.
 
 ## 3. Recorte aprovado para a versão 1.0
 
@@ -45,7 +45,7 @@ A presença de diretórios web e desktop não os inclui no lançamento. O caminh
 
 ### Caminho aprovado na fase 0
 
-Aplicativo individual, pt-BR, BRL, offline, local, sem login, gratuito, sem anúncios ou assinatura, distribuído inicialmente no Brasil para celulares Android e iPhone. Piso técnico Android API 24 e iOS 15; selecionar dependências compatíveis e validar na fase 2. Tablets/iPad não são alvos desta versão.
+Aplicativo individual, pt-BR, BRL, offline, local, sem login, gratuito, sem anúncios ou assinatura, distribuído inicialmente no Brasil para celulares Android. Piso técnico Android API 24; iOS foi adiado na fase 1; selecionar dependências compatíveis e validar na fase 2. Tablets/iPad não são alvos desta versão.
 
 Incluídos: edição prospectiva por data, encerramento, exportação/importação de backup por substituição confirmada, backup do sistema quando disponível e ajustes/ajuda/privacidade. Arquitetura preparada para futura Pro com login Google e backup em nuvem, conforme ADR 001; sem implementar esses serviços na v1 ou presumir sincronização.
 
@@ -66,7 +66,7 @@ Ficam fora: transações bancárias, emissão/leitura de boletos, Open Finance, 
 | 8 | Privacidade e materiais das lojas prontos | Escopo fechado; finalizar após fases 6–7 | Produto + titular |
 | 9 | Builds assinados em canais de teste | Fases 1, 7 e requisitos de 8 | Desenvolvimento + titular |
 | 10 | Beta validado e candidato final | Fase 9 | QA + usuários de teste |
-| 11 | Aprovação e publicação nas duas lojas | Fases 8–10 | Titular + desenvolvimento |
+| 11 | Aprovação e publicação na Google Play | Fases 8–10 | Titular + desenvolvimento |
 | 12 | Operação e primeira atualização preparadas | Fase 11 | Produto + desenvolvimento |
 
 As fases 1 e 8 devem começar cedo para reduzir espera externa. A fase 5 pode avançar com dados de teste enquanto domínio e persistência são construídos. Isso é uma ordem de trabalho, não uma exigência de equipe paralela.
@@ -78,7 +78,7 @@ Papéis podem ser exercidos pela mesma pessoa. O titular responde por contas, co
 **Concluída documentalmente em 16/09/2026.** Responsáveis: titular (decisões aprovadas em conversa) e desenvolvimento (consolidação e diretrizes técnicas). Evidências: [decisões e exemplos](docs/decisoes/FASE_0_PRODUTO.md), [ADR 001](docs/decisoes/ADR_001_BASE_LOCAL_E_EVOLUCAO_PRO.md), [contexto](CONTEXTO_DO_PROJETO.md) e [handoff](handoff/README.md).
 
 - [x] Registrar armazenamento local/offline, sem login na v1, Brasil, pt-BR, BRL e gratuidade; arquitetura preparada para futura Pro.
-- [x] Definir celulares Android/iPhone e pisos Android API 24/iOS 15 com base no Flutter local 3.47.4; seleção e builds dos plugins compatíveis são tarefas da fase 2.
+- [x] Definir celulares e piso técnico: decisão inicial Android API 24/iOS 15, revisada pelo titular na fase 1 para somente Android API 24. Seleção e builds dos plugins compatíveis são tarefas da fase 2.
 - [x] Manter lista agrupada, baixa 1d, cancelamento 1j e mês por setas 1g.
 - [x] Registrar Material padrão com tema de cores no contexto e handoff.
 - [x] Aprovar regras de competência, vigência, dias inexistentes, baixa, atraso, automático, saldo, previsão, histórico, edição, encerramento e exclusão.
@@ -94,18 +94,22 @@ Papéis podem ser exercidos pela mesma pessoa. O titular responde por contas, co
 
 **Objetivo:** antecipar dependências administrativas de publicação.
 
-- [ ] Confirmar titular pessoa física ou organização e disponibilidade das contas Google Play Console e Apple Developer Program; concluir cadastro, verificação e contratos aplicáveis.
-- [ ] Conferir exigências de identificação, documentos da organização e custos vigentes nos próprios consoles. Registrar responsáveis e acessos com autenticação multifator.
-- [ ] Confirmar que a equipe Apple configurada no projeto pertence ao titular e pode distribuir o app; presença do identificador de equipe não prova acesso ou inscrição ativa.
-- [ ] Escolher `applicationId` e Bundle ID definitivos sob domínio controlado pelo titular, verificando disponibilidade antes de criar os registros.
-- [ ] Criar os registros do aplicativo nos consoles quando habilitados, com nome Conta Paga e identidade consistente.
-- [ ] Definir endereço de suporte, domínio/URLs públicas de suporte e privacidade, regiões e classificação comercial.
-- [ ] Verificar se a conta Google está sujeita ao teste fechado obrigatório; recrutar usuários reais com antecedência.
-- [ ] Planejar Android físico e iPhone físico para QA e um Mac/toolchain compatível para build iOS.
+**Em andamento (16/09/2026):** titular pessoa física, Google Play declarada ativa/verificada e criada após 13/11/2023. Domínio `mutumsoft.com.br` e ID `br.com.mutumsoft.contapaga` escolhidos. Somente Android neste lançamento; iOS adiado. Evidências e pendências no [registro da fase 1](docs/decisoes/FASE_1_DISTRIBUICAO.md); consoles ainda não acessados nesta execução.
+
+- [x] Confirmar titular pessoa física e conta Google ativa/verificada por declaração do usuário.
+- [ ] Conferir acesso administrativo, multifator e contratos aplicáveis no Play Console.
+- [x] Escolher applicationId `br.com.mutumsoft.contapaga` sob domínio controlado confirmado pelo titular.
+- [ ] Verificar identidade e criar/verificar registro Conta Paga no Play Console; registrar evidências e link administrativo.
+- [ ] Definir e-mail e URLs públicas de suporte/privacidade; titular providenciará. Brasil e gratuidade já aprovados.
+- [x] Identificar exigência de teste fechado pela data declarada da conta; titular confirmou capacidade de reunir participantes.
+- [ ] Organizar recrutamento para cumprir 12 participantes/14 dias na fase 10; não confundir capacidade de recrutamento com teste cumprido.
+- [x] Definir QA em Android físico disponível, complementado por emuladores; modelo/versão a inventariar antes dos testes.
+
+Apple Developer, equipe Apple, Bundle ID, App Store Connect e iPhone físico ficam adiados e não integram o critério de saída atual.
 
 Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado com pelo menos 12 participantes inscritos continuamente por 14 dias antes da solicitação de acesso à produção. Cumprir o período não equivale à aprovação automática. [Requisito oficial de testes](https://support.google.com/googleplay/android-developer/answer/14151465).
 
-**Entrega:** contas aptas, identificadores definidos e dependências externas registradas. **Saída:** titular e equipe conseguem acessar os consoles e executar a distribuição de teste quando o build estiver pronto.
+**Entrega:** contas aptas, identificadores definidos e dependências externas registradas. **Saída:** titular consegue acessar o Play Console e executar a distribuição de teste quando o build estiver pronto.
 
 ## Fase 2 — preparar a base Flutter e o processo de desenvolvimento
 
@@ -115,14 +119,14 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recorrencias`, `lib/features/mes`, `lib/features/historico` e `lib/features/ajustes`.
 - [ ] Escolher uma abordagem única de gerenciamento de estado e navegação, evitando dependências sem necessidade demonstrada.
 - [ ] Definir interfaces para repositórios, relógio/data atual e armazenamento; permitir testes sem relógio do dispositivo ou banco real quando apropriado.
-- [ ] Fixar piso Android API 24/iOS 15, restringir alvo iOS a iPhone e selecionar/validar dependências compatíveis; registrar versões e builds.
+- [ ] Fixar piso Android API 24 e selecionar/validar dependências compatíveis; registrar versões e builds.
 - [ ] Avaliar plugin de notificações locais e provar agendamento com app fechado, permissão negada e limites de reposição antes de integrar o produto.
-- [ ] Selecionar biblioteca de persistência e formatação com suporte Android/iOS, manutenção e licenças verificadas; versionar lockfile.
-- [ ] Estabelecer análise estática, formatação e testes em CI; builds Android e iOS em agentes compatíveis, sem credenciais em texto no repositório.
+- [ ] Selecionar biblioteca de persistência e formatação com suporte Android, manutenção e licenças verificadas; versionar lockfile.
+- [ ] Estabelecer análise estática, formatação e testes em CI; builds Android em agentes compatíveis, sem credenciais em texto no repositório.
 - [ ] Preparar convenção de versão/build, ambientes de teste e produção, fixtures isoladas e mensagens de erro compreensíveis.
 - [ ] Atualizar README com instalação, execução, testes, arquitetura e referência ao handoff; excluir o runtime HTML dos assets de distribuição.
 
-**Entrega:** app Flutter organizado, inicialização própria e pipeline básico. **Saída:** projeto instala em Android/iOS e checks básicos são reproduzíveis por outra máquina.
+**Entrega:** app Flutter organizado, inicialização própria e pipeline básico. **Saída:** projeto instala em Android e checks básicos são reproduzíveis por outra máquina.
 
 ## Fase 3 — implementar e testar o domínio financeiro
 
@@ -170,7 +174,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Especificar fechamento/retorno dos modais, foco inicial e proteção de dados de formulário não salvos usando os mecanismos dos componentes padrão.
 - [ ] Validar telas e estados pelos fluxos do handoff e pela consistência com Material Design; a comparação visual com Industry não é critério de aceite.
 
-**Entrega:** telas compostas com widgets Material padrão, tema de cores e navegação funcional. **Saída:** uso consistente dos componentes originais, legibilidade e interação adequadas em Android/iOS; qualquer widget personalizado tem necessidade justificada e mantém a base Material.
+**Entrega:** telas compostas com widgets Material padrão, tema de cores e navegação funcional. **Saída:** uso consistente dos componentes originais, legibilidade e interação adequadas em Android; qualquer widget personalizado tem necessidade justificada e mantém a base Material.
 
 ## Fase 6 — concluir os fluxos do produto
 
@@ -192,7 +196,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 ## Fase 7 — qualidade, acessibilidade, segurança e desempenho
 
 - [ ] Substituir o teste do contador por testes úteis do produto: domínio, repositórios, widgets e integração dos fluxos críticos.
-- [ ] Executar testes em Android e iPhone físicos; incluir versões mínima e recente suportadas em dispositivos/emuladores disponíveis.
+- [ ] Executar testes em Android físico; incluir versões mínima e recente suportadas em dispositivos/emuladores disponíveis.
 - [ ] Validar navegação nativa de retorno, teclado decimal, toque duplo, background/foreground, virada de data, offline e interrupção do processo.
 - [ ] Validar TalkBack/VoiceOver, ordem de foco, leitura de valores/status, fonte ampliada, contraste e telas pequenas; testar tablets/iPad se declarados suportados.
 - [ ] Medir em profile/release inicialização, rolagem e histórico com volume representativo — por exemplo, centenas de recorrências e anos de dados — e corrigir travamentos.
@@ -214,15 +218,15 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 | Reinício/atualização | Dados e vínculos preservados |
 | Falha de persistência | Erro visível, nenhuma confirmação falsa |
 
-**Entrega:** relatório de QA e evidências de release. **Saída:** zero defeitos bloqueantes abertos, checks automatizados verdes e fluxos críticos aprovados nas duas plataformas.
+**Entrega:** relatório de QA e evidências de release. **Saída:** zero defeitos bloqueantes abertos, checks automatizados verdes e fluxos críticos aprovados no Android.
 
 ## Fase 8 — privacidade, suporte e conteúdo das lojas
 
 - [ ] Inventariar dados efetivamente armazenados/transmitidos e SDKs: dados financeiros, diagnóstico, backup, suporte e autenticação quando houver.
 - [ ] Redigir política compatível com o comportamento real, identificando responsável, finalidades, armazenamento, compartilhamento, retenção, exclusão e contato; avaliar obrigações aplicáveis à distribuição escolhida.
 - [ ] Publicar URLs públicas e funcionais de privacidade e suporte e disponibilizá-las no app; preparar atendimento básico.
-- [ ] Preencher Data safety da Google e App Privacy da Apple com base no inventário. Não declarar ausência de coleta sem verificar os SDKs e fluxos externos. [Data safety](https://support.google.com/googleplay/android-developer/answer/10787469) e [App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy).
-- [ ] Auditar privacy manifests e justificativas de APIs exigidas no iOS, incluindo dependências nativas; preencher declarações de criptografia/export compliance conforme o binário real. [Requisitos Apple](https://developer.apple.com/news/upcoming-requirements/).
+- [ ] Preencher Data safety da Google (App Privacy Apple fica adiado) com base no inventário. Não declarar ausência de coleta sem verificar os SDKs e fluxos externos. [Data safety](https://support.google.com/googleplay/android-developer/answer/10787469) e [App Privacy](https://developer.apple.com/help/app-store-connect/manage-app-information/manage-app-privacy).
+- Adiado para iOS: auditar privacy manifests e justificativas de APIs exigidas no iOS, incluindo dependências nativas; preencher declarações de criptografia/export compliance conforme o binário real. [Requisitos Apple](https://developer.apple.com/news/upcoming-requirements/).
 - [ ] Se houver criação de conta: implementar exclusão dentro do app e o recurso web exigido pela Google, removendo dados associados conforme política; testar o fluxo antes do beta. [Apple](https://developer.apple.com/support/offering-account-deletion-in-your-app) e [Google](https://support.google.com/googleplay/android-developer/answer/13327111).
 - [ ] Se houver monetização, implementar e testar o mecanismo aplicável, restauração e estados de compra; revisar contratos e regras oficiais antes de incluir cobrança. Sem monetização aprovada, não adicionar SDKs de pagamento/anúncios.
 - [ ] Criar ícone próprio, splash, screenshots reais do app com dados fictícios, arte promocional exigida pela Play e demais assets nos tamanhos vigentes de cada console.
@@ -246,13 +250,13 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Gerar `flutter build appbundle --release`, conferir versão/build, assinatura, permissões e conteúdo; enviar primeiro à faixa interna e instalar pela Play.
 - [ ] Examinar relatórios de pré-lançamento e avisos do console; corrigir bloqueios antes do teste fechado/produção.
 
-### iOS / App Store
+### iOS / App Store — adiado, fora do lançamento atual
 
-- [ ] Configurar Bundle ID definitivo, nome Conta Paga, equipe correta, certificados/perfis de distribuição e capabilities estritamente necessárias.
-- [ ] Ajustar família de dispositivos, orientações, deployment target, ícones e launch screen conforme escopo e QA.
-- [ ] Usar Xcode/SDK aceitos para submissão. A exigência publicada desde 28/04/2026 é Xcode 26 ou superior com SDK iOS 26 ou superior; reconferir no envio. Isso não exige limitar usuários ao iOS 26. [Requisitos oficiais](https://developer.apple.com/news/upcoming-requirements/).
-- [ ] Gerar `flutter build ipa --release`, validar o archive e enviar ao App Store Connect; resolver avisos de assinatura, assets, privacidade e processamento.
-- [ ] Configurar TestFlight e instalar o build distribuído; disponibilizar instruções e contato para testes, cumprindo revisão beta quando aplicável.
+- Adiado: Configurar Bundle ID definitivo, nome Conta Paga, equipe correta, certificados/perfis de distribuição e capabilities estritamente necessárias.
+- Adiado: Ajustar família de dispositivos, orientações, deployment target, ícones e launch screen conforme escopo e QA.
+- Adiado: Usar Xcode/SDK aceitos para submissão. A exigência publicada desde 28/04/2026 é Xcode 26 ou superior com SDK iOS 26 ou superior; reconferir no envio. Isso não exige limitar usuários ao iOS 26. [Requisitos oficiais](https://developer.apple.com/news/upcoming-requirements/).
+- Adiado: Gerar `flutter build ipa --release`, validar o archive e enviar ao App Store Connect; resolver avisos de assinatura, assets, privacidade e processamento.
+- Adiado: Configurar TestFlight e instalar o build distribuído; disponibilizar instruções e contato para testes, cumprindo revisão beta quando aplicável.
 
 ### Processo comum
 
@@ -262,11 +266,11 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 Referências de build: [Flutter Android](https://docs.flutter.dev/deployment/android) e [Flutter iOS](https://docs.flutter.dev/deployment/ios).
 
-**Entrega:** builds release instaláveis pelos canais oficiais nas duas plataformas. **Saída:** instalação, abertura e fluxo financeiro central funcionam nos binários distribuídos, com assinatura correta e sem bloqueios técnicos dos consoles.
+**Entrega:** builds release instaláveis pelos canais oficiais Google Play. **Saída:** instalação, abertura e fluxo financeiro central funcionam nos binários distribuídos, com assinatura correta e sem bloqueios técnicos dos consoles.
 
 ## Fase 10 — beta e estabilização
 
-- [ ] Conduzir teste interno seguido de teste fechado Google e beta TestFlight com pessoas do público-alvo.
+- [ ] Conduzir teste interno seguido de teste fechado Google com pessoas do público-alvo.
 - [ ] Cumprir o período e quantidade mínimos da Google quando aplicáveis; manter evidências de participação e feedback para a solicitação de acesso à produção.
 - [ ] Distribuir roteiro: primeiro cadastro, duas competências, valor variável, baixa tardia, cancelamento, histórico e recuperação de dados.
 - [ ] Registrar erros, dúvidas e comportamento em dispositivos reais; avaliar compreensão do saldo, previsões e débito automático.
@@ -278,18 +282,18 @@ Referências de build: [Flutter Android](https://docs.flutter.dev/deployment/and
 ## Fase 11 — submissão, revisão e publicação
 
 - [ ] Revalidar requisitos oficiais, contratos, status das contas, URLs e declarações para a data efetiva de submissão.
-- [ ] Selecionar os builds finais nos dois consoles, preencher notas de versão e instruções de revisão: criar conta recorrente, dar baixa, desfazer e consultar histórico.
+- [ ] Selecionar os builds finais no Play Console, preencher notas de versão e instruções de revisão: criar conta recorrente, dar baixa, desfazer e consultar histórico.
 - [ ] Explicar nas notas que o app registra compromissos manualmente; fornecer credenciais de teste somente se o produto exigir login.
-- [ ] Submeter Google Play à revisão e Apple App Review; acompanhar mensagens e responder com informação objetiva e evidências.
+- [ ] Submeter Google Play à revisão; acompanhar mensagens e responder com informação objetiva e evidências.
 - [ ] Se houver rejeição, registrar motivo, corrigir código/metadados, incrementar build quando necessário e repetir verificação pertinente antes de reenviar.
-- [ ] Definir liberação manual/gerenciada quando disponível para coordenar data; não pressupor aprovação simultânea.
+- [ ] Definir liberação manual/gerenciada quando disponível para coordenar data.
 - [ ] Publicar nos países aprovados. Usar mecanismos de liberação gradual somente quando disponíveis para aquele tipo de lançamento; não depender de rollout percentual no primeiro lançamento.
-- [ ] Verificar páginas públicas, preço, descrição, capturas e instalação por usuários comuns em Android e iOS, fora dos grupos de teste.
+- [ ] Verificar páginas públicas, preço, descrição, capturas e instalação por usuários comuns em Android, fora dos grupos de teste.
 - [ ] Registrar links públicos, versão, build, data e commit; atualizar README, contexto e este plano com evidências de conclusão.
 
-A Apple exige app completo, metadados reais e acesso suficiente para revisão; a utilidade deve estar demonstrável no próprio produto. A referência de avaliação é o app Flutter funcional, não o protótipo. [Orientações de App Review](https://developer.apple.com/app-store/review/).
+Referência futura, fora do lançamento: a Apple exige app completo, metadados reais e acesso suficiente para revisão; a utilidade deve estar demonstrável no próprio produto. A referência de avaliação é o app Flutter funcional, não o protótipo. [Orientações de App Review](https://developer.apple.com/app-store/review/).
 
-**Entrega:** app disponível publicamente nas duas lojas. **Saída:** links públicos acessíveis nos territórios definidos e instalação/uso do fluxo central confirmados. Upload, beta e aprovação sem liberação não contam como publicação concluída.
+**Entrega:** app disponível publicamente na Google Play. **Saída:** links públicos acessíveis nos territórios definidos e instalação/uso do fluxo central confirmados. Upload, beta e aprovação sem liberação não contam como publicação concluída.
 
 ## Fase 12 — acompanhar o lançamento e preparar atualizações
 
@@ -346,9 +350,9 @@ Caminho crítico: regras decididas → domínio → persistência → fluxos com
 - [ ] Marca, identificadores, assinatura e versões de distribuição definitivos.
 - [ ] Política de privacidade, suporte, declarações e assets publicados e consistentes.
 - [ ] Beta e requisitos de acesso à produção cumpridos.
-- [ ] Google Play e App Store aprovadas e liberadas publicamente.
-- [ ] Instalação pública e fluxo central confirmados em ambas as plataformas.
+- [ ] Google Play aprovada e liberada publicamente.
+- [ ] Instalação pública e fluxo central confirmados no Android.
 - [ ] Links, versões, commit e evidências de publicação registrados.
 - [ ] Suporte e procedimento de hotfix definidos.
 
-Ao executar o plano, marcar uma tarefa somente após verificar sua entrega. Registrar fase, evidência, pendência e responsável. Uma publicação parcial deve indicar qual loja permanece pendente; o objetivo só está concluído quando ambas estiverem disponíveis ao público definido.
+Ao executar o plano, marcar uma tarefa somente após verificar sua entrega. Registrar fase, evidência, pendência e responsável. O lançamento atual só está concluído quando disponível na Google Play ao público definido. iOS não bloqueia essa conclusão e exige planejamento próprio ao ser retomado.

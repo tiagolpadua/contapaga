@@ -1,11 +1,13 @@
 # Fase 0 — decisões de produto
 
+> Revisão de escopo na fase 1 (16/09/2026): lançamento somente em celulares Android/Google Play. iOS, App Store e respectivos requisitos foram adiados; referências ao lançamento conjunto abaixo representam a decisão inicial superada. Titular pessoa física, domínio `mutumsoft.com.br` e applicationId escolhido `br.com.mutumsoft.contapaga`. Ver [registro de distribuição](FASE_1_DISTRIBUICAO.md).
+
 Registro de 16/09/2026. Origem: respostas do titular às perguntas da fase 0 e ampliação solicitada para recorrências e notificações. Decisões de produto aprovadas, incluindo as quatro respostas complementares sobre recorrências, previsão, notificações e edição. Este documento não comprova implementação.
 
 ## Escopo aprovado
 
 - V1 individual, offline, armazenamento local, sem login ou sincronização; gratuita, sem anúncios, assinatura ou compras internas. Brasil, português do Brasil e BRL.
-- Celulares Android e iPhone. Tablets e iPad fora do alvo de lançamento. Piso técnico de produto: Android 7.0/API 24 e iOS 15. Selecionar dependências compatíveis e validar builds na fase 2; eventual necessidade de elevar o piso exige registrar a revisão.
+- Celulares Android. iOS adiado; tablets fora do alvo de lançamento. Piso técnico vigente: Android 7.0/API 24. Selecionar dependências compatíveis e validar builds na fase 2; eventual necessidade de elevar o piso exige registrar a revisão.
 - Preparar arquitetura para futura versão Pro com login Google e backup em nuvem. Pro não faz parte da implementação da v1; cobrança, provedor de nuvem e sincronização entre dispositivos ainda não foram definidos.
 - Exportação/importação manual de backup versionado, com prévia e confirmação para substituir os dados locais, sem mesclagem. Permitir backup automático do sistema operacional quando disponível; não representa sincronização ou garantia de recuperação.
 - Lista agrupada, baixa em formulário (1d), confirmação de reversão (1j), navegação mensal por setas (1g), histórico de seis meses, edição, encerramento e ajustes/ajuda/privacidade.

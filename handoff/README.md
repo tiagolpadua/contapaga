@@ -1,5 +1,7 @@
 # Handoff: Conta Paga — contas recorrentes a pagar e a receber
 
+> Revisão de escopo na fase 1 (16/09/2026): lançamento somente em celulares Android/Google Play. iOS, App Store e respectivos requisitos foram adiados; referências ao lançamento conjunto abaixo representam a decisão inicial superada. Titular pessoa física, domínio `mutumsoft.com.br` e applicationId escolhido `br.com.mutumsoft.contapaga`. Ver [registro de distribuição](../docs/decisoes/FASE_1_DISTRIBUICAO.md).
+
 ## Overview
 App mobile para uma pessoa física / casa controlar contas recorrentes (água, luz, telefone, internet, gás, aluguel) e recebimentos (salário, aluguel de garagem). O usuário escolhe o mês, vê o que está pago e o que está a pagar com as vencidas em destaque, e dá baixa numa conta através de uma modal que já vem preenchida com o valor previsto e a data de hoje.
 
