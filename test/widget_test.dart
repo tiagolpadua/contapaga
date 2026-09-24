@@ -1,6 +1,6 @@
 import 'package:contapaga/app/conta_paga_app.dart';
-import 'package:contapaga/features/mes/data/local_month_repository.dart';
-import 'package:contapaga/features/mes/presentation/month_controller.dart';
+import 'package:contapaga/features/month/data/local_month_repository.dart';
+import 'package:contapaga/features/month/presentation/month_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';

@@ -14,8 +14,8 @@ A v1 funciona offline, sem conta de usuário. Uma futura versão Pro poderá ofe
 - Gerar ocorrências por intervalos consultados, de forma limitada e idempotente; não materializar uma série diária infinita. Preservar ocorrências realizadas e referências estáveis ao alterar a agenda.
 - Separar serialização/restauração de backup do destino de armazenamento. V1 usa arquivo local; Pro poderá usar um adaptador remoto. Restauração validada antes de substituir a base, com transação e nova conciliação dos agendamentos de notificação.
 - Identidade/autenticação, direitos de uso Pro e destino de backup são responsabilidades separadas. Implementar somente os contratos necessários à v1; documentar os pontos de integração futuros, sem criar login fictício, backend ou mecanismo de assinatura agora.
-- Notificações atrás de um serviço próprio, alimentado pelo mesmo domínio da lista. Persistir a alteração financeira antes de conciliar agendamentos; falha de permissão/agendamento não desfaz a gravação financeira. Baixa, reversão, edição, encerramento e restauração devem cancelar/atualizar notificações afetadas de forma idempotente.
-- Valores financeiros em centavos; datas de vencimento sem conversão UTC. Horários de lembretes usam fuso local do dispositivo e exigem revisão dos agendamentos após alterações relevantes de fuso/hora.
+- Notificações atrás de um serviço próprio, alimentado pelo mesmo domínio da lista. Persistir a alteração financeira antes de conciliar agendamentos; falha de permissão/agendamento não desfaz a gravação financeira. Settlement, reversão, edição, encerramento e restauração devem cancelar/atualizar notificações afetadas de forma idempotente.
+- Valores financeiros em centavos; datas de vencimento sem conversão UTC. Horários de lembretes usam fuso local do dispositivo e exigem revisão dos agendamentos após alterações relevantes de fuso/hour.
 
 ## Limites e trabalho futuro
 

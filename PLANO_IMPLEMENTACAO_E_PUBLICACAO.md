@@ -1,6 +1,6 @@
 # Conta Paga — plano de implementação e publicação
 
-Data: 16/09/2026. Estado: fase 0 concluída documentalmente; fase 1 em andamento; fase 2 concluída nesta execução (exceto Android físico); fases 3–12 pendentes de implementação e validação.
+Data: 23/09/2026. Estado: fase 0 concluída documentalmente; fase 1 em andamento; fase 2 concluída (exceto Android físico); fase 3 (domínio financeiro) concluída e testada; fase 4 (persistência) em grande parte concluída e testada, com pendências que dependem de UI (Fase 6); fases 5–12 pendentes de implementação e validação.
 
 ## 1. Objetivo e fontes
 
@@ -20,7 +20,7 @@ As simplificações de datas, memória e valores sintéticos do protótipo não 
 | Interface | HTML de referência com lista, cadastro, histórico e dois modais | Implementar os fluxos com widgets padrão Flutter Material e tema de cores |
 | Código | `lib/main.dart` é o contador Flutter; teste também é do contador | Implementar domínio, persistência, estado e telas |
 | Dependências | Flutter e Cupertino Icons; Dart `^3.13.3` | Validar toolchain e selecionar dependências necessárias |
-| Dados | Protótipo usa estado em memória e chaves sem ano | Persistência transacional e competências completas |
+| Dados | Protótipo usa estado em memória e chaves sem year | Persistência transacional e competências completas |
 | Android | `com.example.contapaga`; release usa assinatura debug | Identidade definitiva, assinatura de distribuição e AAB |
 | iOS | `com.example.contapaga`; deployment target 15.0; equipe configurada | Confirmar titularidade da equipe, Bundle ID e provisioning |
 | Marca | Nome técnico nos manifests e ícones padrão do projeto | Nome exibido, ícones, splash e materiais das lojas |
@@ -33,12 +33,12 @@ A presença de diretórios web e desktop não os inclui no lançamento. Por deci
 
 ### Escopo funcional do handoff e diretriz visual atual
 
-- Cadastro de receitas e despesas com recorrência diária, semanal, mensal ou anual, intervalo N e término nunca/por data/por quantidade, com valor por ocorrência fixo ou variável, com contraparte e indicação de débito automático.
+- Cadastro de receitas e despesas com recorrência diária, semanal, mensal ou anual, interval N e término nunca/por data/por quantidade, com valor por ocorrência fixo ou variável, com counterparty e indicação de débito automático.
 - Navegação por mês, lista agrupada, resumo e painel mensal; notificações locais com resumo diário global às 9h, horário ajustável e opção de desativar.
-- Baixa manual com valor e data editáveis, sem toast ou confirmação extra após salvar.
-- Cancelamento de baixa com confirmação e apresentação dos dados registrados.
+- Settlement manual com valor e data editáveis, sem toast ou confirmação extra após save.
+- Cancelamento de settlement com confirmação e apresentação dos dados registrados.
 - Histórico com seis meses, gráfico e distinção entre previsão e realização.
-- Previsão variável baseada em meses pagos; data real e navegação além do intervalo da demonstração.
+- Previsão variável baseada em meses pagos; data real e navegação além do interval da demonstração.
 - Widgets padrão do Flutter Material Design, com personalização somente das cores; utilizar tipografia e ícones Material padrão.
 - Composição das telas conforme os fluxos do produto, com layout responsivo e dimensões padrão dos componentes; os 394 px e demais medidas do HTML não são requisitos de fidelidade visual.
 - Validação de entradas, foco visível, nomes acessíveis e preservação dos alvos de toque acessíveis padrão do Material, sem compactá-los para reproduzir o protótipo.
@@ -79,10 +79,10 @@ Papéis podem ser exercidos pela mesma pessoa. O titular responde por contas, co
 
 - [x] Registrar armazenamento local/offline, sem login na v1, Brasil, pt-BR, BRL e gratuidade; arquitetura preparada para futura Pro.
 - [x] Definir celulares e piso técnico: decisão inicial Android API 24/iOS 15, revisada pelo titular na fase 1 para somente Android API 24. Seleção e builds dos plugins compatíveis são tarefas da fase 2.
-- [x] Manter lista agrupada, baixa 1d, cancelamento 1j e mês por setas 1g.
+- [x] Manter lista agrupada, settlement 1d, cancelamento 1j e mês por setas 1g.
 - [x] Registrar Material padrão com tema de cores no contexto e handoff.
-- [x] Aprovar regras de competência, vigência, dias inexistentes, baixa, atraso, automático, saldo, previsão, histórico, edição, encerramento e exclusão.
-- [x] Incorporar recorrências diária/semanal/mensal/anual, intervalo N, dias semanais e término por data/quantidade, com valor por ocorrência.
+- [x] Aprovar regras de competência, vigência, dias inexistentes, settlement, atraso, automático, saldo, previsão, histórico, edição, encerramento e exclusão.
+- [x] Incorporar recorrências diária/semanal/mensal/anual, interval N, dias semanais e término por data/quantidade, com valor por ocorrência.
 - [x] Aprovar painel mensal com antecedência três dias configurável de um a dez e resumo local global diário às 9h ajustável/desativável.
 - [x] Aprovar edição, encerramento, backup manual por substituição e backup do sistema quando disponível.
 - [x] Produzir exemplos numéricos de resumo, reversão, média e novas recorrências para orientar testes futuros.
@@ -118,7 +118,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [x] Executar `flutter doctor -v`, registrar Flutter/Dart, Java, Android SDK e Xcode; resolver incompatibilidades com a restrição Dart atual e fixar uma versão Flutter reproduzível.
 - [x] Executar análise, teste e builds de diagnóstico da base; registrar falhas existentes sem tratá-la como produto funcional.
 - [x] Substituir descrição, título e estrutura padrão do contador por bootstrap do Conta Paga.
-- [x] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recorrencias`, `lib/features/mes`, `lib/features/historico` e `lib/features/ajustes`.
+- [x] Organizar código por funcionalidades e separar apresentação, regras de domínio e acesso a dados. Sugestão: `lib/app`, `lib/core`, `lib/features/recurring_bills`, `lib/features/month`, `lib/features/historico` e `lib/features/settings`.
 - [x] Escolher uma abordagem única de gerenciamento de estado e navegação, evitando dependências sem necessidade demonstrada.
 - [x] Definir interfaces para repositórios, relógio/data atual e armazenamento; permitir testes sem relógio do dispositivo ou banco real quando apropriado.
 - [x] Fixar piso Android API 24 e selecionar/validar dependências compatíveis; registrar versões e builds.
@@ -132,36 +132,40 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 ## Fase 3 — implementar e testar o domínio financeiro
 
-- [ ] Implementar entidades de série/revisão, ocorrência, baixa e preferências com IDs estáveis e geração idempotente; permitir várias ocorrências por série/competência, preservando baixas e identidade ao editar.
-- [ ] Usar centavos inteiros ou decimal exato; aplicar arredondamento da média definido na fase 0 e impedir cálculos monetários dependentes de ponto flutuante impreciso.
-- [ ] Representar datas financeiras como datas civis, sem deslocamentos involuntários por UTC; injetar relógio e recalcular “hoje” ao retomar o app.
-- [ ] Gerar ocorrências respeitando vigência, mês/ano, dias inexistentes e política de edição; tornar geração repetida idempotente.
-- [ ] Implementar baixa e reversão, garantindo transação única e prevenção de toques duplicados.
-- [ ] Implementar classificação e ordenação compartilhadas entre lista, resumo, avisos e histórico.
-- [ ] Implementar previsões por ocorrência nas seis competências anteriores, fallback, arredondamento e histórico agregado/detalhado conforme fase 0.
-- [ ] Implementar recorrência por intervalo, dias semanais, fim inclusivo e limite total de ocorrências; testar fronteiras de mês/ano, 29/02 e preservação de baixas após revisão da série.
-- [ ] Validar nome, valor, dia, competência e data de baixa; tratar parsing pt-BR sem transformar erro em zero.
-- [ ] Escrever testes unitários orientados a regras: dezembro/janeiro, fevereiro bissexto, dias 29–31, baixa antecipada/tardia, receita atrasada, automático vencido, reversão e valores pequenos/grandes.
+**Concluída em 23/09/2026.** Evidências: `lib/features/recurring_bills/domain/` (entidades e casos de uso) e `test/domain/` (74 testes, todos passando via `flutter test`). Commits: `fb1fd56`/`be375d7` (implementação inicial) e `cecdb71` (refino).
 
-**Entrega:** regras de negócio independentes da UI, com exemplos verificáveis. **Saída:** mesma ocorrência produz status e totais consistentes em todos os consumidores; casos críticos aprovados.
+- [x] Implementar entidades de série/revisão, ocorrência, settlement e preferências com IDs estáveis e geração idempotente; permitir várias ocorrências por série/competência, preservando baixas e identidade ao editar. Evidência: `recurring_series.dart`, `series_revision.dart`, `occurrence.dart` (ID `seriesId#data#sequência`), `settlement.dart`, `notification_preferences.dart`; `occurrence_generation_test.dart` cobre idempotência e revisão prospectiva.
+- [x] Usar centavos inteiros ou decimal exato; aplicar arredondamento da média definido na fase 0 e impedir cálculos monetários dependentes de ponto flutuante impreciso. Evidência: `money.dart` (inteiro em centavos, `averageRoundedHalfUp`), `money_test.dart`.
+- [x] Representar datas financeiras como datas civis, sem deslocamentos involuntários por UTC; injetar relógio e recalcular “hoje” ao retomar o app. Evidência: `civil_date.dart` (`CivilDate.hoje(clock)`), uso do `Clock` injetado em `dar_settlement.dart`/`calculate_dashboard.dart`.
+- [x] Gerar ocorrências respeitando vigência, mês/year, dias inexistentes e política de edição; tornar geração repetida idempotente. Evidência: `occurrence_generation.dart` (chunks por revisão, `effectiveDayInMonth` para dias inexistentes) e `occurrence_generation_test.dart`.
+- [x] Implementar settlement e reversão, garantindo transação única e prevenção de toques duplicados. Evidência: `dar_settlement.dart` (bloqueia settlement dupla, valor ≤ 0, data futura) e `settle_occurrence_test.dart`. Nota: "transação única" aqui é a invariante de domínio (uma settlement por ocorrência); a transação de persistência propriamente dita é escopo da fase 4.
+- [x] Implementar classificação e ordenação compartilhadas entre lista, resumo, avisos e histórico. Evidência: `calculate_dashboard.dart` (atrasadas/vencendo hoje/vencendo em breve, ordenadas por data) e `calculate_monthly_summary.dart`; `summary_dashboard_test.dart`.
+- [x] Implementar previsões por ocorrência nas seis competências anteriores, fallback, arredondamento e histórico agregado/detalhado conforme fase 0. Evidência: `prever_valor_occurrence.dart` (janela de 6 competências, fallback para `baseAmount`, meses sem settlement não contam como zero) e `forecast_occurrence_value_test.dart`, incluindo o exemplo numérico da fase 0 (abr 100, jun 120, ago 110 → previsão set 110).
+- [x] Implementar recorrência por interval, dias semanais, fim inclusivo e limite total de ocorrências; testar fronteiras de mês/year, 29/02 e preservação de baixas após revisão da série. Evidência: `recurrence_rule.dart` (`effectiveDayInMonth` anual 29/02), `occurrence_generation_test.dart` e `edit_series_test.dart` (bloqueia edição que eliminaria settlement; exemplo da fase 0 com efeito em 20/09 preservando settlement de 21/09).
+- [x] Validar nome, valor, dia, competência e data de settlement; tratar parsing pt-BR sem transformar erro em zero. Evidência: `recurrence_rule.dart` (valida interval, dias da semana, término), `util/money_parser.dart` (`tryParsePtBr` retorna `null` em vez de zero em entrada inválida) e `money_parser_test.dart`.
+- [x] Escrever testes unitários orientados a regras: dezembro/janeiro, fevereiro bissexto, dias 29–31, settlement antecipada/tardia, receita atrasada, automático vencido, reversão e valores pequenos/grandes. Evidência: suíte `test/domain/` (74 testes), incluindo os exemplos numéricos exatos da fase 0 (resumo, reversão, média).
+
+Pendente de fases futuras, fora do escopo estrito do domínio: `lib/features/recurring_bills/domain/repositories/` e `.../validacao/` existem como diretórios vazios, reservados para as interfaces de persistência (fase 4) e validação de formulário (fase 6).
+
+**Entrega:** regras de negócio independentes da UI, com exemplos verificáveis. **Saída:** mesma ocorrência produz status e totais consistentes em todos os consumidores; casos críticos aprovados. Integração com persistência (fase 4) e telas (fases 5–6) ainda não realizada — o domínio hoje não é exercitado por nenhum repositório real nem por UI.
 
 ## Fase 4 — persistência, integridade e recuperação
 
-**Caminho aprovado: armazenamento local transacional, preparado para adaptadores futuros conforme ADR 001.**
+**Caminho aprovado: armazenamento local transacional, preparado para adaptadores futuros conforme ADR 001.** **Em grande parte concluída em 23/09/2026**, com pendências explícitas restritas a itens que dependem de UI (Fase 6) ou de teste em dispositivo real. Desenho técnico e registro detalhado da auditoria/correções em [PLANO_FASE_4_PERSISTENCIA.md](PLANO_FASE_4_PERSISTENCIA.md). Evidências: `lib/features/recurring_bills/data/` (repositórios SQLite, `sqlite_database.dart`, `sqlite_backup_service.dart`), `lib/features/recurring_bills/application/` (`settle_occurrence_service.dart`, `edit_series_service.dart`), `test/application/` (6 testes com fakes) e `integration_test/recurring_bills_persistence_test.dart` (8 cenários com SQLite real, rodados no emulador Android) + `integration_test/storage_test.dart` (preexistente).
 
-- [ ] Criar esquema versionado e migrações para recorrências, ocorrências, baixas e preferências; definir índices e restrições de integridade.
-- [ ] Implementar repositórios, transações e falhas de gravação; só apresentar confirmação após sucesso da persistência.
-- [ ] Persistir as alterações conforme a política aprovada, preservando histórico e evitando que uma edição recalcule baixas antigas.
-- [ ] Garantir uso offline, restauração após reinício e comportamento seguro diante de pouco espaço ou erro de leitura.
-- [ ] Definir proteção dos arquivos, política de backup automático do sistema e conteúdo que pode sair do dispositivo. Não confundir backup do SO com sincronização entre Android e iOS.
-- [ ] Implementar backup manual aprovado: formato versionado, exportação/importação via seletor do sistema, validação, prévia e substituição transacional confirmada, sem mesclagem; avisar sobre sensibilidade do arquivo.
-- [ ] Implementar exclusão dos dados locais com confirmação; distinguir limpar dados de encerrar uma recorrência.
-- [ ] Testar migração com dados anteriores, importação inválida, restauração, interrupção de gravação e tentativa duplicada de baixa.
-- [ ] Garantir primeira instalação vazia; dados fictícios existem apenas em testes/demonstração explícita.
+- [x] Criar esquema versionado e migrações para recorrências, ocorrências, baixas e preferências; definir índices e restrições de integridade. Evidência: `sqlite_database.dart` (schema `version: 2`: `series`, `series_revisions`, `occurrences`, `materialized_series`, índices por competência/série/vencimento); testado `onCreate` e `onUpgrade` de v1→v2 preservando `preferences`.
+- [x] Implementar repositórios, transações e falhas de gravação; só apresentar confirmação após sucesso da persistência. Evidência: `SqliteSeriesRepository`, `SqliteOccurrenceRepository` (settlement/reversão/materialização em `Database.transaction()`); nenhuma tela ainda consome isso (a confirmação visual é Fase 6) — a garantia hoje é testada diretamente no repositório.
+- [x] Persistir as alterações conforme a política aprovada, preservando histórico e evitando que uma edição recalcule baixas antigas. Evidência: `resyncFromRevision` descarta apenas ocorrências **não settled** a partir da data de efeito e preserva as settled; testado em `integration_test/recurring_bills_persistence_test.dart` ("resyncFromRevision descarta ocorrências futuras não settled e preserva as settled").
+- [x] Garantir uso offline (arquitetura local-first, sem chamada de rede) e restauração após reinício. Evidência: teste de `onUpgrade` reabre o banco após "reinício" simulado e preserva dados. **Parcial:** comportamento diante de pouco espaço em disco ou erro de leitura de baixo nível não foi exercitado — fica para a Fase 7 (QA), que já lista esse cenário.
+- [ ] Definir proteção dos arquivos, política de backup automático do sistema e conteúdo que pode sair do dispositivo. Não confundir backup do SO com sincronização entre Android e iOS. Não abordado nesta etapa — é decisão de produto/Android (`android:allowBackup`, `fullBackupContent`), pendente.
+- [x] Implementar backup manual aprovado: formato versionado, exportação/importação, validação, prévia e substituição transacional confirmada, sem mesclagem; avisar sobre sensibilidade do arquivo. Evidência: `SqliteBackupService` (`export`/`preview`/`import`, JSON versionado, delete-then-insert transacional); testado exportar→apagar→importar e rejeição de versão desconhecida/JSON malformado sem tocar no banco. **Parcial:** a entrega/leitura do arquivo via **seletor do sistema** (share/file picker) e o aviso de sensibilidade na UI ainda não existem — dependem de escolher uma dependência de UI, trabalho de Fase 6.
+- [ ] Implementar exclusão dos dados locais com confirmação; distinguir limpar dados de close uma recorrência. Não implementado — é fluxo de UI (tela de ajustes), Fase 6.
+- [x] Testar migração com dados anteriores, importação inválida/restauração e tentativa duplicada de settlement. Evidência: cenários de `integration_test/recurring_bills_persistence_test.dart` (upgrade v1→v2, backup com versão desconhecida/malformado, `settleOccurrence` duplicado lança `StateError`). **Parcial:** "interrupção de gravação" (processo morto no meio de uma transação) não foi simulada — fica para a Fase 7.
+- [x] Garantir primeira instalação vazia; dados fictícios existem apenas em testes/demonstração explícita. Evidência: teste "onCreate cria o schema financeiro em uma instalação nova" confirma `listAll()` vazio num banco novo.
 
 **Se a fase 0 escolher nuvem/login**, substituir ou ampliar esta fase antes de seguir: backend e contrato de API; autenticação e recuperação de acesso; autorização por usuário; transporte seguro; sincronização/conflitos/offline; migrações no servidor; backup e restauração testados; exclusão de conta e dados; ambiente de homologação; custos e monitoramento. Incluir testes de isolamento entre usuários. Essa escolha aumenta prazo e trabalho das fases 7–10.
 
-**Entrega:** dados duráveis com política de recuperação documentada. **Saída:** cadastro → baixa → encerramento do processo → reabertura preserva os dados; migração e restauração não corrompem o histórico.
+**Entrega:** dados duráveis com política de recuperação documentada. **Saída:** cadastro → settlement → encerramento do processo → reabertura preserva os dados; migração e restauração não corrompem o histórico. Camada de dados funcionando de ponta a ponta via testes; integração com UI (Fase 6) e itens de proteção de arquivo/exclusão de dados/interrupção de gravação seguem pendentes, conforme detalhado acima.
 
 ## Fase 5 — aplicar tema de cores Material e estruturar a navegação
 
@@ -180,18 +184,18 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 
 ## Fase 6 — concluir os fluxos do produto
 
-- [ ] Lista mensal: navegação sem intervalo artificial, títulos com ano, resumo, grupos na ordem definida, totais, sinais e indicação de previsão.
-- [ ] Avisos: painel, contagem, vazio, antecedência e critérios de data; atualizar ao mudar mês, dar baixa, reverter e retomar o app.
-- [ ] Cadastro: campos funcionais do handoff mais data inicial, frequência, intervalo N, dias semanais, término e valor por ocorrência; prévia da agenda, validação e mensagens claras; salvar uma única vez e retornar à lista correta.
-- [ ] Baixa: valor previsto e hoje pré-preenchidos, ajuste pt-BR, confirmação de pagamento/recebimento, tratamento de falha e fechamento após sucesso.
+- [ ] Lista mensal: navegação sem interval artificial, títulos com year, resumo, grupos na ordem definida, totais, sinais e indicação de previsão.
+- [ ] Avisos: painel, contagem, vazio, antecedência e critérios de data; atualizar ao mudar mês, dar settlement, reverter e retomar o app.
+- [ ] Cadastro: campos funcionais do handoff mais data inicial, frequência, interval N, dias semanais, término e valor por ocorrência; prévia da agenda, validação e mensagens claras; save uma única vez e retornar à lista correta.
+- [ ] Settlement: valor previsto e hoje pré-preenchidos, ajuste pt-BR, confirmação de pagamento/recebimento, tratamento de falha e fechamento após sucesso.
 - [ ] Notificações locais: resumo global diário às 9h ajustável, sem aviso vazio, autorização, desativação, abertura de avisos globais e conciliação após alterações; validar janela e reposição com app fechado conforme ADR 001.
-- [ ] Reversão: mostrar conta, valor e data; manter baixa ao cancelar; reclassificar ocorrência após confirmação.
+- [ ] Reversão: mostrar conta, valor e data; manter settlement ao cancelar; reclassificar ocorrência após confirmação.
 - [ ] Histórico: seis competências do período definido, barras previstas/realizadas, tabela e média com explicação do critério.
 - [ ] Edição e encerramento aprovados: apresentar impacto temporal, preservar histórico e confirmar ações destrutivas.
 - [ ] Ajustes/ajuda: privacidade, suporte, versão, avisos e controles de dados previstos na fase 0.
 - [ ] Implementar estados de primeira utilização, lista vazia, carregamento, erro e tentativa de recuperação; não mostrar exemplos como dados reais.
 - [ ] Revisar textos de entrada/saída: “Recebida com atraso”, “Manter como recebida” e demais variações.
-- [ ] Remover promessas sem fluxo, como reprogramação, e esclarecer que baixa é registro manual, sem execução bancária.
+- [ ] Remover promessas sem fluxo, como reprogramação, e esclarecer que settlement é registro manual, sem execução bancária.
 
 **Entrega:** versão alfa com fluxo ponta a ponta persistido. **Saída:** usuário consegue começar sem assistência, cadastrar, consultar meses, registrar e cancelar baixas e consultar histórico após reabrir o app.
 
@@ -203,7 +207,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Validar TalkBack/VoiceOver, ordem de foco, leitura de valores/status, fonte ampliada, contraste e telas pequenas; testar tablets/iPad se declarados suportados.
 - [ ] Medir em profile/release inicialização, rolagem e histórico com volume representativo — por exemplo, centenas de recorrências e anos de dados — e corrigir travamentos.
 - [ ] Inspecionar logs e SDKs para impedir exposição de nomes, valores, backups ou credenciais; revisar permissões e dependências.
-- [ ] Testar notificações: app fechado, permissões negadas/revogadas, baixa antes do aviso, fuso, reinício, restauração e limites de agendamento; testar séries diárias volumosas e finitas sem duplicações.
+- [ ] Testar notificações: app fechado, permissões negadas/revogadas, settlement antes do aviso, fuso, reinício, restauração e limites de agendamento; testar séries diárias volumosas e finitas sem duplicações.
 - [ ] Testar instalação limpa, atualização preservando dados, falha de migração e recuperação definida; não considerar reinstalação equivalente a atualização.
 - [ ] Manter evidências por build/dispositivo e classificar defeitos por impacto. Bloquear release com perda de dados, cálculo incorreto, crash de fluxo central ou impedimento de uso acessível.
 
@@ -212,10 +216,10 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 | Nova recorrência com vigência atual | Não aparece antes do início |
 | Dezembro → janeiro | Ano e ocorrências corretos, sem colisão de chaves |
 | Dia 31 em fevereiro | Política aprovada aplicada e exibida |
-| Baixa em mês posterior | Data preservada e atraso identificado |
+| Settlement em mês posterior | Data preservada e atraso identificado |
 | Valor inválido ou data impossível | Campo com erro, nenhuma gravação |
-| Reversão cancelada/confirmada | Mantém baixa / reabre exatamente uma ocorrência |
-| Débito automático vencido sem baixa | Pendência visível, nunca pagamento inferido |
+| Reversão cancelada/confirmada | Mantém settlement / reabre exatamente uma ocorrência |
+| Débito automático vencido sem settlement | Pendência visível, nunca pagamento inferido |
 | Histórico sem baixas | Ausência de média realizada e fallback explícito |
 | Reinício/atualização | Dados e vínculos preservados |
 | Falha de persistência | Erro visível, nenhuma confirmação falsa |
@@ -233,7 +237,7 @@ Contas pessoais Google criadas após 13/11/2023 estão sujeitas ao teste fechado
 - [ ] Se houver monetização, implementar e testar o mecanismo aplicável, restauração e estados de compra; revisar contratos e regras oficiais antes de incluir cobrança. Sem monetização aprovada, não adicionar SDKs de pagamento/anúncios.
 - [ ] Criar ícone próprio, splash, screenshots reais do app com dados fictícios, arte promocional exigida pela Play e demais assets nos tamanhos vigentes de cada console.
 - [ ] Preparar nome, descrições curta/completa, subtítulo/keywords quando aplicáveis, categoria, classificação etária, copyright, idioma, países, preço e contato.
-- [ ] Preencher declarações de anúncios, público-alvo, acesso ao app e funcionalidades financeiras quando solicitadas, refletindo que é organização pessoal com baixa manual.
+- [ ] Preencher declarações de anúncios, público-alvo, acesso ao app e funcionalidades financeiras quando solicitadas, refletindo que é organização pessoal com settlement manual.
 - [ ] Não anunciar pagamento bancário, notificações push, sincronização ou recursos ainda ausentes. Se login existir, preparar conta de revisão com dados fictícios e acesso funcional.
 - [ ] Revisar licenças de fontes, ícones e bibliotecas; disponibilizar atribuições necessárias.
 
@@ -274,7 +278,7 @@ Referências de build: [Flutter Android](https://docs.flutter.dev/deployment/and
 
 - [ ] Conduzir teste interno seguido de teste fechado Google com pessoas do público-alvo.
 - [ ] Cumprir o período e quantidade mínimos da Google quando aplicáveis; manter evidências de participação e feedback para a solicitação de acesso à produção.
-- [ ] Distribuir roteiro: primeiro cadastro, duas competências, valor variável, baixa tardia, cancelamento, histórico e recuperação de dados.
+- [ ] Distribuir roteiro: primeiro cadastro, duas competências, valor variável, settlement tardia, cancelamento, histórico e recuperação de dados.
 - [ ] Registrar erros, dúvidas e comportamento em dispositivos reais; avaliar compreensão do saldo, previsões e débito automático.
 - [ ] Corrigir problemas e repetir testes afetados; revalidar política/screenshots se o funcionamento mudar.
 - [ ] Congelar escopo do candidato, conferir ausência de fixtures e aprovar checklist de release.
@@ -284,12 +288,12 @@ Referências de build: [Flutter Android](https://docs.flutter.dev/deployment/and
 ## Fase 11 — submissão, revisão e publicação
 
 - [ ] Revalidar requisitos oficiais, contratos, status das contas, URLs e declarações para a data efetiva de submissão.
-- [ ] Selecionar os builds finais no Play Console, preencher notas de versão e instruções de revisão: criar conta recorrente, dar baixa, desfazer e consultar histórico.
+- [ ] Selecionar os builds finais no Play Console, preencher notas de versão e instruções de revisão: criar conta recorrente, dar settlement, desfazer e consultar histórico.
 - [ ] Explicar nas notas que o app registra compromissos manualmente; fornecer credenciais de teste somente se o produto exigir login.
 - [ ] Submeter Google Play à revisão; acompanhar mensagens e responder com informação objetiva e evidências.
 - [ ] Se houver rejeição, registrar motivo, corrigir código/metadados, incrementar build quando necessário e repetir verificação pertinente antes de reenviar.
 - [ ] Definir liberação manual/gerenciada quando disponível para coordenar data.
-- [ ] Publicar nos países aprovados. Usar mecanismos de liberação gradual somente quando disponíveis para aquele tipo de lançamento; não depender de rollout percentual no primeiro lançamento.
+- [ ] Publicar nos países aprovados. Usar mecanismos de liberação gradual somente quando disponíveis para aquele type de lançamento; não depender de rollout percentual no primeiro lançamento.
 - [ ] Verificar páginas públicas, preço, descrição, capturas e instalação por usuários comuns em Android, fora dos grupos de teste.
 - [ ] Registrar links públicos, versão, build, data e commit; atualizar README, contexto e este plano com evidências de conclusão.
 
@@ -347,7 +351,7 @@ Caminho crítico: regras decididas → domínio → persistência → fluxos com
 - [ ] Funcionalidades da versão 1.0 implementadas em Flutter e persistidas.
 - [ ] Interface usa widgets Material em sua forma original com tema de cores; widgets personalizados se limitam a necessidades justificadas e preservam a base Material Design.
 - [ ] Sem cálculo incorreto, perda de dados ou crash conhecido nos fluxos críticos.
-- [ ] Histórico, datas, previsões e cancelamento de baixa cobertos por testes pertinentes.
+- [ ] Histórico, datas, previsões e cancelamento de settlement cobertos por testes pertinentes.
 - [ ] Acessibilidade, responsividade, offline e atualização verificados nos alvos declarados.
 - [ ] Marca, identificadores, assinatura e versões de distribuição definitivos.
 - [ ] Política de privacidade, suporte, declarações e assets publicados e consistentes.

@@ -3,7 +3,7 @@
 > Revisão de escopo na fase 1 (16/09/2026): lançamento somente em celulares Android/Google Play. iOS, App Store e respectivos requisitos foram adiados; referências ao lançamento conjunto abaixo representam a decisão inicial superada. Titular pessoa física, domínio `mutumsoft.com.br` e applicationId escolhido `br.com.mutumsoft.contapaga`. Ver [registro de distribuição](../docs/decisoes/FASE_1_DISTRIBUICAO.md).
 
 ## Overview
-App mobile para uma pessoa física / casa controlar contas recorrentes (água, luz, telefone, internet, gás, aluguel) e recebimentos (salário, aluguel de garagem). O usuário escolhe o mês, vê o que está pago e o que está a pagar com as vencidas em destaque, e dá baixa numa conta através de uma modal que já vem preenchida com o valor previsto e a data de hoje.
+App mobile para uma pessoa física / casa controlar contas recorrentes (água, luz, telefone, internet, gás, aluguel) e recebimentos (salário, aluguel de garagem). O usuário escolhe o mês, vê o que está pago e o que está a pagar com as vencidas em destaque, e dá settlement numa conta através de uma modal que já vem preenchida com o valor previsto e a data de hoje.
 
 Fluxo central: **escolher mês → ler a lista agrupada por status → tocar no quadradinho da conta → confirmar valor e data na modal → conta passa a "Paga" (ou "Paga com atraso")**.
 
@@ -26,7 +26,7 @@ Os arquivos deste pacote são **protótipos HTML de referência funcional**, nã
 
 **Como ler as especificações abaixo:** medidas em pixels, classes CSS, cores literais, fontes Barlow, ícones Lucide, cantos retos e molduras blueprint descrevem apenas o protótipo antigo. Não são requisitos de fidelidade visual nem critérios de aceite do app. Os HTML/CSS serão mantidos como referência funcional, sem redesenho nesta etapa.
 
-As simplificações funcionais do protótipo também não definem o domínio final: chaves sem ano, comparação apenas de dias, valores sintéticos e limitações de navegação devem ser substituídas conforme o plano. As regras de saldo, datas, débito automático vencido, previsão e novas recorrências foram fechadas no registro da fase 0 e prevalecem sobre as descrições históricas abaixo.
+As simplificações funcionais do protótipo também não definem o domínio final: chaves sem year, comparação apenas de dias, valores sintéticos e limitações de navegação devem ser substituídas conforme o plano. As regras de saldo, datas, débito automático vencido, previsão e novas recorrências foram fechadas no registro da fase 0 e prevalecem sobre as descrições históricas abaixo.
 
 ---
 
@@ -35,7 +35,7 @@ As simplificações funcionais do protótipo também não definem o domínio fin
 O protótipo tem **três telas** dentro de um container de 394px de largura (mobile), com 18px de padding e a moldura blueprint com as quatro marcas de canto.
 
 ### 1. Lista do mês (tela inicial)
-**Purpose:** ver o que vence, o que já foi pago e dar baixa.
+**Purpose:** ver o que vence, o que já foi pago e dar settlement.
 
 **Layout** (de cima para baixo, coluna única):
 1. **Cabeçalho** — flex, space-between, margin-bottom 14px.
@@ -47,7 +47,7 @@ O protótipo tem **três telas** dentro de um container de 394px de largura (mob
    - Rótulos: 10px, letter-spacing .1em, caixa alta, texto a 55% de opacidade.
    - Valores: Barlow Condensed 600, 16px, `font-variant-numeric: tabular-nums`.
    - Colunas: "A pagar" (soma dos a pagar em aberto), "A receber" (soma dos a receber em aberto, em `--color-accent-700`), "Saldo" (previsto − a pagar, com sinal + ou −).
-5. **Faixa de vencidas** (só quando existe alguma) — fundo **#8f3d3d**, texto `--color-bg`, padding 11px 13px, ícone relógio Lucide 18px, texto 13px: "2 contas vencidas — R$ 313,10. Dê baixa ou reprograme."
+5. **Faixa de vencidas** (só quando existe alguma) — fundo **#8f3d3d**, texto `--color-bg`, padding 11px 13px, ícone relógio Lucide 18px, texto 13px: "2 contas vencidas — R$ 313,10. Dê settlement ou reprograme."
 6. **Grupos de contas**, nesta ordem, só os não vazios: **Vencidas · n**, **Vence hoje · n**, **A vencer · n**, **Agendadas · n**, **Concluídas · n**.
    - Cabeçalho do grupo: flex space-between; título Barlow Condensed 600, 12px, letter-spacing .08em, caixa alta, 60% de opacidade; à direita o total do grupo em 11px tabular-nums, 45% de opacidade.
    - **Linha de conta** (altura ~58px): flex, gap 10px, padding 10px 0, border-top 1px `--color-divider`.
@@ -66,13 +66,13 @@ O protótipo tem **três telas** dentro de um container de 394px de largura (mob
 | Não paga, vencimento == hoje | "Vence hoje" | **amarelo** #f6efdc / #7d6220 / #7d6220 a 35% | "15/09" |
 | Não paga, vencimento > hoje | "A vencer" | neutro (`.tag-neutral`) | "vence em 20/09" |
 | Não paga, débito automático | "Agendada" | neutro (`.tag-neutral`) | "débito automático em 15/09" |
-| Paga, dia da baixa <= dia do vencimento | "Paga" (a receber: "Recebida") | **verde** #e7f0e8 / #3f6b48 / #3f6b48 a 35% | "baixa em 04/09" |
-| Paga, dia da baixa > dia do vencimento | "Paga com atraso" | **verde** (mesmo tom) | "baixa em 21/08" |
+| Paga, dia da settlement <= dia do vencimento | "Paga" (a receber: "Recebida") | **verde** #e7f0e8 / #3f6b48 / #3f6b48 a 35% | "settlement em 04/09" |
+| Paga, dia da settlement > dia do vencimento | "Paga com atraso" | **verde** (mesmo tom) | "settlement em 21/08" |
 
 No protótipo Industry, os três tons de status são versões dessaturadas fora do acento steel. No app, definir as cores no tema e distinguir os estados também por texto, sem obrigação de reproduzir estes valores hexadecimais. Eles aparecem em três lugares: na tag, na barra de 3px da linha vencida (#8f3d3d) e na faixa de alerta do topo (fundo #8f3d3d).
 
 ### 2. Modal de confirmação de pagamento
-**Purpose:** confirmar valor e data ao dar baixa. É o centro do app.
+**Purpose:** confirmar valor e data ao dar settlement. É o centro do app.
 
 Abre ao tocar no quadradinho de uma conta em aberto. `.dialog-backdrop` (overlay escuro, centralizado) + `.dialog.blueprint`, largura `min(342px, 100%)`, fundo `--color-bg`, cantos retos, quatro marcas de registro.
 
@@ -83,18 +83,18 @@ Conteúdo, em coluna:
 4. Campo **"Valor pago"** (a receber: "Valor recebido") — prefixo "R$" numa caixa de 0 10px com fundo `--color-surface` e borda hairline sem borda direita, colado ao `.input`. **Pré-preenchido com o valor previsto** em formato pt-BR ("214,70"), editável, `inputmode="decimal"`. Dica abaixo, 11px a 50%: "Previsto: R$ 214,70. Ajuste se veio diferente."
 5. Campo **"Data"** — `.input` pré-preenchido com **a data de hoje** em "dd/mm/aaaa".
 6. Aviso de atraso (só se a conta está vencida): fundo `--color-accent-100` (#eef6ff), texto `--color-accent-800` (#2c455d), padding 8px 10px, 12px: "Vencida em 10/09. Se pagou juros ou multa, some no valor — a conta fica como "paga com atraso"."
-7. `.dialog-actions`: "Cancelar" (`.btn-secondary`, fecha sem salvar) e "Confirmar pagamento" / "Confirmar recebimento" (`.btn-primary`).
+7. `.dialog-actions`: "Cancelar" (`.btn-secondary`, fecha sem save) e "Confirmar pagamento" / "Confirmar recebimento" (`.btn-primary`).
 
-Ao confirmar: faz o parse do valor pt-BR (remove pontos de milhar, troca a vírgula por ponto), guarda `{ dia/mês da baixa, valor }` na chave `{mês}:{idDaConta}`, fecha a modal. A conta muda de grupo na hora e o resumo recalcula. **Nenhuma confirmação extra, nenhum toast.**
+Ao confirmar: faz o parse do valor pt-BR (remove pontos de milhar, troca a vírgula por ponto), guarda `{ dia/mês da settlement, valor }` na chave `{mês}:{idDaConta}`, fecha a modal. A conta muda de grupo na hour e o resumo recalcula. **Nenhuma confirmação extra, nenhum toast.**
 
 ### 3. Modal de cancelamento de pagamento
-**Purpose:** desfazer uma baixa sem risco de toque acidental.
+**Purpose:** desfazer uma settlement sem risco de toque acidental.
 
 Abre ao tocar no check verde de uma conta já paga. Mesmo `.dialog-backdrop` + `.dialog.blueprint`, largura `min(330px, 100%)`, gap `--space-2`. É uma confirmação de um toque — **sem campos**:
 1. Pergunta em Barlow Condensed 600 19px: "Cancelar o pagamento de Aluguel?" (a receber: "Cancelar o recebimento de …").
 2. Bloco de leitura entre duas réguas hairline, padding 10px 0, space-between:
-   - Esquerda: valor da baixa em Barlow Condensed 600 28px tabular-nums + rótulo "valor pago" / "valor recebido" em 11px a 55%.
-   - Direita: data da baixa em Barlow Condensed 600 17px + rótulo "data da baixa" em 11px a 55%.
+   - Esquerda: valor da settlement em Barlow Condensed 600 28px tabular-nums + rótulo "valor pago" / "valor recebido" em 11px a 55%.
+   - Direita: data da settlement em Barlow Condensed 600 17px + rótulo "data da settlement" em 11px a 55%.
 3. Nota em 12px a 60%: "A conta volta para a lista de a pagar, com vencimento em 05/09."
 4. `.btn.btn-primary.btn-block` de 44px: "Sim, cancelar o pagamento" / "Sim, cancelar o recebimento".
 5. `.btn.btn-secondary.btn-block`: "Manter como paga".
@@ -107,14 +107,14 @@ Ao confirmar: remove a chave `{mês}:{idDaConta}` de `paid`, fecha a modal; a co
 Abre ao tocar na sigla ou no nome de uma conta. Estrutura:
 1. `.btn-ghost` "← Voltar ao mês".
 2. **Ficha** — border 1px `--color-divider`, padding 13px. Kicker "CONTA A PAGAR · MENSAL" (ou "A RECEBER · MENSAL") em `--color-accent-700`; nome em Barlow Condensed 600 25px; quem cobra em 12px a 55%; sigla num quadrado 44×44px hairline à direita. Abaixo, grid de 2 colunas separadas por 1px de `--color-divider`: "MÉDIA 6 MESES" e "VENCIMENTO" ("dia 10").
-3. **Gráfico de barras** — 6 meses, altura 96px, gap 7px, border-bottom hairline. Barra = `--color-accent` quando houve baixa, `--color-accent` a 30% quando é previsão. Valor arredondado acima da barra em 9.5px tabular-nums; sigla do mês abaixo em 10px caixa alta.
-4. **Tabela** `.table` (mais recente primeiro): Mês / Valor / Baixa ("04/08" ou "em aberto").
+3. **Gráfico de barras** — 6 meses, altura 96px, gap 7px, border-bottom hairline. Barra = `--color-accent` quando houve settlement, `--color-accent` a 30% quando é previsão. Valor arredondado acima da barra em 9.5px tabular-nums; sigla do mês abaixo em 10px caixa alta.
+4. **Tabela** `.table` (mais recente primeiro): Mês / Valor / Settlement ("04/08" ou "em aberto").
 
 ### 5. Cadastro de conta recorrente
 **Purpose:** criar uma conta que passa a aparecer todo mês.
 
 `.btn-ghost` "← Cancelar", `<h3>` "Nova conta recorrente", subtítulo 12.5px a 60%: "Ela aparece todos os meses na lista, com o valor previsto." Campos (`.field` + `label` + `.input`), gap 12px:
-- **Nome** (placeholder "Ex.: Condomínio") — obrigatório; salvar sem nome não faz nada.
+- **Nome** (placeholder "Ex.: Condomínio") — obrigatório; save sem nome não faz nada.
 - **Quem cobra / paga** (placeholder "Ex.: Síndico") — vazio vira "—".
 - **Tipo** — `.seg` de duas opções: "Conta a pagar" / "A receber".
 - **Valor previsto (R$)** + **Dia** (numérico, 2 dígitos, limitado a 1–28) em grid `1fr 100px`.
@@ -125,24 +125,24 @@ Abre ao tocar na sigla ou no nome de uma conta. Estrutura:
 A sigla de 3 letras é derivada das 3 primeiras letras do nome em caixa alta.
 
 ### Seletor de mês (duas variantes — a "setas" é a padrão)
-- **Setas:** faixa com border-top e border-bottom hairline, padding 8px 0. Chevrons Lucide em botões 34×34px `.btn-secondary` nas pontas; no centro o mês em Barlow Condensed 600 23px letter-spacing .06em caixa alta e o ano abaixo em 11px letter-spacing .18em a 50%.
-- **Fita:** grid de 5 colunas, um mês por célula (sigla 13px caixa alta + nota 9.5px). O mês ativo é preenchido com `--color-accent` e texto `--color-bg`. A nota mostra "3 abertas" para meses passados/atual e "previsto" para meses futuros.
+- **Setas:** faixa com border-top e border-bottom hairline, padding 8px 0. Chevrons Lucide em botões 34×34px `.btn-secondary` nas pontas; no centro o mês em Barlow Condensed 600 23px letter-spacing .06em caixa alta e o year abaixo em 11px letter-spacing .18em a 50%.
+- **Fita:** grid de 5 colunas, um mês por célula (sigla 13px caixa alta + nota 9.5px). O mês enabled é preenchido com `--color-accent` e texto `--color-bg`. A nota mostra "3 abertas" para meses passados/atual e "previsto" para meses futuros.
 
-`Variacoes.dc.html` guarda as alternativas ainda abertas: **1d** (modal em formulário — é a implementada), **1e** (folha inferior com teclado numérico), **1f** (confirmação de um toque), **1j** (cancelamento de pagamento — é a implementada) e **1g / 1h / 1i** (seletor de mês em setas, fita de meses e ano inteiro). As variações de layout da lista já foram decididas e removidas.
+`Variacoes.dc.html` guarda as alternativas ainda abertas: **1d** (modal em formulário — é a implementada), **1e** (folha inferior com teclado numérico), **1f** (confirmação de um toque), **1j** (cancelamento de pagamento — é a implementada) e **1g / 1h / 1i** (seletor de mês em setas, fita de meses e year inteiro). As variações de layout da lista já foram decididas e removidas.
 
 ---
 
 ## Interactions & Behavior
 - Tocar no quadradinho de uma conta em aberto → abre a modal, já com valor previsto e data de hoje.
-- Tocar no check verde de uma conta paga → abre a modal de cancelamento; a baixa só é desfeita após a confirmação.
+- Tocar no check verde de uma conta paga → abre a modal de cancelamento; a settlement só é desfeita após a confirmação.
 - Tocar na sigla ou no nome → tela de histórico.
 - Chevrons / célula da fita → troca o mês; a lista, o resumo e os avisos recalculam.
 - Botão de campainha → alterna o painel de avisos.
-- FAB "+" → tela de cadastro; salvar volta para a lista com a conta já presente.
+- FAB "+" → tela de cadastro; save volta para a lista com a conta já presente.
 - **Animações:** o protótipo não tem animações; no app, preservar as transições padrão dos componentes Material.
 - **Estados de erro/validação:** só um — nome vazio bloqueia o salvamento. Valor inválido na modal cai para 0 no parse; no app real, valide e mostre erro no campo.
 - **Responsivo:** adaptar a composição Flutter à largura disponível e ao texto ampliado. A coluna de 394px é uma medida do protótipo, não um requisito do app.
-- **Acessibilidade:** preservar os alvos de toque e estados de foco padrão do Material, sem compactá-los para reproduzir o HTML. Fornecer nomes acessíveis aos botões de ícone ("Marcar como pago", "Desfazer baixa", "Mês anterior", "Próximo mês", "Avisos") e distinguir status por texto além da cor. Validar leitores de tela e texto ampliado no Flutter.
+- **Acessibilidade:** preservar os alvos de toque e estados de foco padrão do Material, sem compactá-los para reproduzir o HTML. Fornecer nomes acessíveis aos botões de ícone ("Marcar como pago", "Desfazer settlement", "Mês anterior", "Próximo mês", "Avisos") e distinguir status por texto além da cor. Validar leitores de tela e texto ampliado no Flutter.
 
 ## State Management
 Estado demonstrativo do protótipo (não copiar suas limitações para o domínio e a persistência do app; seguir as decisões do plano):
@@ -171,9 +171,9 @@ Rampa neutra: 100 #f5f5f8 · 200 #e7e7ea · 300 #d4d4d7 · 400 #b7b7ba · 500 #9
 **Tons de status do protótipo** (referência histórica, sem obrigação de manter estes hexes):
 - Vencida — tinta #8f3d3d, fundo da tag #f4e6e6, barra e faixa de alerta #8f3d3d
 - Vence hoje — tinta #7d6220, fundo da tag #f6efdc
-- Paga / concluída — tinta #3f6b48, fundo da tag #e7f0e8, botão de baixa preenchido #3f6b48
+- Paga / concluída — tinta #3f6b48, fundo da tag #e7f0e8, botão de settlement preenchido #3f6b48
 
-**Papéis do acento:** tinta do a receber = accent-700 · fundo do aviso de atraso na modal = accent-100 · FAB e mês ativo = accent · textos secundários = `color-mix(in srgb, var(--color-text) 45–60%, transparent)`.
+**Papéis do acento:** tinta do a receber = accent-700 · fundo do aviso de atraso na modal = accent-100 · FAB e mês enabled = accent · textos secundários = `color-mix(in srgb, var(--color-text) 45–60%, transparent)`.
 
 **Tipografia** — headings "Barlow Condensed" peso 600; corpo "Barlow". Escala usada: 25px (nome no histórico) · 23px (mês) · 19px (título do app, nome na modal) · 16px (nome e valor da conta) · 13px (faixa de alerta) · 12.5px (avisos) · 12px (cabeçalho de grupo, caixa alta) · 11px (meta, rótulos) · 10px (kickers, caixa alta, letter-spacing .1em) · 9.5px (rótulos do gráfico). Todo valor monetário em `font-variant-numeric: tabular-nums`.
 

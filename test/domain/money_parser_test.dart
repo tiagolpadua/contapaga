@@ -1,5 +1,5 @@
-import 'package:contapaga/features/recorrencias/domain/money.dart';
-import 'package:contapaga/features/recorrencias/domain/util/money_parser.dart';
+import 'package:contapaga/features/recurring_bills/domain/money.dart';
+import 'package:contapaga/features/recurring_bills/domain/util/money_parser.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

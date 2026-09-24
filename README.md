@@ -37,8 +37,8 @@ A CI em `.github/workflows/flutter.yml` executa formatação, análise, testes e
 
 - `lib/app`: composição de dependências, ambiente, tema e localização.
 - `lib/core`: contratos de relógio, armazenamento e notificações; adaptadores SQLite/Android.
-- `lib/features/mes`: contrato de repositório, adaptador local, controller e tela mensal.
-- `lib/features/ajustes`: ajustes e informações do aplicativo.
+- `lib/features/month`: contrato de repositório, adaptador local, controller e tela mensal.
+- `lib/features/settings`: ajustes e informações do aplicativo.
 - `test/support`: fakes restritos aos testes.
 - `integration_test`: verificações com plugins reais em Android.
 - `tool/notification_probe.dart`: entrada isolada de diagnóstico, bloqueada em release; não usada pelo app normal.

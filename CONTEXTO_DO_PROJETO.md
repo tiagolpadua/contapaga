@@ -26,11 +26,11 @@ Inventário e dependências estão no [registro da fase 1](docs/decisoes/FASE_1_
 
 O handoff apresenta **Conta Paga**, uma interface móvel para acompanhar contas recorrentes a pagar e a receber, organizada por mês. O projeto e o pacote Dart se chamam `contapaga`; o cabeçalho do protótipo usa “CONTA PAGA”.
 
-A proposta central é permitir que a pessoa identifique vencimentos e atrasos, consulte valores previstos e registre o pagamento ou recebimento efetivamente realizado. Contas variáveis podem ter o valor ajustado na baixa.
+A proposta central é permitir que a pessoa identifique vencimentos e atrasos, consulte valores previstos e registre o pagamento ou recebimento efetivamente realizado. Contas variáveis podem ter o valor ajustado na settlement.
 
 O público está explicitado no handoff: pessoa física / casa que organiza finanças pessoais ou domésticas, como água, energia, internet, telefone, gás, aluguel, salário e aluguel de garagem. Não há personas detalhadas ou definição de compartilhamento entre usuários.
 
-O protótipo trata de compromissos financeiros em geral. Não há emissão, leitura ou pagamento bancário de boletos. “Dar baixa” significa registrar manualmente que um pagamento ou recebimento ocorreu.
+O protótipo trata de compromissos financeiros em geral. Não há emissão, leitura ou pagamento bancário de boletos. “Dar settlement” significa registrar manualmente que um pagamento ou recebimento ocorreu.
 
 ## 3. Materiais de referência
 
@@ -38,7 +38,7 @@ O protótipo trata de compromissos financeiros em geral. Não há emissão, leit
 | --- | --- |
 | [handoff/README.md](handoff/README.md) | Referência funcional de telas e interações, com diretriz visual Flutter Material vigente. |
 | [Contas Recorrentes.dc.html](<handoff/Contas Recorrentes.dc.html>) | Protótipo principal, com telas, formulários, dados de exemplo e lógica de interação. |
-| [Variacoes.dc.html](handoff/Variacoes.dc.html) | Alternativas de baixa, cancelamento e navegação mensal. |
+| [Variacoes.dc.html](handoff/Variacoes.dc.html) | Alternativas de settlement, cancelamento e navegação mensal. |
 | [handoff/styles.css](handoff/styles.css) | Tokens e componentes Industry do protótipo histórico, sem obrigação de reprodução no app. |
 | [CSS referenciado pelos HTMLs](handoff/_ds/industry-873cda80-4c77-4324-a744-775e806bc163/styles.css) | Cópia idêntica do CSS da raiz do handoff nesta revisão. |
 | [support.js](handoff/support.js) e `_ds/.../_ds_bundle.js` | Runtime e suporte da exportação; não são a arquitetura da aplicação. |
@@ -57,27 +57,27 @@ O README do handoff orienta implementar os fluxos em Flutter Material, sem porta
 - Resumo com “A pagar”, “A receber” e “Saldo”.
 - Faixa de destaque para contas vencidas.
 - Agrupamento, nesta ordem: vencidas, vencendo hoje, a vencer, agendadas e concluídas. Grupos vazios não aparecem.
-- Linhas com identificação, nome, status, referência de data, valor e ação de baixa ou desfazer baixa.
+- Linhas com identificação, nome, status, referência de data, valor e ação de settlement ou desfazer settlement.
 - Valores de saída com sinal negativo e de entrada com sinal positivo; valores variáveis em aberto recebem a indicação “previsto”.
 - Acesso ao detalhe da conta e ao cadastro de uma nova recorrência.
 
 ### Cadastro de recorrência
 
-Campos demonstrados: nome, quem cobra/paga, tipo (a pagar ou a receber), valor previsto, dia do vencimento, valor fixo ou variável e indicação de débito automático.
+Campos demonstrados: nome, quem cobra/paga, type (a pagar ou a receber), valor previsto, dia do vencimento, valor fixo ou variável e indicação de débito automático.
 
-Ao salvar, a conta passa a compor as listas mensais. O protótipo não registra início ou fim da recorrência: uma conta recém-criada também aparece em meses anteriores. Não há edição, exclusão, pausa ou encerramento.
+Ao save, a conta passa a compor as listas mensais. O protótipo não registra início ou fim da recorrência: uma conta recém-criada também aparece em meses anteriores. Não há edição, exclusão, pausa ou encerramento.
 
-### Baixa e reversão
+### Settlement e reversão
 
-Ao tocar no quadradinho de uma conta aberta, um modal apresenta o valor previsto e a data de hoje (parametrizada na demonstração). A pessoa pode alterar ambos e confirmar o pagamento ou recebimento. A baixa altera o status e usa o valor efetivo na lista. A confirmação fecha o modal e recalcula lista e resumo, sem confirmação adicional nem toast.
+Ao tocar no quadradinho de uma conta aberta, um modal apresenta o valor previsto e a data de hoje (parametrizada na demonstração). A pessoa pode alterar ambos e confirmar o pagamento ou recebimento. A settlement altera o status e usa o valor efetivo na lista. A confirmação fecha o modal e recalcula lista e resumo, sem confirmação adicional nem toast.
 
-O check verde de uma conta concluída abre um **modal de cancelamento**, com nome, valor e data da baixa, sem campos editáveis. A baixa só é removida após “Sim, cancelar o pagamento/recebimento”; “Manter como paga” fecha sem alteração. A conta retorna ao grupo correspondente ao vencimento, podendo voltar a ficar vencida.
+O check verde de uma conta concluída abre um **modal de cancelamento**, com nome, valor e data da settlement, sem campos editáveis. A settlement só é removida após “Sim, cancelar o pagamento/recebimento”; “Manter como paga” fecha sem alteração. A conta retorna ao grupo correspondente ao vencimento, podendo voltar a ficar vencida.
 
 O modal orienta a incluir juros ou multa no valor total. Não existem campos separados para esses componentes, pagamento parcial, anexos ou múltiplas baixas da mesma ocorrência.
 
 ### Detalhe e histórico
 
-O detalhe exibe identificação da conta, contraparte, dia de vencimento, média de seis meses, gráfico de barras e tabela com valores e datas de baixa. O intervalo demonstrado é abril a setembro, fixo no código. A média inclui valores previstos quando não existe baixa; portanto, não equivale à média de pagamentos efetivos.
+O detalhe exibe identificação da conta, counterparty, dia de vencimento, média de seis meses, gráfico de barras e tabela com valores e datas de settlement. O interval demonstrado é abril a setembro, fixo no código. A média inclui valores previstos quando não existe settlement; portanto, não equivale à média de pagamentos efetivos.
 
 ### Avisos
 
@@ -88,18 +88,18 @@ O painel reúne atrasos, vencimentos do dia e alguns vencimentos próximos. A an
 | Tema | Comportamento atual |
 | --- | --- |
 | Recorrência | Mensal, com um dia de vencimento por conta. |
-| Identificação da ocorrência | Chave composta por mês e ID da conta, sem ano. |
+| Identificação da ocorrência | Chave composta por mês e ID da conta, sem year. |
 | Valor aberto | Valor base para contas fixas; variação sintética calculada com seno para contas variáveis. Não há previsão estatística real. |
-| Valor concluído | Valor informado na baixa. |
-| A pagar / A receber | Somam somente ocorrências em aberto do respectivo tipo. |
+| Valor concluído | Valor informado na settlement. |
+| A pagar / A receber | Somam somente ocorrências em aberto do respectivo type. |
 | Saldo | Soma receitas menos despesas de todo o mês, incluindo abertas e concluídas. Não representa saldo bancário nem somente a diferença entre os dois indicadores anteriores. |
-| Atraso em aberto | Vencimento anterior à referência atual, sem baixa e sem indicação de débito automático. |
-| Baixa com atraso | Comparação apenas entre o dia informado na baixa e o dia de vencimento; ignora mês e ano. |
+| Atraso em aberto | Vencimento anterior à referência atual, sem settlement e sem indicação de débito automático. |
+| Settlement com atraso | Comparação apenas entre o dia informado na settlement e o dia de vencimento; ignora mês e year. |
 | Débito automático | Sinaliza agendamento, sem executar ou confirmar transação bancária. |
 | Histórico | Seis meses fixos; mistura valores efetivos e previstos. |
 | Persistência | Cadastros e baixas ficam no estado em memória do componente. |
 
-O conjunto inicial possui oito contas. Há baixas de exemplo para todas em agosto e para aluguel e salário em setembro. A referência padrão é 15/09/2026, o mês inicial é setembro, a navegação vai de julho a novembro e o ano do cabeçalho está fixado em 2026. Esses limites caracterizam a demonstração, não uma definição de escopo permanente.
+O conjunto inicial possui oito contas. Há baixas de exemplo para todas em agosto e para aluguel e salário em setembro. A referência padrão é 15/09/2026, o mês inicial é setembro, a navegação vai de julho a novembro e o year do cabeçalho está fixado em 2026. Esses limites caracterizam a demonstração, não uma definição de escopo permanente.
 
 ## 6. Alternativas de interface
 
@@ -108,8 +108,8 @@ O arquivo de variações é uma referência comparativa. Seus exemplos estático
 | Área | Base definida no handoff | Alternativas |
 | --- | --- | --- |
 | Lista | Linhas agrupadas por status; escolha já definida. | As antigas opções `1a`, `1b` e `1c` foram removidas do arquivo. |
-| Baixa | `1d`: modal com formulário. | `1e`: folha inferior com teclado numérico; `1f`: confirmação rápida com ajuste opcional. |
-| Cancelamento | `1j`: confirmação antes de desfazer a baixa. | Já presente no protótipo principal. |
+| Settlement | `1d`: modal com formulário. | `1e`: folha inferior com teclado numérico; `1f`: confirmação rápida com ajuste opcional. |
+| Cancelamento | `1j`: confirmação antes de desfazer a settlement. | Já presente no protótipo principal. |
 | Mês | `1g`: navegação por setas, padrão. | `1h`: fita com pendências; `1i`: visão dos doze meses. |
 
 A fita `1h` também possui lógica no protótipo principal, ativada pela propriedade `monthPicker`. A continuidade deve seguir a lista definida e as opções `1d`, `1j` e `1g`, salvo nova decisão.
@@ -132,27 +132,27 @@ Isso descreve apenas a exportação. **A base de implementação existente é Fl
 
 `lib/main.dart` inicializa a base Conta Paga da fase 2: Material em pt-BR, navegação mensal, ajustes/sobre e persistência SQLite do mês selecionado. Estado usa ChangeNotifier e navegação usa Navigator; relógio, armazenamento e repositório são injetáveis. Testes cobrem a base e integração SQLite. Domínio financeiro, cadastros, baixas e histórico ainda não foram implementados. Evidências em [fase 2](docs/decisoes/FASE_2_BASE_TECNICA.md).
 
-Roteamento, estado e persistência da base foram definidos na fase 2; o esquema financeiro será implementado nas fases 3–4. Armazenamento local sem autenticação/backend na v1 já está aprovado; a evolução Pro segue o ADR 001. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (baixa e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
+Roteamento, estado e persistência da base foram definidos na fase 2; o esquema financeiro será implementado nas fases 3–4. Armazenamento local sem autenticação/backend na v1 já está aprovado; a evolução Pro segue o ADR 001. Mapear as três telas (`list`, `detail`, `new`) e os dois modais (settlement e cancelamento) para widgets e estado Flutter, sem incorporar React, Babel ou `support.js` à aplicação.
 
 ### Diretrizes explícitas para a aplicação
 
-Além da aparência, o handoff determina usar a data real, permitir qualquer mês, validar valores inválidos com erro no campo e calcular previsões variáveis pela média dos últimos meses pagos. Esses comportamentos **ainda não existem na base Flutter** e diferem das simplificações do protótipo. A regra mensal aprovada usa as seis competências imediatamente anteriores e o valor base quando não há baixas; a média é por ocorrência baixada dessa série na janela, e o histórico agrega totais mensais com detalhamento. O gráfico demonstrado cobre seis meses.
+Além da aparência, o handoff determina usar a data real, permitir qualquer mês, validar valores inválidos com erro no campo e calcular previsões variáveis pela média dos últimos meses pagos. Esses comportamentos **ainda não existem na base Flutter** e diferem das simplificações do protótipo. A rule mensal aprovada usa as seis competências imediatamente anteriores e o valor base quando não há baixas; a média é por ocorrência baixada dessa série na janela, e o histórico agrega totais mensais com detalhamento. O gráfico demonstrado cobre seis meses.
 
 ## 9. Avaliação e lacunas
 
-A proposta tem um fluxo central consistente: identificar uma pendência, confirmar seu valor e sua data, registrar a baixa e consultar o histórico. A separação entre previsão e valor efetivo é especialmente útil para contas variáveis. O controle conjunto de entradas e saídas amplia o uso para além de lembretes de boletos.
+A proposta tem um fluxo central consistente: identificar uma pendência, confirmar seu valor e sua data, registrar a settlement e consultar o histórico. A separação entre previsão e valor efetivo é especialmente útil para contas variáveis. O controle conjunto de entradas e saídas amplia o uso para além de lembretes de boletos.
 
 Os principais pontos a resolver antes de transportar a lógica para uma aplicação são:
 
-1. **Datas completas e competência:** substituir meses isolados e aproximações de 30 dias por datas reais. Suportar virada de ano, fevereiro e baixas em mês diferente do vencimento. O cadastro limita silenciosamente o dia a 1–28, sem política definida para dias 29–31.
+1. **Datas completas e competência:** substituir meses isolados e aproximações de 30 dias por datas reais. Suportar virada de year, fevereiro e baixas em mês diferente do vencimento. O cadastro limita silenciosamente o dia a 1–28, sem política definida para dias 29–31.
 2. **Débito automático vencido:** uma conta automática passada continua rotulada “Agendada”, mas seu indicador interno `scheduled` fica falso e ela pode entrar no grupo “A vencer”. Definir quando exigir confirmação ou sinalizar pendência.
 3. **Significado do saldo:** o indicador combina valores previstos e efetivos, enquanto os outros dois mostram apenas pendências. O README descreve “previsto − a pagar”, sem esclarecer a composição, enquanto o código soma todas as receitas menos todas as despesas. Resolver essa divergência e definir rótulo e fórmula compreensíveis.
 4. **Avisos:** a seleção depende do mês aberto; o cálculo de próximos vencimentos compara dias sem considerar adequadamente o mês e não inclui agendadas futuras. Definir se os avisos são globais ou vinculados à competência consultada.
-5. **Estimativas e histórico:** substituir a variação artificial pela média dos últimos meses pagos, conforme o handoff. Definir janela, tratamento de meses sem baixa e valor inicial quando não houver histórico; separar essa previsão da média demonstrada, que hoje inclui valores em aberto.
-6. **Validação:** hoje valores inválidos podem virar zero, datas são texto e a baixa descarta o ano. Nome vazio apenas impede o cadastro sem mensagem. Definir validação e feedback para entradas inválidas.
+5. **Estimativas e histórico:** substituir a variação artificial pela média dos últimos meses pagos, conforme o handoff. Definir janela, tratamento de meses sem settlement e valor inicial quando não houver histórico; separar essa previsão da média demonstrada, que hoje inclui valores em aberto.
+6. **Validação:** hoje valores inválidos podem virar zero, datas são texto e a settlement descarta o year. Nome vazio apenas impede o cadastro sem mensagem. Definir validação e feedback para entradas inválidas.
 7. **Ciclo da recorrência:** estabelecer início, encerramento e efeito de alterações sobre meses anteriores e futuros. Evitar criação retroativa involuntária.
-8. **Reprogramação:** o aviso sugere “Dê baixa ou reprograme”, mas não há ação de reprogramar. Implementar o fluxo após definição da regra ou adequar o texto.
-9. **Consistência da linguagem:** mensagens genéricas de atraso usam termos de pagamento mesmo em situações de recebimento. Ajustar os textos por tipo de conta, inclusive “Manter como paga” para recebimentos. O código já usa “Recebida com atraso”, embora a tabela resumida do README mencione apenas “Paga com atraso”.
+8. **Reprogramação:** o aviso sugere “Dê settlement ou reprograme”, mas não há ação de reprogramar. Implementar o fluxo após definição da rule ou adequar o texto.
+9. **Consistência da linguagem:** mensagens genéricas de atraso usam termos de pagamento mesmo em situações de recebimento. Ajustar os textos por type de conta, inclusive “Manter como paga” para recebimentos. O código já usa “Recebida com atraso”, embora a tabela resumida do README mencione apenas “Paga com atraso”.
 10. **Uso real:** persistência, recuperação após recarga, isolamento de dados quando aplicável, estados vazios e de erro, navegação por teclado e comportamento do modal ainda precisam ser definidos e verificados.
 
 ## 10. Modelo conceitual sugerido
@@ -161,9 +161,9 @@ Esta separação é uma recomendação para a futura implementação, não uma e
 
 | Entidade | Responsabilidade e dados principais |
 | --- | --- |
-| Conta recorrente | Nome, contraparte, direção financeira, valor base, modo fixo/variável, débito automático, início, frequência e término; detalhes conforme decisões da fase 0. |
+| Conta recorrente | Nome, counterparty, direção financeira, valor base, modo fixo/variável, débito automático, início, frequência e término; detalhes conforme decisões da fase 0. |
 | Ocorrência | ID estável, referência à série/revisão, vencimento completo, competência derivada e valor previsto; várias ocorrências por série no mesmo mês são permitidas. |
-| Baixa | Referência à ocorrência, data completa e valor efetivo do pagamento ou recebimento. |
+| Settlement | Referência à ocorrência, data completa e valor efetivo do pagamento ou recebimento. |
 | Preferência de aviso | Antecedência e, se houver notificações externas, canal escolhido. |
 
 Separar a recorrência de suas ocorrências permite preservar o histórico quando o cadastro muda. Valores monetários devem usar representação exata, como centavos inteiros ou decimal apropriado. Status e totais devem derivar das mesmas regras de domínio para evitar divergência entre lista, avisos e resumo.
@@ -177,11 +177,11 @@ A fase 0 está concluída documentalmente. As fases seguintes devem implementar 
 ## 12. Critérios sugeridos para validar a evolução
 
 - Cadastro de uma recorrência respeita sua vigência e gera cada ocorrência prevista uma única vez, permitindo várias da mesma série na mesma competência.
-- Baixa preserva valor e data completos; reversão exige confirmação, reabre a ocorrência e atualiza totais e avisos. Cancelar o modal mantém a baixa intacta.
-- Virada de ano, fevereiro e baixa após o mês de vencimento produzem status corretos.
+- Settlement preserva valor e data completos; reversão exige confirmação, reabre a ocorrência e atualiza totais e avisos. Cancelar o modal mantém a settlement intacta.
+- Virada de year, fevereiro e settlement após o mês de vencimento produzem status corretos.
 - Contas automáticas pendentes permanecem visíveis com um estado coerente.
 - Indicadores possuem fórmulas documentadas e distinguem previsão de realização.
-- Histórico acompanha o período definido, sem fabricar valores apresentados como realizados; previsão variável usa meses pagos e uma regra explícita para ausência de histórico.
+- Histórico acompanha o período definido, sem fabricar valores apresentados como realizados; previsão variável usa meses pagos e uma rule explícita para ausência de histórico.
 - Dados persistem após recarga conforme a estratégia escolhida.
 - Formulários rejeitam entradas inválidas com mensagens claras e funcionam por teclado e em telas pequenas.
 - Interface Flutter usa widgets Material padrão com personalização somente das cores; componentes personalizados têm necessidade justificada. Layout se adapta à largura disponível e ao texto ampliado, preservando alvos de toque e foco padrão do Material, nomes acessíveis nos botões de ícone e status distinguíveis por texto.

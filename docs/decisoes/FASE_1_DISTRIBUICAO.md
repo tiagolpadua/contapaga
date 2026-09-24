@@ -52,13 +52,13 @@ Referências oficiais consultadas em 16/09/2026; situação específica da conta
 
 - Google Play: inscrição com taxa única de US$ 25; concluir as verificações apresentadas à conta. [Cadastro no Play Console](https://support.google.com/googleplay/android-developer/answer/6112435).
 - Referência futura, não aplicável ao titular pessoa física: conta Google de organização normalmente exige D-U-N-S e dados consistentes da entidade. [Tipos de conta](https://support.google.com/googleplay/android-developer/answer/13634885) e [informações de cadastro](https://support.google.com/googleplay/android-developer/answer/13628312).
-- Referência futura, fora do escopo atual: Apple Developer Program: US$ 99 por ano, ou moeda local quando disponível; Apple Account com autenticação de dois fatores. Conferir requisitos da entidade, autoridade para contratação e documentos no fluxo de inscrição. [Inscrição Apple](https://developer.apple.com/help/account/membership/program-enrollment).
+- Referência futura, fora do escopo atual: Apple Developer Program: US$ 99 por year, ou moeda local quando disponível; Apple Account com autenticação de dois fatores. Conferir requisitos da entidade, autoridade para contratação e documentos no fluxo de inscrição. [Inscrição Apple](https://developer.apple.com/help/account/membership/program-enrollment).
 - Google: contas pessoais criadas após 13/11/2023 precisam de teste fechado com ao menos 12 participantes inscritos continuamente por 14 dias antes de solicitar acesso à produção. Aprovação não é automática; registrar feedback e participação real. [Requisito de teste](https://support.google.com/googleplay/android-developer/answer/14151465).
 
 ## Sequência para concluir a fase
 
 1. Conferir status, acesso e contratos Google; identidade do titular e domínio já estão confirmados por declaração.
-2. Criar/verificar registro Conta Paga no Play Console com idioma pt-BR, tipo aplicativo e distribuição gratuita; confirmar a identidade Android no fluxo pertinente.
+2. Criar/verificar registro Conta Paga no Play Console com idioma pt-BR, type aplicativo e distribuição gratuita; confirmar a identidade Android no fluxo pertinente.
 3. Registrar contato e URLs fornecidos pelo titular.
 4. Organizar recrutamento do teste fechado e inventário do Android de QA. O teste de 14 dias depende de build testável e não precisa estar executado para concluir a fase 1.
 

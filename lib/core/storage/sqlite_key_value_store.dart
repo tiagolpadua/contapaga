@@ -1,21 +1,9 @@
 import 'package:contapaga/core/storage/key_value_store.dart';
-import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 final class SqliteKeyValueStore implements KeyValueStore {
-  new _(this._database);
+  new(this._database);
   final Database _database;
-
-  static Future<SqliteKeyValueStore> open(String fileName) async {
-    final database = await openDatabase(
-      path.join(await getDatabasesPath(), fileName),
-      version: 1,
-      onCreate: (db, version) => db.execute(
-        'CREATE TABLE preferences (key TEXT PRIMARY KEY, value TEXT NOT NULL)',
-      ),
-    );
-    return SqliteKeyValueStore._(database);
-  }
 
   @override
   Future<String?> read(String key) async {

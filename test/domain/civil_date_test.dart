@@ -1,5 +1,5 @@
 import 'package:contapaga/core/time/clock.dart';
-import 'package:contapaga/features/recorrencias/domain/civil_date.dart';
+import 'package:contapaga/features/recurring_bills/domain/civil_date.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class FakeClock implements Clock {
@@ -53,24 +53,24 @@ void main() {
     });
 
     test('addMonths com cap de dias inexistentes', () {
-      // 31/01 -> +1 mes -> 28/02
+      // 31/01 -> +1 month -> 28/02
       const d1 = CivilDate(2026, 1, 31);
       expect(d1.addMonths(1), equals(const CivilDate(2026, 2, 28)));
 
-      // 31/01/2024 -> +1 mes -> 29/02
+      // 31/01/2024 -> +1 month -> 29/02
       const d2 = CivilDate(2024, 1, 31);
       expect(d2.addMonths(1), equals(const CivilDate(2024, 2, 29)));
 
-      // 30/11 -> +1 mes -> 30/12
+      // 30/11 -> +1 month -> 30/12
       const d3 = CivilDate(2026, 11, 30);
       expect(d3.addMonths(1), equals(const CivilDate(2026, 12, 30)));
 
-      // 15/12 -> +1 mes -> 15/01/2027 (virada de ano)
+      // 15/12 -> +1 month -> 15/01/2027 (virada de year)
       const d4 = CivilDate(2026, 12, 15);
       expect(d4.addMonths(1), equals(const CivilDate(2027, 1, 15)));
     });
 
-    test('addYears com regra 29/02', () {
+    test('addYears com rule 29/02', () {
       const d1 = CivilDate(2024, 2, 29);
       expect(d1.addYears(1), equals(const CivilDate(2025, 2, 28)));
       expect(d1.addYears(4), equals(const CivilDate(2028, 2, 29)));
